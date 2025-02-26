@@ -1,125 +1,211 @@
-# Super Python Calculator
+# Super Python Calculator - By Mouton Binoclard
 # Also known as a calculator for SAR solo tournaments
 
 # ----------------------------------------------------------------------------
 
 # The organization of the functions and code was done by Mouton Binoclard
-# The most of the annotations and matplotlib section were created by Deepseek Ai (in French, of course, lmao)
+# Most of the annotations and the matplotlib section were created by Deepseek AI (in French, of course, lol)
 
 # ----------------------------------------------------------------------------
 
-# IMPORTANT :
-# This code needs matplotlib and numpy libraries,
-# You may need to search how to install those or you can just download a program that contain all you need
+# IMPORTANT:
+# This code requires the matplotlib and numpy libraries.
+# You may need to search how to install these, or you can download a program that includes everything you need.
 
-# For instance :
+# For example:
 # Winpython64-3.10.11.0.exe from https://github.com/winpython/winpython/releases/tag/6.1.20230518final
-# when installed contain IdleX that can run the program without issue
-
-
-
-
-
-
-# NOW SOME INSTRUCTIONS ON HOW TO USE THE CODE !
+# When installed, it contains IdleX, which can run the program without issues.
 
 # ----------------------------------------------------------------------------
 
-# First put this code in a folder with nothing else, to avoid any bug
+# NOW SOME INSTRUCTIONS ON HOW TO USE THE CODE!
 
-# To add a new round, simply copy the /getplayers data into a .txt file 
-# and place it in the same folder as this script. The rounds will then be 
+# ----------------------------------------------------------------------------
+
+# First, place this code in an empty folder to avoid any bugs.
+
+# To add a new round, simply copy the /getplayers data into a .txt file
+# and place it in the same folder as this script. The rounds will then be
 # included in the scoring.
 
-# (The rounds will be processed in the alphabetical order, so naming
-# the round 1.txt, 2.txt, etc might be a great choice)
+# (Rounds will be processed in alphabetical order, so naming
+# the rounds 1.txt, 2.txt, etc., might be a good idea.)
+
+# IMPORTANT: Do not name your round files with the following names:
+# - classement_complet.txt
+# - classement_partiel.txt
+# - classement_top.txt
+# Otherwise, the corresponding rounds may be excluded or even overwritten, and you could lose data.
 
 # ----------------------------------------------------------------------------
 
-# To modify the scoring system, change the return values of the functions 
+'MODIFY THE SCORING SYSTEM'
+
+# To modify the scoring system, change the return values of the functions
 # kill_points, placement_points, and masterkill.
 
-def kill_points(placement,kills,total_players):
-    if placement == 0 or placement == -1 : return 0 # DO NOT TOUCH, this line removes the spectators and the players that aren't present !!!
+def kill_points(placement, kills, total_players):
+    if placement == 0 or placement == -1:
+        return 0  # DO NOT TOUCH, this line removes spectators and players who are not present!
 
-    else: return 2*kills
+    else:
+        return 2 * kills
 
-def placement_points(placement,kills,total_players):
-    if placement == 0 or placement== -1 : return 0 # This one either !!!
+def placement_points(placement, kills, total_players):
+    if placement == 0 or placement == -1:
+        return 0  # This one either!
 
-    if placement == 1 : return 15
-    if placement == 2 : return 13
-    if placement == 3 : return 12
-    if placement >= 4 and placement <=5 : return 10
-    if placement >= 6 and placement <=8 : return 8
-    if placement >= 9 and placement <=10 : return 6
-    if placement >= 11 and placement <=15 : return 5
-    if placement >= 16 and placement <=20 : return 3
-    if placement >= 21 and placement <=25 : return 1
-    else : return 0
+    if placement == 1:
+        return 15
+    if placement == 2:
+        return 13
+    if placement == 3:
+        return 12
+    if placement >= 4 and placement <= 5:
+        return 10
+    if placement >= 6 and placement <= 8:
+        return 8
+    if placement >= 9 and placement <= 10:
+        return 6
+    if placement >= 11 and placement <= 15:
+        return 5
+    if placement >= 16 and placement <= 20:
+        return 3
+    if placement >= 21 and placement <= 25:
+        return 1
+    else:
+        return 0
 
-def masterkill(presence_de_masterkill):
-    if presence_de_masterkill : return 0
-    else : return 0
+def masterkill(presence_de_masterkill, total_players):
+    if presence_de_masterkill:
+        return 0
+    else:
+        return 0
 
-# you might use placement section to give point :
-# this line :
-# if placement >= 4 and placement <=5 : return 10
-# mean if the player placement is between 4 and 5 included, award 10 points
+# You can use the placement section to award points:
+# For example, this line:
+# if placement >= 4 and placement <= 5: return 10
+# means that if the player's placement is between 4 and 5 (inclusive), award 10 points.
 
-# or you may use a fonction like this :
-# else : return total_players*math.exp(0.1*(1-placement))
-# meaning you award the
-# (number of player in the round) x exponential(0.1 x (1 - placement of the player))
-# to the player
+# Alternatively, you can use a function like this:
+# else: return total_players * math.exp(0.1 * (1 - placement))
+# This means you award the player:
+# (number of players in the round) x exponential(0.1 x (1 - player's placement))
 
-# the same goes to the kill points of course
+# The same applies to kill points, of course.
 
-# the masterkill fonction is true or false
-# so you can only change the value (x) of having the most kill in a round
-# else : return x
-
-
+# The masterkill function is a boolean (True or False),
+# so you can only change the value (x) for having the most kills in a round:
+# else: return x
 
 # ----------------------------------------------------------------------------
 
-# If you want to display the current tournament leaders in your overlay, 
+'EXPORT THE TOP PLAYERS IN A TXT FILE'
+
+# If you want to display the current tournament leaders in your overlay,
 # open the file "top_joueurs.txt" in OBS.
 
 # If you want to add the ranking graph, open the file "classement.png" in OBS.
 
-# These files are generated after running the script at least once with 
+# These files are generated after running the script at least once with
 # at least one round processed.
 
-# You can change the number of players included in the file by modifying 
+# You can change the number of players included in the file by modifying
 # the value below:
+
 nombre_de_joueurs_a_exporter = 5
-# Be carreful to not add more than the number of player
+
+# Be careful not to add more than the number of players.
+
+# Also, when running the code, two other files will be created:
+# classement_complet.txt and classement_partiel.txt
+# classement_complet can be pasted directly into a spreadsheet; it contains a lot of info (KDA, number of wins, etc.)
+# classement_partiel is a lighter version, so you can quickly preview the players' positions.
 
 # ----------------------------------------------------------------------------
 
-# To ban players from the tournament and automatically adjust placements 
+'BAN PLAYERS'
+
+# To ban players from the tournament and automatically adjust placements
 # per round, add their IDs to the list below:
+
 ID_banni_du_tournoi = []
-# The list sould have this form : ['53CEA3CB603F91EE', 'FEC13EBE7DA0943D', 'B4726A1348E0D88',...]
+
+# The list should have this form: ['53CEA3CB603F91EE', 'FEC13EBE7DA0943D', 'B4726A1348E0D88', ...]
 
 # ----------------------------------------------------------------------------
+
+'CHANGE THE NAME ON THE GRAPH'
 
 # Here, you can change the tournament name that will appear on the graph.
 nom_du_tournoi = 'The name of your tourney'
 
+# And here, you can change the color of the title
+couleur_du_titre = '#ffffff'
+
 # ----------------------------------------------------------------------------
 
-# If you have any issue, a feature request or you found a bug, feel free to contact me on discord :D
+'CHANGING THE "FLATS" COLORS'
+
+# This line lets you change the background color of the picture
+couleur_de_fond = '#111111'
+
+# And this one lets you change the gradient of the columns
+
+# Preset 1
+# couleur1 = "#1c946a"
+# couleur2 = "#312354"
+# couleur3 = "#a62547"
+# couleur4 = "#ffc75a"
+
+# Preset 2
+couleur1 = "#990000"
+couleur2 = "#cacacb"
+couleur3 = "#5c5f62"
+couleur4 = "#2c363e"
+
+# To fully define a gradient, you also need to specify how many colors there are in total (at the end, you'll have x colors)
+nombre_choisi = 7
 
 # ----------------------------------------------------------------------------
+
+'CHANGING THE COLORS OF THE TICKS AND LABELS'
+
+# You can change the color of the ticks and labels on the x-axis here
+couleur_label_x = '#cacacb'
+
+# Same for the y-axis
+couleur_label_y = '#cacacb'
+
 # ----------------------------------------------------------------------------
+
+'CHANGING THE COLORS OF THE AXIS'
+
+# Color of the x-axis
+couleur_axe_x = '#939496'
+
+# Color of the y-axis
+couleur_axe_y = '#939496'
+
 # ----------------------------------------------------------------------------
+
+# If you have any issues, feature requests, or you found a bug, feel free to contact me on Discord :D
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Start of the code :
-
-
-
 
 
 import os
@@ -136,18 +222,25 @@ warnings.simplefilter("ignore", UserWarning)
 
 "-----------------------------------------------------------------------------"
 
-def lister_fichiers_repertoire(extension, exclure):
+def lister_fichiers_repertoire(extension, fichiers_a_exclure):
+    """
+    Liste tous les fichiers dans le répertoire courant avec une extension spécifiée,
+    en excluant les fichiers donnés dans la liste `fichiers_a_exclure`.
 
+    :param extension: L'extension des fichiers à lister (par exemple, ".txt").
+    :param fichiers_a_exclure: Une liste de noms de fichiers à exclure.
+    :return: Une liste des fichiers correspondants, excluant ceux spécifiés.
+    """
     # Obtenir le répertoire courant
     repertoire_courant = os.getcwd()
     
     # Lister tous les fichiers dans le répertoire courant
     fichiers = os.listdir(repertoire_courant)
     
-    # Filtrer les fichiers pour ne garder que ceux avec l'extension spécifiée et exclure le fichier indiqué
+    # Filtrer les fichiers pour ne garder que ceux avec l'extension spécifiée et exclure les fichiers indiqués
     fichiers_filtres = [
         fichier for fichier in fichiers
-        if fichier.endswith(extension) and fichier != exclure
+        if fichier.endswith(extension) and fichier not in fichiers_a_exclure
     ]
     
     return fichiers_filtres
@@ -339,7 +432,7 @@ def trouver_nom(id_de_joueur):
 "-----------------------------------------------------------------------------"
 "-----------------------------------------------------------------------------"
 
-# Ancienne emplacement des fonctions kill placement et masterkill
+# Ancien emplacement des fonctions kill placement et masterkill
 
 "-----------------------------------------------------------------------------"
 "-----------------------------------------------------------------------------"
@@ -351,7 +444,7 @@ def score_manche(information_de_manche): #[placement,nombre de kill,nombre de jo
     # Calculer les points de placement et de kills
     placement_pts = placement_points(placement, kills, nombre_de_joueurs)
     kill_pts = kill_points(placement, kills, nombre_de_joueurs)
-    masterkill_pts=masterkill(validite_mk)
+    masterkill_pts=masterkill(validite_mk, nombre_de_joueurs)
     
     # Calculer le score total de la manche
     score_total = placement_pts + kill_pts + masterkill_pts
@@ -404,8 +497,101 @@ def tri_du_classement(dictionnaire_non_classé):
 
 "-----------------------------------------------------------------------------"
 
-# Fonction pour exporter les trois premiers joueurs dans un fichier texte
-def exporter_top_cinq(classement_du_tournoi, filename, combien):
+def nombre_de_parties_jouees(dictionnaire_ID, playfab_id):
+    """
+    Calcule le nombre de parties jouées par un joueur spécifique.
+    Une partie est considérée comme jouée si le placement est strictement positif.
+
+    :param dictionnaire_ID: Le dictionnaire contenant les données des joueurs et leurs placements.
+    :param playfab_id: L'ID du joueur pour lequel on veut calculer le nombre de parties jouées.
+    :return: Le nombre de parties jouées par le joueur.
+    """
+    # Vérifier si le joueur existe dans le dictionnaire
+    if playfab_id not in dictionnaire_ID:
+        return 0  # Si le joueur n'existe pas, il n'a joué aucune partie
+
+    # Récupérer les manches du joueur
+    manches = dictionnaire_ID[playfab_id]
+
+    # Compter le nombre de parties où le placement est strictement positif
+    nb_parties = sum(1 for manche in manches if manche[0] > 0)
+
+    return nb_parties
+
+"-----------------------------------------------------------------------------"
+
+def nombre_d_eliminations(dictionnaire_ID, playfab_id):
+    """
+    Calcule le nombre total de kills (éliminations) d'un joueur spécifique.
+
+    :param dictionnaire_ID: Le dictionnaire contenant les données des joueurs et leurs kills.
+    :param playfab_id: L'ID du joueur pour lequel on veut calculer le nombre de kills.
+    :return: Le nombre total de kills du joueur.
+    """
+    # Vérifier si le joueur existe dans le dictionnaire
+    if playfab_id not in dictionnaire_ID:
+        return 0  # Si le joueur n'existe pas, il n'a fait aucun kill
+
+    # Récupérer les manches du joueur
+    manches = dictionnaire_ID[playfab_id]
+
+    # Calculer le nombre total de kills
+    total_kills = sum(manche[1] for manche in manches if manche[0] > 0)
+
+    return total_kills
+
+"-----------------------------------------------------------------------------"
+
+def calculer_kda(dictionnaire_ID, playfab_id):
+    """
+    Calcule le KDA (Kills / Nombre de parties jouées) d'un joueur spécifique.
+
+    :param dictionnaire_ID: Le dictionnaire contenant les données des joueurs.
+    :param playfab_id: L'ID du joueur pour lequel on veut calculer le KDA.
+    :return: Le KDA du joueur (float). Si le joueur n'a joué aucune partie, retourne 0.
+    """
+    # Calculer le nombre de parties jouées
+    nb_parties = nombre_de_parties_jouees(dictionnaire_ID, playfab_id)
+
+    # Si le joueur n'a joué aucune partie, son KDA est 0
+    if nb_parties == 0:
+        return 0.0
+
+    # Calculer le nombre total de kills
+    total_kills = nombre_d_eliminations(dictionnaire_ID, playfab_id)
+
+    # Calculer le KDA
+    kda = total_kills / nb_parties
+
+    return kda
+
+"-----------------------------------------------------------------------------"
+
+def nombre_de_victoires(dictionnaire_ID, playfab_id):
+    """
+    Calcule le nombre de victoires d'un joueur spécifique.
+    Une victoire est comptée lorsque le placement est égal à 1.
+
+    :param dictionnaire_ID: Le dictionnaire contenant les données des joueurs et leurs placements.
+    :param playfab_id: L'ID du joueur pour lequel on veut calculer le nombre de victoires.
+    :return: Le nombre de victoires du joueur.
+    """
+    # Vérifier si le joueur existe dans le dictionnaire
+    if playfab_id not in dictionnaire_ID:
+        return 0  # Si le joueur n'existe pas, il n'a aucune victoire
+
+    # Récupérer les manches du joueur
+    manches = dictionnaire_ID[playfab_id]
+
+    # Compter le nombre de victoires (placement == 1)
+    nb_victoires = sum(1 for manche in manches if manche[0] == 1)
+
+    return nb_victoires
+
+"-----------------------------------------------------------------------------"
+
+# Fonction pour exporter les combien premiers joueurs dans un fichier texte
+def exporter_top(classement_du_tournoi, filename, combien):
     # Ouvrir le fichier en mode écriture avec l'encodage UTF-8
     with open(filename, 'w', encoding='utf-8') as file:
         # Parcourir les cinq premiers joueurs du classement
@@ -418,10 +604,64 @@ def exporter_top_cinq(classement_du_tournoi, filename, combien):
 
 "-----------------------------------------------------------------------------"
 
-liste_fichiers_partie=(lister_fichiers_repertoire(".txt","top_joueurs.txt"))
+# Fonction pour exporter le classement avec les points seulement
+def exporter_classement_partiel(classement_du_tournoi, filename):
+    # Ouvrir le fichier en mode écriture avec l'encodage UTF-8
+    with open(filename, 'w', encoding='utf-8') as file:
+        # Parcourir tous les joueurs du classement
+        for i, (playfab_id, data) in enumerate(classement_du_tournoi.items()):
+            pseudo, score_final, scores_manches = data
+            # Écrire les informations du joueur dans le fichier
+            file.write(f"{i + 1}. {score_final:.2f} -> {pseudo}\n")
+
+"-----------------------------------------------------------------------------"
+
+def exporter_classement_complet(classement_du_tournoi, dict_ID, filename):
+    """
+    Exporte le classement complet dans un fichier texte avec des informations détaillées pour chaque joueur :
+    - Position
+    - Nom du joueur
+    - Points totaux
+    - Nombre de victoires
+    - Nombre de kills
+    - Nombre de parties jouées
+    - KDA
+    - Points par round
+
+    :param classement_du_tournoi: Le classement des joueurs (dictionnaire trié).
+    :param dictionnaire_ID: Le dictionnaire contenant les données des joueurs.
+    :param filename: Le nom du fichier de sortie.
+    """
+    # Ouvrir le fichier en mode écriture avec l'encodage UTF-8
+    with open(filename, 'w', encoding='utf-8') as file:
+        # Écrire l'en-tête du fichier
+        file.write("Position\tNom du joueur\tPoints\tVictoires\tKills\tParties jouées\tKDA\tPoints par round\n")
+
+        # Parcourir chaque joueur dans le classement
+        for i, (playfab_id, data) in enumerate(classement_du_tournoi.items()):
+            pseudo, score_final, scores_manches = data
+
+            # Calculer les statistiques supplémentaires
+            nb_victoires = nombre_de_victoires(dict_ID, playfab_id)
+            nb_kills = nombre_d_eliminations(dict_ID, playfab_id)
+            nb_parties = nombre_de_parties_jouees(dict_ID, playfab_id)
+            kda = calculer_kda(dict_ID, playfab_id)
+
+            # Écrire les informations du joueur dans le fichier
+            file.write(f"{i + 1}\t{pseudo}\t{score_final:.2f}\t{nb_victoires}\t{nb_kills}\t{nb_parties}\t{kda:.2f}\t")
+
+            # Écrire les points par round
+            points_par_round = "\t".join(map(lambda x: f"{x:.2f}", scores_manches))
+            file.write(f"{points_par_round}\n")
+
+"-----------------------------------------------------------------------------"
+"-----------------------------------------------------------------------------"
+
+liste_fichiers_partie=(lister_fichiers_repertoire(".txt",["classement_top.txt","classement_partiel.txt","classement_complet.txt"]))
 
 dictionnaire_ID=trouver_id(liste_fichiers_partie)
 
+# Enlever les banni du dictionnaire d'ID
 for ID_ban in ID_banni_du_tournoi:
     dictionnaire_ID.pop(ID_ban)
 
@@ -432,46 +672,36 @@ for fichier_de_manche in liste_fichiers_partie :
 classement=tri_du_classement(dictionnaire_finale(dictionnaire_ID))
 #print(classement)
 
+# Export des fichiers textes
+exporter_top(classement, 'classement_top.txt',nombre_de_joueurs_a_exporter)
+exporter_classement_partiel(classement, 'classement_partiel.txt')
+exporter_classement_complet(classement, dictionnaire_ID, 'classement_complet.txt')
 
-exporter_top_cinq(classement,'top_joueurs.txt',nombre_de_joueurs_a_exporter)
-
+'''
 for i in classement:
     joueur=classement[i][0]
     score=classement[i][1]
     print(str(score)+" : "+str(joueur))
 
 print('')
-
-"-----------------------------------------------------------------------------"
-"-----------------------------------------------------------------------------"
-"-----------------------------------------------------------------------------"
-
-# Définir les quatre couleurs des barres
-
-# Preset 1
-'''
-couleur1 = "#1c946a"
-couleur2 = "#312354"
-couleur3 = "#a62547"
-couleur4 = "#ffc75a"
 '''
 
-# Preset 2
 
-couleur1 = "#990000"
-couleur2 = "#cacacb"
-couleur3 = "#5c5f62"
-couleur4 = "#2c363e"
 
-"-----------------------------------------------------------------------------"
 
-# Couleur de fond
-couleur_de_fond = '#222222'
 
-"-----------------------------------------------------------------------------"
 
-# Nombre de couleurs (7+3x, 3 appartenant a N)
-nombre_choisi=7
+
+
+
+
+
+
+
+
+
+
+
 
 "-----------------------------------------------------------------------------"
 
@@ -522,9 +752,9 @@ le_haut_du_graph = next(iter(classement.values()))[1]
 
 barres_couleurs = generer_degrade_4_couleurs(couleur1, couleur2, couleur3, couleur4, nombre_choisi) # Augmenter le nombre de couleurs par trois
 # Créer un graphique en barres empilées avec un style personnalisé
-plt.figure(figsize=(10, 6), facecolor=couleur_de_fond)  # Fond gris foncé pour la figure
+plt.figure(figsize=(10, 6), facecolor=couleur_de_fond)  # Fond pour la figure
 ax = plt.gca()  # Obtenir l'axe actuel
-ax.set_facecolor(couleur_de_fond)  # Fond gris foncé pour l'arrière-plan du graphique
+ax.set_facecolor(couleur_de_fond)  # Fond pour l'arrière-plan du graphique
 
 # Pour stocker les handles de la légende
 legend_handles = []
@@ -547,15 +777,19 @@ for i, (playfab_id, data) in enumerate(classement.items()):
 # Personnaliser les axes et les labels
 # plt.xlabel('Joueurs', color='white')  # Texte en blanc
 # plt.ylabel('Score Final', color='white')  # Texte en blanc
-plt.title(nom_du_tournoi, color='white')  # Titre en blanc
+plt.title(nom_du_tournoi, fontdict={'color': couleur_du_titre})  # Gestion du titre
 
 # Changer la couleur des ticks (graduations) et des labels des axes
-ax.tick_params(axis='x', colors='white')  # Couleur des ticks et labels de l'axe X
-ax.tick_params(axis='y', colors='white')  # Couleur des ticks et labels de l'axe Y
+ax.tick_params(axis='x', colors=couleur_label_x)  # Couleur des ticks et labels de l'axe X
+ax.tick_params(axis='y', colors=couleur_label_y)  # Couleur des ticks et labels de l'axe Y
 
 # Changer la couleur des bordures du graphique
 for spine in ax.spines.values():
     spine.set_edgecolor('white')  # Bordures en blanc
+
+# Définir la couleur des axes X et Y
+ax.spines['bottom'].set_color(couleur_axe_x) # Axe X en blanc
+ax.spines['left'].set_color(couleur_axe_y)   # Axe Y en blanc
 
 # Désactiver les bordures du haut et de la droite
 ax.spines['top'].set_visible(False)
