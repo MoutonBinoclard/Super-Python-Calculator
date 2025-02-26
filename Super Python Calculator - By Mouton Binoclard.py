@@ -101,7 +101,7 @@ nombre_de_joueurs_a_exporter = 5
 # To ban players from the tournament and automatically adjust placements 
 # per round, add their IDs to the list below:
 ID_banni_du_tournoi = []
-# The list sould have this form : ['ID1','ID2',...]
+# The list sould have this form : ['53CEA3CB603F91EE', 'FEC13EBE7DA0943D', 'B4726A1348E0D88',...]
 
 # ----------------------------------------------------------------------------
 
@@ -443,12 +443,35 @@ for i in classement:
 print('')
 
 "-----------------------------------------------------------------------------"
+"-----------------------------------------------------------------------------"
+"-----------------------------------------------------------------------------"
 
-# Définir les quatre couleurs
+# Définir les quatre couleurs des barres
+
+# Preset 1
+'''
 couleur1 = "#1c946a"
 couleur2 = "#312354"
 couleur3 = "#a62547"
 couleur4 = "#ffc75a"
+'''
+
+# Preset 2
+
+couleur1 = "#990000"
+couleur2 = "#cacacb"
+couleur3 = "#5c5f62"
+couleur4 = "#2c363e"
+
+"-----------------------------------------------------------------------------"
+
+# Couleur de fond
+couleur_de_fond = '#222222'
+
+"-----------------------------------------------------------------------------"
+
+# Nombre de couleurs (7+3x, 3 appartenant a N)
+nombre_choisi=7
 
 "-----------------------------------------------------------------------------"
 
@@ -497,13 +520,11 @@ def generer_degrade_4_couleurs(couleur1, couleur2, couleur3, couleur4, nombre_de
 # Score max
 le_haut_du_graph = next(iter(classement.values()))[1]
 
-# Couleurs pour le graphe
-fond_gris_fonce = '#222222'  # Code hex pour un gris foncé
-barres_couleurs = generer_degrade_4_couleurs(couleur1, couleur2, couleur3, couleur4, 10) # Augmenter le nombre de couleurs par trois
+barres_couleurs = generer_degrade_4_couleurs(couleur1, couleur2, couleur3, couleur4, nombre_choisi) # Augmenter le nombre de couleurs par trois
 # Créer un graphique en barres empilées avec un style personnalisé
-plt.figure(figsize=(10, 6), facecolor=fond_gris_fonce)  # Fond gris foncé pour la figure
+plt.figure(figsize=(10, 6), facecolor=couleur_de_fond)  # Fond gris foncé pour la figure
 ax = plt.gca()  # Obtenir l'axe actuel
-ax.set_facecolor(fond_gris_fonce)  # Fond gris foncé pour l'arrière-plan du graphique
+ax.set_facecolor(couleur_de_fond)  # Fond gris foncé pour l'arrière-plan du graphique
 
 # Pour stocker les handles de la légende
 legend_handles = []
@@ -549,7 +570,7 @@ plt.xticks(rotation=45, ha='right')
 
 # Ajouter une légende
 labels = [f"Manche {i+1}" for i in range(len(barres_couleurs))]  # Créer les labels pour chaque manche
-plt.legend(legend_handles, labels, title_fontsize='large', fontsize='medium', facecolor=fond_gris_fonce, edgecolor='white', labelcolor='white')
+plt.legend(legend_handles, labels, title_fontsize='large', fontsize='medium', facecolor=couleur_de_fond, edgecolor='white', labelcolor='white')
 
 # Ajuster la mise en page
 plt.tight_layout()
@@ -561,6 +582,6 @@ plt.tight_layout()
 plt.tight_layout()
 
 # Enregistrer le graphique
-plt.savefig("classement.png", dpi=600, bbox_inches='tight', facecolor=fond_gris_fonce)
+plt.savefig("classement.png", dpi=600, bbox_inches='tight', facecolor=couleur_de_fond)
 print("Graphique enregistré sous 'classement.png'")
 
