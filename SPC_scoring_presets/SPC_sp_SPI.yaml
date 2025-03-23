@@ -1,0 +1,9 @@
+kill_points: >
+  ((total_players**0.6) * math.log(total_players**2) / (1.85))
+  * (1 - math.exp(-2.5 * kills / total_players))
+placement_points: >
+  (1.5 * total_players**0.5 * math.exp(-2 * (placement - 1) / 5))
+  + (1.0 * total_players**0.5 * math.exp(-1 * (placement - 1) / 10))
+  + (1.0 * total_players**0.5 * (1 - (placement - 1) / total_players))
+masterkill: >
+  0.20 * total_players**0.6

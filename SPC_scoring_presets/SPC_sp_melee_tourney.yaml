@@ -1,0 +1,9 @@
+kill_points: >
+  1 * kills
+placement_points: >
+  5 if placement == 1 else (
+  3 if placement == 2 else (
+  2 if 3 <= placement <= 4 else (
+  1 if 5 <= placement <= 7 else 0)))
+masterkill: >
+  0
