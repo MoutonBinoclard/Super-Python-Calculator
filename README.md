@@ -17,7 +17,7 @@ The project is still being developped, but here are what the script can do so fa
 - Supporting scoring preset depending on the number of players, placement and kills
 - Customization of the colors and the font of exported graphics
 
-You can always ask new feature of course (Don't if I'll code them tho)
+You can always ask new feature of course (Don't know if I'll code them tho)
 
 ## Running SPC
 
