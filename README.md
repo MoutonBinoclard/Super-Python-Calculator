@@ -29,6 +29,7 @@ To add a new round, simply copy the /getplayers data into a .txt file and place 
 
 Also be sure to not use the SPC_ prefix for the rounds, Otherwise, they may get excluded or even overriten and you could lose data
 
+
 ### Edit the scoring
 
 To create a new scoring preset:
@@ -53,6 +54,7 @@ To load your custom preset:
    from SPC_scoring_presets.SPC_custom_preset import kill_points, placement_points, masterkill
    ```
 4. Save the changes and run the program.
+
 
 ### Edit the colors of the graphs
 
