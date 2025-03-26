@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="500" alt="osu! logo" src="banner.png">
+  <img width="750" alt="osu! logo" src="banner.png">
 </p>
 
 # Super Python Calculator
