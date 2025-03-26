@@ -23,11 +23,14 @@ You can always ask new feature of course (Don't if I'll code them tho)
 
 To run the code, download the lastest version, unzip the file, and open the program called "Super.Python.Calculator.py" with your favorite python IDE. Install the missing libraries if needed and run the code !
 
+
+
 ### Adding rounds
 
 To add a new round, simply copy the /getplayers data into a .txt file and place it in the same folder as this script. The rounds will then be included in the scoring.
 
 Also be sure to not use the SPC_ prefix for the rounds, Otherwise, they may get excluded or even overriten and you could lose data
+
 
 
 ### Edit the scoring
@@ -54,6 +57,7 @@ To load your custom preset:
    from SPC_scoring_presets.SPC_custom_preset import kill_points, placement_points, masterkill
    ```
 4. Save the changes and run the program.
+
 
 
 ### Edit the colors of the graphs
@@ -99,3 +103,25 @@ To load your custom color scheme:
 4. Save the changes and run the program.
 
 The updated colors will be applied the next time you run the program.
+
+
+
+### Change the font used
+
+To customize the font used in the graphs:
+
+1. Navigate to the `SPC_fonts` folder.
+2. Add your custom font file (e.g., `MyCustomFont.ttf`) to this folder.
+3. Open `Super.Python.Calculator.py`.
+4. Locate the following lines:
+   ```python
+   add_custom_fonts = True
+   font_path = "SPC_fonts/Rubik.ttf"
+   ```
+5. Replace `"SPC_fonts/Rubik.ttf"` with the path to your custom font file. For example:
+   ```python
+   font_path = "SPC_fonts/MyCustomFont.ttf"
+   ```
+6. Save the changes and run the program.
+
+The updated font will be applied globally to all graphs the next time you run the program.
