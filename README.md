@@ -1,17 +1,24 @@
-Hey ! This code is meant to be used when organizing tournament in Super Animal Royale (Solo as well as duo and squads !)
-it needs a Python IDE to work, the Numpy, Tkinter and the Matplotlib libraries, so you may need to search how to install those
+<p align="center">
+  <img width="500" alt="osu! logo" src="banner.png">
+</p>
 
-If you want to try the code, I've put some round on the repo so you can experiment
+# Super Python Calculator
 
-WinPython might be a great choice for begginers : https://github.com/winpython/winpython/releases/tag/6.1.20230518final
+A complete calculator for scoring tournament for Super Animal Royale. It supports solo, duo and squads, offer the possibilitie to export leaderboards and its highly customizable !
 
+## Features
 
-You can also install python and pip  : https://youtu.be/ys9DesZ0SpE?si=PFAtimI_vToU7JVJ
-And than install matplotlib by typing the following command in the cmd :
-python -m pip install -U pip
-python -m pip install -U matplotlib
+The project is still being developped, but here are what the script can do so far :
 
+- No limits for the numbers of games and let the game be added or removed with ease
+- Autodectection of the players throughout an entire event
+- Option to ban player while adjusting the placement
+- Tools to easely create teams and not struggle with PlayfabID
+- Supporting scoring preset depending on the number of players, placement and kills
+- Customization of the colors and the font of exported graphics
 
-If you need help, feel free to contact me on Discord (@moutonbinoclard)
+You can always ask new feature of course (Don't if I'll code them tho)
 
-The rest of the instruction are directly in the python file, Enjoy !
+## Running SPC
+
+To run the code, download the lastest version, unzip the file, and open the program called "Super.Python.Calculator.py" with your favorite python IDE. Install the library if needed and run the code !
