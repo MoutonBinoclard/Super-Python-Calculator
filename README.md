@@ -10,7 +10,7 @@ A complete calculator for scoring tournament for Super Animal Royale. It support
 
 The project is still being developped, but here are what the script can do so far :
 
-- No limits for the numbers of games and let the game be added or removed with ease
+- No limits for the numbers of games and let the games be added or removed with ease
 - Autodectection of the players throughout an entire event
 - Option to ban player while adjusting the placement
 - Tools to easely create teams and not struggle with PlayfabID
