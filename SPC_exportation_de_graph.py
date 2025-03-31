@@ -1,3 +1,9 @@
+# A code for testing font in matplotlib
+# Still doesnt work great
+
+# Do not use this please, it's a pain to use
+
+
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import to_hex, to_rgb
