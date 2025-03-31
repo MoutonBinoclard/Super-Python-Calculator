@@ -14,6 +14,8 @@ import  json
 import os
 import matplotlib.font_manager as fm
 
+for i in range(10):
+    print("uwu")
 
 font_path = "SPC_fonts/Rubik.ttf"
 custom_font = fm.FontProperties(fname=font_path)
