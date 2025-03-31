@@ -4,6 +4,8 @@
 
 # Version 4.2
 
+# Automatocally synced with github repository now :D
+
 # ----------------------------------------------------------------------------
 
 # The organization of functions and code was done by Mouton Binoclard.
