@@ -184,7 +184,7 @@ def charger_couleurs(fichier=color_scheme): # Charger les couleurs depuis le fic
 # Charger les couleurs
 couleurs = charger_couleurs()
 
-"-----------------------------------------------------------------------------"
+# ----------------------------------------------------------------------------
 
 def fichier_round_en_liste(fichier_du_round_1): # Prend un fichier de round et le transforme en liste
     # fichier_du_round_1 -> str : 'fichier1.txt' 
@@ -228,7 +228,7 @@ def fichier_round_en_liste(fichier_du_round_1): # Prend un fichier de round et l
 
     return liste_du_round
 
-"-----------------------------------------------------------------------------"
+# ----------------------------------------------------------------------------
 
 def nombre_de_joueur_dans_un_round(fichier_du_round_2): # Trouve le nombre de joueurs dans un fichier round
     # fichier_du_round_2 -> str : 'fichier1.txt'
@@ -249,7 +249,7 @@ def nombre_de_joueur_dans_un_round(fichier_du_round_2): # Trouve le nombre de jo
     
     return nombre_joueurs
 
-"-----------------------------------------------------------------------------"
+# ----------------------------------------------------------------------------
 
 def maximum_de_kill_dans_un_round(fichier_du_round_3): # Trouve le plus de kill fait par un joueur dans un round
     # fichier_du_round_3 -> str : 'fichier1.txt'
@@ -272,7 +272,7 @@ def maximum_de_kill_dans_un_round(fichier_du_round_3): # Trouve le plus de kill 
     
     return max_kills
 
-"-----------------------------------------------------------------------------"
+# ----------------------------------------------------------------------------
 
 def calcul_kill_par_equipe(liste_contenant_un_round_1): # Calcul combien de kill pour chaque équipe puis les mets dans un dico
     # liste_contenant_un_round_1 -> list : [['ID1', placement, kill, nombre de joueur, masterkill ?, team], ...]
@@ -290,7 +290,7 @@ def calcul_kill_par_equipe(liste_contenant_un_round_1): # Calcul combien de kill
     
     return dico 
 
-"-----------------------------------------------------------------------------"
+# ----------------------------------------------------------------------------
 
 def sync_kill_equipe(liste_contenant_un_round_2, liste_de_kill_par_equipe): # Met les kills de l'equipe pour chaque joueurs
     nouvelle_liste = []
@@ -305,7 +305,7 @@ def sync_kill_equipe(liste_contenant_un_round_2, liste_de_kill_par_equipe): # Me
     
     return nouvelle_liste
 
-"-----------------------------------------------------------------------------"
+# ----------------------------------------------------------------------------
 
 def enlever_joueurs_liste_du_round(liste_round_sans_analyse, liste_des_joueurs_a_enlever): # Enlève les joueurs banni et ajuste les positions des joueurs restants
     # liste_round_sans_analyse -> list : [['ID1', placement, kill, nombre de joueur, masterkill ?],...]
@@ -331,7 +331,7 @@ def enlever_joueurs_liste_du_round(liste_round_sans_analyse, liste_des_joueurs_a
 
     return liste_round_sans_analyse # list -> [['ID1', placement, kill, nombre de joueur, masterkill ?, team, kill team],...]
 
-"-----------------------------------------------------------------------------"
+# ----------------------------------------------------------------------------
 
 def ajuster_les_positions_des_joueurs(liste_apres_enlevement_du_joueur, position_de_ce_dernier): # Ajuste toute les postitions après un ban
     # liste_apres_enlevement_du_joueur -> list : [['ID1', placement, kill, nombre de joueur, masterkill ?, team, kill team],...]
@@ -352,7 +352,7 @@ def ajuster_les_positions_des_joueurs(liste_apres_enlevement_du_joueur, position
 
     return liste_apres_enlevement_du_joueur # list -> [['ID1', placement, kill, nombre de joueur, masterkill ?, team, kill team],...]
 
-"-----------------------------------------------------------------------------"
+# ----------------------------------------------------------------------------
 
 def MAJ_placement_en_teams(liste_contenant_un_round_3): # Ajuste les placements pour refléter les équipes
 
@@ -386,7 +386,7 @@ def MAJ_placement_en_teams(liste_contenant_un_round_3): # Ajuste les placements 
 
     return liste_contenant_un_round_3
 
-"-----------------------------------------------------------------------------"
+# ----------------------------------------------------------------------------
 
 def maj_dictionnaire(dictionnaire, manche): # Met à jour le dictionnaire des ID avec une manche
     # dictionnaire -> dict : {'ID1' :[[placement, kills, nombre joueurs, masterkill ?],[,,,],...], ...}
@@ -417,7 +417,7 @@ def maj_dictionnaire(dictionnaire, manche): # Met à jour le dictionnaire des ID
     
     return dictionnaire # dict -> {'ID1' :[[placement, kills, nombre joueurs, masterkill ?, team, team kill],[,,,],...], ...}
 
-"-----------------------------------------------------------------------------"
+# ----------------------------------------------------------------------------
 
 def score_final(manches_du_joueur): # Renvoi une liste de la forme [pt manche1, pt manche 2, etc...]
     # manche_du_joueurs -> list : [['ID1', placement, kill, nombre de joueur, masterkill ?, team, kill team], [], ...]
@@ -433,7 +433,7 @@ def score_final(manches_du_joueur): # Renvoi une liste de la forme [pt manche1, 
     
     return scores_manches
 
-"-----------------------------------------------------------------------------"
+# ----------------------------------------------------------------------------
 
 def score_manche(information_de_manche): # Renvoi un score pour une manche donnée
     # information_de_manche -> list : ['ID1', placement, kill, nombre de joueur, masterkill ?, team, kill team]
@@ -458,7 +458,7 @@ def score_manche(information_de_manche): # Renvoi un score pour une manche donn�
     
     return score_total # int -> score de la manche
 
-"-----------------------------------------------------------------------------"
+# ----------------------------------------------------------------------------
 
 def dictionnaire_finale(dictionnaire_des_infos_des_rounds): # Création du dicionnaire complet, (correspond au dict classement)
     # dictionnaire_des_infos_des_rounds -> dict : {'ID1' :[[placement, kills, nombre joueurs, masterkill ?],[,,,],...], ...}
@@ -482,7 +482,7 @@ def dictionnaire_finale(dictionnaire_des_infos_des_rounds): # Création du dicio
 
     return dico_final # dict -> {'ID1':[Nom du joueur, score final, [score manche 1, ...]], ...}
 
-"-----------------------------------------------------------------------------"
+# ----------------------------------------------------------------------------
 
 def tri_du_classement(dictionnaire_non_classé): # Tri un dictionnaire dans l'ordre décroissant des points
     # dictionnaire_non_classé -> dict : {'ID1':[Nom du joueur, score final, [score manche 1, ...]], ...}
@@ -492,7 +492,7 @@ def tri_du_classement(dictionnaire_non_classé): # Tri un dictionnaire dans l'or
     
     return classement_trié # dict -> {'ID1':[Nom du joueur, score final, [score manche 1, ...]], ...}
 
-"-----------------------------------------------------------------------------"                
+# ----------------------------------------------------------------------------                
 
 def creation_classement_team(classement_par_joueur_1, liste_de_teams):
     # classement_par_joueur_1 -> dict : {'ID1':[Nom du joueur, score final, [score manche 1, ...]], ...}
@@ -514,7 +514,7 @@ def creation_classement_team(classement_par_joueur_1, liste_de_teams):
 
     return classement_team_trie
 
-"-----------------------------------------------------------------------------"
+# ----------------------------------------------------------------------------
 
 def calcul_pt_par_manche_team(classement_par_joueur_2, une_team):
     # classement_par_joueur_2 -> dict : {'ID1':[Nom du joueur, score final, [score manche 1, ...]], ...}
@@ -551,11 +551,7 @@ def calcul_pt_par_manche_team(classement_par_joueur_2, une_team):
     noms_joueurs = " & ".join([classement_par_joueur_2[joueur_id][0] for joueur_id in une_team if joueur_id in classement_par_joueur_2])
     return f"{'+'.join(une_team)}", [noms_joueurs, score_total_team, points_par_manche]
 
-"-----------------------------------------------------------------------------"
-
-
-
-"-----------------------------------------------------------------------------"
+# ----------------------------------------------------------------------------
 
 def charger_equipes(fichier="SPC___teams.txt"): # Chargement du fichier équipes du repertoire
     """Charge les équipes depuis un fichier texte s'il existe."""
@@ -567,10 +563,7 @@ def charger_equipes(fichier="SPC___teams.txt"): # Chargement du fichier équipes
         return equipes
     return None
 
-"-----------------------------------------------------------------------------"
-
-
-"-----------------------------------------------------------------------------"
+# ----------------------------------------------------------------------------
 
 creer_dossier_export()
 
