@@ -29,11 +29,17 @@ import json
 
 # The next lines import functions from the sub-codes of the SPC folder, you don't need to download them.
 
+# Import de l'initialisation du code (Recherche des fichiers et creation du dictionnaire des ids)
+from SPC_sub_codes.initialisation_code import lister_fichiers_repertoire, trouver_id
+
 # Import de l'interface graphique pour la création d'équipes
 from SPC_sub_codes.team_ui import interface_creation_equipe, sauvegarder_equipes
 
 # Import de la recherche d'un pseudo depuis un nom
 from SPC_sub_codes.id_vers_nom import trouver_nom
+
+# Import de la gestion du dossier du code (creer un dossier, supprimer un fichier)
+from SPC_sub_codes.gestion_du_dossier import creer_dossier_export, supprimer_fichier
 
 # Import des fonction d'exportation de classement
 from SPC_sub_codes.leaderboards_exportation import exporter_top, exporter_un_joueur, exporter_classement_partiel, exporter_classement_en_ligne, exporter_classement_complet
@@ -116,7 +122,7 @@ ID_banni_du_tournoi = []
 'CHANGE THE NAME ON THE GRAPH'
 
 # Here, you can change the tournament name that will appear on the graph.
-nom_du_tournoi = "Super Python Calculator, V5"
+nom_du_tournoi = "Scrims on Double Trouble server"
 
 # Here you can specify if you want to add a logotype to the graph
 logo=False
@@ -168,6 +174,7 @@ if add_custom_fonts:
 else:
     # Réinitialiser la police à la valeur par défaut de Matplotlib
     rcParams['font.family'] = 'DejaVu Sans'  # Police par défaut de Matplotlib
+
 # ----------------------------------------------------------------------------
 
 def charger_couleurs(fichier=color_scheme): # Charger les couleurs depuis le fichier JSON
@@ -176,50 +183,6 @@ def charger_couleurs(fichier=color_scheme): # Charger les couleurs depuis le fic
 
 # Charger les couleurs
 couleurs = charger_couleurs()
-
-"-----------------------------------------------------------------------------"
-
-def lister_fichiers_repertoire(extension, prefix): # Trouve les fichiers à analyser dans le repertoire du code
-    # extension -> str : ".txt"
-    # prefix -> str : "SPC_"
-    
-    # Obtenir le répertoire courant
-    repertoire_courant = os.getcwd()
-    
-    # Lister tous les fichiers dans le répertoire courant
-    fichiers = os.listdir(repertoire_courant)
-    
-    # Filtrer les fichiers pour exclure ceux qui commencent par le préfixe
-    fichiers_filtres = [
-        fichier for fichier in fichiers
-        if fichier.endswith(extension) and not fichier.startswith(prefix)
-    ]
-    
-    return fichiers_filtres
-
-"-----------------------------------------------------------------------------"
-
-def trouver_id(liste_de_fichier): # Créer un dictionnaire avec tout les ID présent au moins une fois
-    # liste_de_fichier -> list : ['fichier1.txt',...]
-
-    # Dictionnaire pour stocker les PlayfabID uniques avec des listes vides
-    dict_des_id = {}
-
-    # Parcourir chaque fichier dans la liste
-    for filename in liste_de_fichier:
-        with open(filename, 'r', encoding='utf-8') as file:
-            lines = file.readlines()
-
-        # Parcourir chaque ligne du fichier (en ignorant l'en-tête)
-        for line in lines[1:]:
-            columns = line.strip().split('\t')
-            playfab_id = columns[-5]
-
-            # Si le PlayfabID n'existe pas encore dans le dictionnaire, on l'ajoute avec une liste vide
-            if playfab_id not in dict_des_id:
-                dict_des_id[playfab_id] = []
-
-    return dict_des_id
 
 "-----------------------------------------------------------------------------"
 
@@ -590,11 +553,7 @@ def calcul_pt_par_manche_team(classement_par_joueur_2, une_team):
 
 "-----------------------------------------------------------------------------"
 
-def creer_dossier_export():  # Crée le dossier SPC_exports s'il n'existe pas
-    if not os.path.exists("SPC_exports"):
-        os.makedirs("SPC_exports")
 
-creer_dossier_export()
 
 "-----------------------------------------------------------------------------"
 
@@ -610,12 +569,10 @@ def charger_equipes(fichier="SPC___teams.txt"): # Chargement du fichier équipes
 
 "-----------------------------------------------------------------------------"
 
-def supprimer_fichier(fichier): #Supprime un fichier s'il existe.
-    if os.path.exists(fichier):
-        os.remove(fichier)
 
 "-----------------------------------------------------------------------------"
 
+creer_dossier_export()
 
 print("")
 
