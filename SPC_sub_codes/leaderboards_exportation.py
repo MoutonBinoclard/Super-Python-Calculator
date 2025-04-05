@@ -53,8 +53,8 @@ def exporter_classement_partiel(classement_du_tournoi, filename): # Exporte un c
         # Parcourir tous les joueurs du classement
         for i, (playfab_id, data) in enumerate(classement_du_tournoi.items()):
             pseudo, score_final, scores_manches = data
-            # Écrire les informations du joueur dans le fichier
-            file.write(f"{i + 1}. {score_final:.2f} -> {pseudo}\n")
+            # Écrire les informations du joueur dans le fichier avec l'ID
+            file.write(f"{i + 1}. {score_final:.2f} -> {pseudo} ({playfab_id})\n")
 
 # ----------------------------------------------------------------------------
 
