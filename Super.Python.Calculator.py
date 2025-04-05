@@ -95,7 +95,7 @@ teams = False
 # Type the name of the file containing the scoring system you want to use:
 # (The file must be in the SPC_scoring_presets folder.)
 
-from SPC_scoring_presets.SPC_sp_double_trouble import kill_points, placement_points, masterkill
+from SPC_scoring_presets.SPC_sp_spi import kill_points, placement_points, masterkill
 
 # It must be something like SPC_scoring_presets.name_of_the_file_without_the_extension
 
@@ -122,7 +122,7 @@ ID_banni_du_tournoi = []
 'CHANGE THE NAME ON THE GRAPH'
 
 # Here, you can change the tournament name that will appear on the graph.
-nom_du_tournoi = "Scrims on Double Trouble server"
+nom_du_tournoi = "Scrims on Double Trouble server using SPI"
 
 # Here you can specify if you want to add a logotype to the graph
 logo=False
@@ -648,7 +648,7 @@ else:
     exporter_graph(classement, nom_du_tournoi, couleurs, logo, logo_path, zoom_logo, date, liste_fichiers_partie)
     exporter_graph_placement_moyen(dictionnaire_ID, nom_du_tournoi, couleurs, logo, logo_path, zoom_logo, date, liste_fichiers_partie)
 
-
+print(classement)
 
 print("")
 print("Done !")
