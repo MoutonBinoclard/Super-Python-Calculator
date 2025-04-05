@@ -135,7 +135,7 @@ date=True
 'CHANGE THE STYLE'
 
 # You can change the colors of the graph by modifying the values in the file "SPC_colors_config.json".
-color_scheme = "SPC_color_schemes/SPC_cs_simple_scrims.json"
+color_scheme = "SPC_color_schemes/SPC_cs_blueprint.json"
 
 # If you want to use a custom font, set the following value to True:
 add_custom_fonts = True
