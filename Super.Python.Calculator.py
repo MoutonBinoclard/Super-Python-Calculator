@@ -95,7 +95,7 @@ teams = False
 # Type the name of the file containing the scoring system you want to use:
 # (The file must be in the SPC_scoring_presets folder.)
 
-from SPC_scoring_presets.SPC_sp_spi import kill_points, placement_points, masterkill
+from SPC_scoring_presets.SPC_sp_double_trouble import kill_points, placement_points, masterkill
 
 # It must be something like SPC_scoring_presets.name_of_the_file_without_the_extension
 
