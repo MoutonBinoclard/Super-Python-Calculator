@@ -54,7 +54,7 @@ def generer_degrade_4_couleurs(couleur1, couleur2, couleur3, couleur4, nombre_de
 
 # ----------------------------------------------------------------------------
 
-def exporter_graph(classement, nom_tr, cs, lg, lg_path, zoom, dt, fichiers_base):  # Génère le graph du classement à partir d'un dico classement
+def exporter_graph(classement, nom_tr, cs, lg, lg_path, zoom, dt, fichiers_base):
     """
     Génère et exporte un graphique en barres empilées à partir du classement fourni.
     :param classement: dict -> Le classement des joueurs ou des équipes.
@@ -62,7 +62,7 @@ def exporter_graph(classement, nom_tr, cs, lg, lg_path, zoom, dt, fichiers_base)
     # Score max
     le_haut_du_graph = next(iter(classement.values()))[1]
 
-    barres_couleurs = generer_degrade_4_couleurs(cs["gradient_color_1"], cs["gradient_color_2"], cs["gradient_color_3"], cs["gradient_color_4"], cs["chosen_number"]) # Augmenter le nombre de couleurs par trois
+    barres_couleurs = generer_degrade_4_couleurs(cs["gradient_color_1"], cs["gradient_color_2"], cs["gradient_color_3"], cs["gradient_color_4"], cs["chosen_number"])  # Augmenter le nombre de couleurs par trois
     # Créer un graphique en barres empilées avec un style personnalisé
     plt.figure(figsize=(12, 6), facecolor=cs["background_color"])  # Augmenter légèrement la largeur (de 10 à 12)
     ax = plt.gca()  # Obtenir l'axe actuel
@@ -70,12 +70,20 @@ def exporter_graph(classement, nom_tr, cs, lg, lg_path, zoom, dt, fichiers_base)
     # Pour stocker les handles de la légende
     legend_handles = []
 
+    # Stocker les labels pour mise à jour après
+    x_labels = []
+
     # Pour chaque joueur, empiler les scores de chaque manche
     for i, (playfab_id, data) in enumerate(classement.items()):
         pseudo, score_final, scores_manches = data
+
+        # Utiliser uniquement le PlayFab ID comme label pour le moment
+        unique_pseudo = playfab_id
+        x_labels.append(playfab_id)  # Ajouter l'ID à la liste des labels
+
         bottom = 0  # Commencer à empiler à partir de 0
         for j, score in enumerate(scores_manches):
-            bar = plt.bar(pseudo, score, bottom=bottom, color=barres_couleurs[j % len(barres_couleurs)])
+            bar = plt.bar(unique_pseudo, score, bottom=bottom, color=barres_couleurs[j % len(barres_couleurs)])
             bottom += score  # Mettre à jour la position de départ pour la prochaine manche
 
             # Ajouter un handle pour la légende (une seule fois par manche)
@@ -83,7 +91,7 @@ def exporter_graph(classement, nom_tr, cs, lg, lg_path, zoom, dt, fichiers_base)
                 legend_handles.append(bar[0])
 
         # Ajouter le score total en haut de la barre, en vertical et empiétant sur les colonnes
-        plt.text(pseudo, score_final + 0.03*le_haut_du_graph, f"{score_final:.2f}", ha='center', va='bottom', color=cs["points_color"], fontsize=10, rotation=90)
+        plt.text(unique_pseudo, score_final + 0.03 * le_haut_du_graph, f"{score_final:.2f}", ha='center', va='bottom', color=cs["points_color"], fontsize=10, rotation=90)
 
     # Utiliser les graduations automatiques de Matplotlib pour les lignes horizontales
     y_ticks = ax.get_yticks()  # Récupérer les positions des graduations sur l'axe Y
@@ -110,6 +118,10 @@ def exporter_graph(classement, nom_tr, cs, lg, lg_path, zoom, dt, fichiers_base)
     labels = [f"Round {i+1}" for i in range(len(barres_couleurs))]  # Créer les labels pour chaque manche
     legend = plt.legend(legend_handles, labels, title_fontsize='large', fontsize='medium', facecolor=cs["background_color"], edgecolor=cs["legend_border_color"], labelcolor=cs["legend_text_color"])
 
+    # Mettre à jour les labels des colonnes avec les vrais pseudos
+    updated_labels = [trouver_nom(playfab_id, fichiers_base) for playfab_id in x_labels]
+    ax.set_xticklabels(updated_labels)
+
     # Ajuster la mise en page
     plt.tight_layout()
 
@@ -135,9 +147,6 @@ def exporter_graph(classement, nom_tr, cs, lg, lg_path, zoom, dt, fichiers_base)
         today_date = datetime.now().strftime("%d/%m/%Y")
         ax.text(0.5, 1.05, today_date, transform=ax.transAxes, ha='center', va='top', 
                 fontdict={'color': cs["date_color"], 'fontsize': 8})
-
-    # Afficher le graphique
-    #plt.show()
 
     # Enregistrer le graphique
     plt.savefig(os.path.join("SPC_exports", "SPC_Graphic.png"), dpi=600, facecolor=cs["background_color"])
