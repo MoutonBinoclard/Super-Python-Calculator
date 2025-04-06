@@ -141,7 +141,7 @@ date=True
 'CHANGE THE STYLE'
 
 # You can change the colors of the graph by modifying the values in the file "SPC_colors_config.json".
-color_scheme = "SPC_color_schemes/SPC_cs_blueprint.json"
+color_scheme = "SPC_color_schemes/SPC_cs_v5.json"
 
 # If you want to use a custom font, set the following value to True:
 add_custom_fonts = True
@@ -647,8 +647,6 @@ if teams:
 else:
     exporter_graph(classement, nom_du_tournoi, couleurs, logo, logo_path, zoom_logo, date, liste_fichiers_partie)
     exporter_graph_placement_moyen(dictionnaire_ID, nom_du_tournoi, couleurs, logo, logo_path, zoom_logo, date, liste_fichiers_partie)
-
-print(classement)
 
 print("")
 print("Done !")

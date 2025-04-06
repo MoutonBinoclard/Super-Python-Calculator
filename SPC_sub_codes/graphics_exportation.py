@@ -12,41 +12,36 @@ from SPC_sub_codes.id_vers_nom import trouver_nom
 
 # ----------------------------------------------------------------------------
 
-def generer_degrade_4_couleurs(couleur1, couleur2, couleur3, couleur4, nombre_de_couleurs): #Couleur sous le format #xxxxxx et nombre de couleur 7 modulo 3+
-
+def generer_degrade_couleurs(couleurs, nombre_de_couleurs):
+    """
+    Génère un dégradé de couleurs à partir d'une liste de couleurs.
+    :param couleurs: list -> Liste de couleurs au format hexadécimal (#xxxxxx).
+    :param nombre_de_couleurs: int -> Nombre total de couleurs à générer.
+    :return: list -> Liste des couleurs interpolées au format hexadécimal.
+    """
     # Convertir les couleurs hexadécimales en RGB
-    rgb1 = to_rgb(couleur1)
-    rgb2 = to_rgb(couleur2)
-    rgb3 = to_rgb(couleur3)
-    rgb4 = to_rgb(couleur4)
+    rgb_couleurs = [to_rgb(couleur) for couleur in couleurs]
 
     # Créer un tableau de valeurs pour interpoler entre les couleurs
-    t = np.linspace(0, 1, nombre_de_couleurs)
+    t = np.linspace(0, len(rgb_couleurs) - 1, nombre_de_couleurs)
 
-    # Interpoler linéairement entre les quatre couleurs
+    # Interpoler linéairement entre les couleurs
     degrade = []
     for i in t:
-        if i <= 0.333:
-            # Interpolation entre couleur1 et couleur2
-            r = rgb1[0] + (rgb2[0] - rgb1[0]) * (i * 3)
-            g = rgb1[1] + (rgb2[1] - rgb1[1]) * (i * 3)
-            b = rgb1[2] + (rgb2[2] - rgb1[2]) * (i * 3)
-        elif i <= 0.666:
-            # Interpolation entre couleur2 et couleur3
-            r = rgb2[0] + (rgb3[0] - rgb2[0]) * ((i - 0.333) * 3)
-            g = rgb2[1] + (rgb3[1] - rgb2[1]) * ((i - 0.333) * 3)
-            b = rgb2[2] + (rgb3[2] - rgb2[2]) * ((i - 0.333) * 3)
-        else:
-            # Interpolation entre couleur3 et couleur4
-            r = rgb3[0] + (rgb4[0] - rgb3[0]) * ((i - 0.666) * 3)
-            g = rgb3[1] + (rgb4[1] - rgb3[1]) * ((i - 0.666) * 3)
-            b = rgb3[2] + (rgb4[2] - rgb3[2]) * ((i - 0.666) * 3)
-        
+        idx_inf = int(np.floor(i))  # Index inférieur
+        idx_sup = min(idx_inf + 1, len(rgb_couleurs) - 1)  # Index supérieur
+        ratio = i - idx_inf  # Ratio pour l'interpolation
+
+        # Interpolation entre les deux couleurs
+        r = rgb_couleurs[idx_inf][0] + (rgb_couleurs[idx_sup][0] - rgb_couleurs[idx_inf][0]) * ratio
+        g = rgb_couleurs[idx_inf][1] + (rgb_couleurs[idx_sup][1] - rgb_couleurs[idx_inf][1]) * ratio
+        b = rgb_couleurs[idx_inf][2] + (rgb_couleurs[idx_sup][2] - rgb_couleurs[idx_inf][2]) * ratio
+
         # Clipper les valeurs RGB entre 0 et 1
         r = max(0, min(1, r))
         g = max(0, min(1, g))
         b = max(0, min(1, b))
-        
+
         # Convertir la couleur RGB en hexadécimal et l'ajouter à la liste
         degrade.append(to_hex((r, g, b)))
 
@@ -62,7 +57,7 @@ def exporter_graph(classement, nom_tr, cs, lg, lg_path, zoom, dt, fichiers_base)
     # Score max
     le_haut_du_graph = next(iter(classement.values()))[1]
 
-    barres_couleurs = generer_degrade_4_couleurs(cs["gradient_color_1"], cs["gradient_color_2"], cs["gradient_color_3"], cs["gradient_color_4"], cs["chosen_number"])  # Augmenter le nombre de couleurs par trois
+    barres_couleurs = generer_degrade_couleurs(cs["gradient_colors"], cs["chosen_number"])  # Augmenter le nombre de couleurs par trois
     # Créer un graphique en barres empilées avec un style personnalisé
     plt.figure(figsize=(12, 6), facecolor=cs["background_color"])  # Augmenter légèrement la largeur (de 10 à 12)
     ax = plt.gca()  # Obtenir l'axe actuel

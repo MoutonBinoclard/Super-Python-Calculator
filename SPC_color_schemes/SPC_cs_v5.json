@@ -8,13 +8,10 @@
     "legend_border_color": "#ff3ade",
     "legend_text_color": "#ff3ade",
 
-    "gradient_color_1": "#4ca8ff",
-    "gradient_color_2": "#7a66cc",
-    "gradient_color_3": "#dd67ec",
-    "gradient_color_4": "#ff43a1",
+    "gradient_colors": ["#4ca8ff", "#7a66cc", "#dd67ec", "#ff43a1", "#ff6b6b", "#ffa94d", "#ffdd57", "#a3e635", "#4ade80", "#22c55e"],
 
-    "chosen_number": 10,
-
+    "chosen_number": 20,
+    "chosen_number_color": "#ff3ade",       
     "x_label_color": "#ff3ade",
     "y_label_color": "#ff3ade",
 
