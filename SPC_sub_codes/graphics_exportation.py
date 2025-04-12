@@ -86,7 +86,7 @@ def exporter_graph(classement, nom_tr, cs, lg, lg_path, zoom, dt, fichiers_base)
                 legend_handles.append(bar[0])
 
         # Ajouter le score total en haut de la barre, en vertical et empiétant sur les colonnes
-        plt.text(unique_pseudo, score_final + 0.03 * le_haut_du_graph, f"{score_final:.2f}", ha='center', va='bottom', color=cs["points_color"], fontsize=10, rotation=90)
+        plt.text(unique_pseudo, score_final + 0.03 * le_haut_du_graph, f"{score_final:.2f}", ha='center', va='bottom', color=cs["points_color"], fontsize=8, rotation=90)
 
     # Utiliser les graduations automatiques de Matplotlib pour les lignes horizontales
     y_ticks = ax.get_yticks()  # Récupérer les positions des graduations sur l'axe Y
@@ -109,9 +109,11 @@ def exporter_graph(classement, nom_tr, cs, lg, lg_path, zoom, dt, fichiers_base)
     plt.xticks(rotation=45, ha='right', fontsize=8, color=cs["x_label_color"])
     plt.yticks(color=cs["y_label_color"])
 
-    # Ajouter une légende
-    labels = [f"Round {i+1}" for i in range(len(barres_couleurs))]  # Créer les labels pour chaque manche
-    legend = plt.legend(legend_handles, labels, title_fontsize='large', fontsize='medium', facecolor=cs["background_color"], edgecolor=cs["legend_border_color"], labelcolor=cs["legend_text_color"])
+    # Ajouter une légende en haut à droite
+    labels = [f"{i+1}" for i in range(len(barres_couleurs))]  # Créer les labels pour chaque manche
+    legend = plt.legend(legend_handles, labels, loc='upper right', title_fontsize='small', fontsize='x-small', 
+                        handleheight=0.8, handlelength=1, labelspacing=0.3, facecolor=cs["background_color"], 
+                        edgecolor=cs["legend_border_color"], labelcolor=cs["legend_text_color"])
 
     # Mettre à jour les labels des colonnes avec les vrais pseudos
     updated_labels = [trouver_nom(playfab_id, fichiers_base) for playfab_id in x_labels]
@@ -132,7 +134,7 @@ def exporter_graph(classement, nom_tr, cs, lg, lg_path, zoom, dt, fichiers_base)
 
         # Ajouter le logo à la place du titre
         ax = plt.gca()
-        image_box = OffsetImage(logo_image, zoom)  # Ajuster le zoom pour auto-scaling
+        image_box = OffsetImage(logo_image, zoom=zoom)  # Ajuster le zoom pour auto-scaling
         annotation_box = AnnotationBbox(image_box, (0.5, 1.065), xycoords='axes fraction', frameon=False, box_alignment=(0.5, 0))
         ax.add_artist(annotation_box)
         ax.set_title("")
@@ -191,8 +193,8 @@ def exporter_graph_placement_moyen(dict_ID, nom_tr, cs, lg, lg_path, zoom, dt, f
     for y in y_ticks:
         ax.axhline(y, color=cs["horizontal_lines_color"], linestyle='--', linewidth=0.5, zorder=0)  # Ajouter une ligne horizontale à chaque graduation
 
-    for i in range(1,4):
-        ax.axhline(i, color=cs["horizontal_lines_color"], linestyle=(0,(1,1)), linewidth=0.5, zorder=0)  # Ligne top 1
+    #for i in range(1,4):
+    #    ax.axhline(i, color=cs["horizontal_lines_color"], linestyle=(0,(1,1)), linewidth=0.5, zorder=0)  # Ligne top 1
 
     ax.tick_params(axis='x', which='both', colors=cs["x_ticks_color"])  # Couleur des ticks de l'axe X
     ax.xaxis.label.set_color(cs["x_label_color"])  # Couleur du label de l'axe X
@@ -231,7 +233,7 @@ def exporter_graph_placement_moyen(dict_ID, nom_tr, cs, lg, lg_path, zoom, dt, f
 
         # Ajouter le logo au graphique
         ax = plt.gca()
-        image_box = OffsetImage(logo_image, zoom)  # Ajuster le zoom pour auto-scaling
+        image_box = OffsetImage(logo_image, zoom=zoom)  # Ajuster le zoom pour auto-scaling
         annotation_box = AnnotationBbox(image_box, (0.5, 1.065), xycoords='axes fraction', frameon=False, box_alignment=(0.5, 0))
         ax.add_artist(annotation_box)
         ax.set_title("")

@@ -125,13 +125,13 @@ ID_banni_du_tournoi = []
 nom_du_tournoi = "Scrims on Double Trouble server using SPI"
 
 # Here you can specify if you want to add a logotype to the graph
-logo=False
+logo=True
 
 # This is where you can change the path to the logo file:
-logo_path = "SPC_logo/SPC_lg_simple_scrims.png"
+logo_path = "SPC_logo/SPC_lg_double_trouble.png"
 
 # Size of the logo
-zoom_logo=0.15
+zoom_logo=0.20
 
 # If you want the date to show up on the graph, set the following value to True:
 date=True
@@ -141,13 +141,13 @@ date=True
 'CHANGE THE STYLE'
 
 # You can change the colors of the graph by modifying the values in the file "SPC_colors_config.json".
-color_scheme = "SPC_color_schemes/SPC_cs_v5.json"
+color_scheme = "SPC_color_schemes/SPC_cs_double_trouble.json"
 
 # If you want to use a custom font, set the following value to True:
 add_custom_fonts = True
 
 # Put the font path here:
-font_path = "SPC_fonts/Rubik.ttf"
+font_path = "SPC_fonts/FiraCode.ttf"
 
 # ----------------------------------------------------------------------------
 

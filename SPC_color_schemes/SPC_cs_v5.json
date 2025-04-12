@@ -8,10 +8,9 @@
     "legend_border_color": "#ff3ade",
     "legend_text_color": "#ff3ade",
 
-    "gradient_colors": ["#4ca8ff", "#7a66cc", "#dd67ec", "#ff43a1", "#ff6b6b", "#ffa94d", "#ffdd57", "#a3e635", "#4ade80", "#22c55e"],
-
+    "gradient_colors": ["#ff3ade", "#9900ff", "#0044ff", "#00ffff", "#00ff00"],
     "chosen_number": 20,
-    "chosen_number_color": "#ff3ade",       
+    
     "x_label_color": "#ff3ade",
     "y_label_color": "#ff3ade",
 
