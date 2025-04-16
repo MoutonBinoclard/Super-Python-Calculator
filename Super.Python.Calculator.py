@@ -95,7 +95,7 @@ teams = False
 # Type the name of the file containing the scoring system you want to use:
 # (The file must be in the SPC_scoring_presets folder.)
 
-from SPC_scoring_presets.SPC_sp_spi import kill_points, placement_points, masterkill
+from SPC_scoring_presets.SPC_sp_wheel_of_guns import kill_points, placement_points, masterkill
 
 # It must be something like SPC_scoring_presets.name_of_the_file_without_the_extension
 
@@ -122,10 +122,10 @@ ID_banni_du_tournoi = []
 'CHANGE THE NAME ON THE GRAPH'
 
 # Here, you can change the tournament name that will appear on the graph.
-nom_du_tournoi = "Scrims on Double Trouble server using SPI"
+nom_du_tournoi = "The Wheel of Guns 2"
 
 # Here you can specify if you want to add a logotype to the graph
-logo=True
+logo=False
 
 # This is where you can change the path to the logo file:
 logo_path = "SPC_logo/SPC_lg_double_trouble.png"
@@ -141,7 +141,7 @@ date=True
 'CHANGE THE STYLE'
 
 # You can change the colors of the graph by modifying the values in the file "SPC_colors_config.json".
-color_scheme = "SPC_color_schemes/SPC_cs_double_trouble.json"
+color_scheme = "SPC_color_schemes/SPC_cs_v5.json"
 
 # If you want to use a custom font, set the following value to True:
 add_custom_fonts = True
