@@ -1,3 +1,5 @@
+# HEY ATTENTION, i'm coding the V5 and using a complete different method to store data, please don't work on any branch, it would be losing your time if you did so
+
 <p align="center">
   <img width="750" alt="osu! logo" src="banner.png">
 </p>
