@@ -29,7 +29,6 @@ def remplir_dictionnaire_tableau(file_path, dictionnaire):
 def creer_et_sauvegarder_tableau(file_path, output_path, max_col_width=30):
     data = creation_dictionnaire_tableau(file_path)
     data = remplir_dictionnaire_tableau(file_path, data)
-    print(data)
 
     df = pd.DataFrame(data)
 

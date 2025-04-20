@@ -37,23 +37,18 @@ def exporter_classement_partiel(leaderboard, filename): # Exporte un classement 
 
 # ----------------------------------------------------------------------------
 
-def exporter_classement_en_ligne(leaderboard, filename): # Exporte un classement simple en une ligne
-
+def exporter_classement_en_ligne(leaderboard, filename):  # Exporte un classement simple en une ligne (nouvelle structure)
     # Ouvrir le fichier en mode écriture avec l'encodage UTF-8
     with open(os.path.join("SPC_exports", filename), 'w', encoding='utf-8') as file:
-        # Créer une liste pour stocker les éléments du classement
         classement_en_ligne = []
-        
         # Parcourir tous les joueurs du classement
-        for i, (playfab_id, data) in enumerate(leaderboard.items()):
-            pseudo, score_final, stats, manches = data
-            # Ajouter chaque joueur au format "X. joueur - XXpt /"
+        for i, (playfab_combine, data) in enumerate(leaderboard.items()):
+            # data[3] est la liste des joueurs (pour les équipes/combine)
+            pseudo = data[0]  # Prendre le pseudo du premier joueur de la liste
+            score_final = data[1]  # Prendre le score final du joueur
             classement_en_ligne.append(f"{i + 1}. {pseudo} - {score_final:.2f}pt")
-        
         # Joindre tous les éléments avec " / " et ajouter un "/ " à la fin
         ligne_finale = " / ".join(classement_en_ligne) + " / "
-        
-        # Écrire la ligne finale dans le fichier
         file.write(ligne_finale)
 
 # ----------------------------------------------------------------------------
@@ -90,7 +85,7 @@ def exporter_classement_complet(leaderboard, filename): # Exporte un classement 
 
                 nb_parties, nb_victoires, nb_kills, kda = stats
 
-                print(pseudo, score_final, nb_victoires, nb_parties, nb_kills, kda)
+                #print(pseudo, score_final, nb_victoires, nb_parties, nb_kills, kda)
 
                 # Écrire les informations du joueur dans le fichier
                 file.write(f"{i + 1}\t{pseudo}\t{score_final:.2f}\t{nb_victoires}\t{nb_parties}\t{nb_kills}\t{kda:.2f}\t{score_reel:.2f}\t")
