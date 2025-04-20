@@ -26,7 +26,7 @@ def remplir_dictionnaire_tableau(file_path, dictionnaire):
     return dictionnaire
 
 
-def creer_et_sauvegarder_tableau(file_path, output_path, max_col_width=30):
+def creer_et_sauvegarder_tableau(file_path, output_path, cs, max_col_width=30):
     data = creation_dictionnaire_tableau(file_path)
     data = remplir_dictionnaire_tableau(file_path, data)
 
@@ -43,20 +43,20 @@ def creer_et_sauvegarder_tableau(file_path, output_path, max_col_width=30):
 
     table = ax.table(cellText=truncated_values, colLabels=truncated_columns, loc='center')
 
-    fig.patch.set_facecolor('#222222')
-    ax.set_facecolor('#222222')
+    fig.patch.set_facecolor(cs["background_color"])
+    ax.set_facecolor(cs["background_color"])
     table.auto_set_font_size(False)
     table.set_fontsize(12)
     table.scale(1.5, 2)
 
     for (row, col), cell in table.get_celld().items():
         if row == 0:
-            cell.set_facecolor('#333333')
-            cell.set_text_props(color='white', weight='bold')
+            cell.set_facecolor(cs["top_cells_color"])
+            cell.set_text_props(color=cs["top_text_color"], weight='bold')
         else:
-            cell.set_facecolor('#222222')
-            cell.set_text_props(color='white')
-        cell.set_edgecolor('#444444')
+            cell.set_facecolor(cs["cells_color"])
+            cell.set_text_props(color=cs["text_color"],)
+        cell.set_edgecolor(cs["grid_color"])
 
     plt.savefig(output_path, bbox_inches='tight', dpi=300, facecolor=fig.get_facecolor())
     plt.close()

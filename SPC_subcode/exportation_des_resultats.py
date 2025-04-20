@@ -22,7 +22,7 @@ def exportation(classement, nom_du_tournoi, couleurs, logo, logo_path, zoom_logo
     print("")
     
     print("calc exportation in progress...")
-    creer_et_sauvegarder_tableau("./SPC_exports/classement_complet.txt","./SPC_exports/tableau_classement.png")
+    creer_et_sauvegarder_tableau("./SPC_exports/classement_complet.txt","./SPC_exports/tableau_classement.png",couleurs)
     print("calc exportation done")
     print("")
 

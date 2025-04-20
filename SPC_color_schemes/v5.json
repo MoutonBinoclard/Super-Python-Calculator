@@ -29,5 +29,11 @@
     "mean_color": "#28ad36",
     
     "boxes_inside_color": "#272727",
-    "boxes_outside_color": "#00ff06"
+    "boxes_outside_color": "#00ff06",
+
+    "grid_color": "#00ff00",
+    "top_cells_color": "#4a4a4a",
+    "cells_color": "#272727",
+    "top_text_color": "#00ff00",
+    "text_color": "#00ff00"
 }
