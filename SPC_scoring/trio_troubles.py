@@ -33,7 +33,7 @@ def placement_points(placement, kills, total_players):  # Define how placement a
             return 0
 "-----------------------------------------------------------------------------"
 
-def masterkill(presence_de_masterkill, total_players):  # Define how many points the Masterkill awards
+def masterkill(presence_de_masterkill, kills, total_players):  # Define how many points the Masterkill awards
     # presence_de_masterkill -> bool
     # total_players -> int
 
