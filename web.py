@@ -20,4 +20,6 @@ if __name__ == '__main__':
     public_url = ngrok.connect(port, "http")
     print(f" * ngrok tunnel: {public_url}")
     print(f" * Local:        http://127.0.0.1:{port}")
-    app.run(port=port)
+    # Run Flask on all network interfaces, not just localhost
+    app.run(host='0.0.0.0', port=port)
+

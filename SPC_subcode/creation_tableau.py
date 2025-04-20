@@ -32,7 +32,30 @@ def creer_et_sauvegarder_tableau(file_path, output_path, cs, max_col_width=30):
 
     df = pd.DataFrame(data)
 
-    fig, ax = plt.subplots(figsize=(20, 10))
+    n_cols = len(df.columns)
+    n_rows = len(df)
+
+    # Définir les largeurs personnalisées pour chaque colonne
+    default_col_width = 2
+    small_col_width = 1  # moitié
+    large_col_width = 4  # deux fois plus grande
+
+    col_widths = []
+    for i in range(n_cols):
+        if i == 0:
+            col_widths.append(small_col_width)
+        elif i == 1:
+            col_widths.append(large_col_width)
+        elif 2 <= i <= 8:  # colonnes 3 à 9 incluses (indices 2 à 8)
+            col_widths.append(default_col_width)
+        else:
+            col_widths.append(default_col_width)
+
+    fig_width = max(8, sum(col_widths))
+    row_height = 0.5
+    fig_height = max(4, n_rows * row_height + 2)
+
+    fig, ax = plt.subplots(figsize=(fig_width, fig_height))
     ax.axis('off')
 
     def truncate(val):
@@ -47,7 +70,14 @@ def creer_et_sauvegarder_tableau(file_path, output_path, cs, max_col_width=30):
     ax.set_facecolor(cs["background_color"])
     table.auto_set_font_size(False)
     table.set_fontsize(12)
-    table.scale(1.5, 2)
+    table.scale(1, 2)
+
+    # Appliquer les largeurs de colonnes personnalisées
+    for i, width in enumerate(col_widths):
+        table.auto_set_column_width(i)
+        for row in range(n_rows + 1):  # +1 pour l'en-tête
+            cell = table[(row, i)]
+            cell.set_width(width / sum(col_widths))
 
     for (row, col), cell in table.get_celld().items():
         if row == 0:
@@ -55,8 +85,14 @@ def creer_et_sauvegarder_tableau(file_path, output_path, cs, max_col_width=30):
             cell.set_text_props(color=cs["top_text_color"], weight='bold')
         else:
             cell.set_facecolor(cs["cells_color"])
-            cell.set_text_props(color=cs["text_color"],)
+            cell.set_text_props(color=cs["text_color"])
         cell.set_edgecolor(cs["grid_color"])
+
+        # Centrer tout sur la colonne 2 (index 1)
+        if col == 1:
+            cell.set_text_props(ha='center', va='center')
+        else:
+            cell.set_text_props(ha='left', va='center')
 
     plt.savefig(output_path, bbox_inches='tight', dpi=300, facecolor=fig.get_facecolor())
     plt.close()
