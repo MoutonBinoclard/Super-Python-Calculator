@@ -9,7 +9,7 @@ def exportation(classement, nom_du_tournoi, couleurs, logo, logo_path, zoom_logo
 
     print("leaderboard exportation in progress...")
     creer_dossier_export()
-    #exporter_classement_partiel(classement, "classement_partiel.txt")
+    exporter_classement_partiel(classement, "classement_partiel.txt")
     exporter_classement_en_ligne(classement, "classement_en_ligne.txt")
     exporter_classement_complet(classement, "classement_complet.txt")
     print("leaderbaord exportation done")

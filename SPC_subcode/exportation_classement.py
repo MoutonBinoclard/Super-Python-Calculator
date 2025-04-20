@@ -25,15 +25,14 @@ def exporter_un_joueur(classement_du_tournoi, filename, position): # Fonction po
 
 # ----------------------------------------------------------------------------
 
-def exporter_classement_partiel(leaderboard, filename): # Exporte un classement simple avec saut de ligne pour chaque joueur
-
+def exporter_classement_partiel(leaderboard, filename):  # Exporte un classement simple avec saut de ligne pour chaque joueur
     # Ouvrir le fichier en mode écriture avec l'encodage UTF-8
     with open(os.path.join("SPC_exports", filename), 'w', encoding='utf-8') as file:
         # Parcourir tous les joueurs du classement
         for i, (playfab_id, data) in enumerate(leaderboard.items()):
-            pseudo, score_final, stats, manches = data
-            # Écrire les informations du joueur dans le fichier avec l'ID
-            file.write(f"{i + 1}. {score_final:.2f} -> {pseudo} ({playfab_id[:5]}...)\n")
+            pseudo = data[0]
+            score_final = data[1]
+            file.write(f"{i + 1}. {pseudo} - {score_final:.2f}pt\n")
 
 # ----------------------------------------------------------------------------
 
