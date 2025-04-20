@@ -17,7 +17,7 @@ def exportation(classement, nom_du_tournoi, couleurs, logo, logo_path, zoom_logo
     
     print("graphs exportation in progress...")
     exporter_graph(classement, nom_du_tournoi, couleurs, logo, logo_path, zoom_logo, date)
-    #exporter_graph_placement_moyen(classement, nom_du_tournoi, couleurs, logo, logo_path, zoom_logo, date)
+    exporter_graph_placement_moyen(classement, nom_du_tournoi, couleurs, logo, logo_path, zoom_logo, date)
     print("graphs exportation done")
     print("")
     

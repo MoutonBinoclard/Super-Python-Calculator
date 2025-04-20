@@ -125,18 +125,18 @@ def exporter_graph(classement, nom_tr, cs, lg, lg_path, zoom, dt):
 # ----------------------------------------------------------------------------
 
 def exporter_graph_placement_moyen(classement, nom_tr, cs, lg, lg_path, zoom, dt): 
-
+    
     # Préparer les données pour le boxplot
     data = []
     labels = []
     
-    for joueur_id, joueur_data in classement.items():
-        nom_joueur = joueur_data[0]
-        manches = joueur_data[3]
-        placements = [manche[1][0] for manche in manches if manche[0] > 0]  # Ignorer les placements 0 et -1
-        if placements:
-            data.append(placements)
-            labels.append(nom_joueur)  # Utiliser le nom du joueur ou l'ID si le nom est introuvable
+    for keys in classement:
+        nom_joueur = classement[keys][0]
+        classement_manche=[]
+        for manche in classement[keys][2]:
+            if manche[1]!=0 : classement_manche.append(manche[1])
+        data.append(classement_manche)
+        labels.append(nom_joueur)  # Utiliser le nom du joueur ou l'ID si le nom est introuvable
 
     # Créer le graphique
     plt.figure(figsize=(12, 6), facecolor=cs["background_color"])
@@ -161,10 +161,6 @@ def exporter_graph_placement_moyen(classement, nom_tr, cs, lg, lg_path, zoom, dt
     for mean in box['means']:
         mean.set(marker= "o", markerfacecolor="none", markeredgecolor=cs["mean_color"], alpha=1, markersize=5)
 
-    # Utiliser les graduations automatiques de Matplotlib pour les lignes horizontales
-    y_ticks = ax.get_yticks()  # Récupérer les positions des graduations sur l'axe Y
-    for y in y_ticks:
-        ax.axhline(y, color=cs["horizontal_lines_color"], linestyle='--', linewidth=0.5, zorder=0)  # Ajouter une ligne horizontale à chaque graduation
 
     #for i in range(1,4):
     #    ax.axhline(i, color=cs["horizontal_lines_color"], linestyle=(0,(1,1)), linewidth=0.5, zorder=0)  # Ligne top 1
@@ -176,6 +172,15 @@ def exporter_graph_placement_moyen(classement, nom_tr, cs, lg, lg_path, zoom, dt
 
     # Inverser l'axe des ordonnées pour que le meilleur placement soit en haut
     ax.invert_yaxis()
+    
+    # Définir les ticks Y sur les entiers impairs uniquement
+    placement_max = max([max(placements) for placements in data]) if data else 0
+    ticks = list(range(1, int(placement_max) + 2, 2))  # 1, 3, 5, ...
+    ax.set_yticks(ticks)
+
+    #y_ticks = ax.get_yticks()  # Récupérer les positions des graduations sur l'axe Y
+    for y in ticks:
+        ax.axhline(y, color=cs["horizontal_lines_color"], linestyle='--', linewidth=0.5, zorder=0)
 
     # Fixer la limite supérieure de l'axe Y à 0.5 et ajuster la limite inférieure
     placement_min = max([max(placements) for placements in data]) if data else 0
