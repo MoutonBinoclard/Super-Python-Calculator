@@ -137,7 +137,7 @@ nom_du_tournoi = "SPC V5"
 logo=True
 
 # This is where you can change the path to the logo file:
-logo_path = "SPC_logo/SPC_lg_double_trouble.png"
+logo_path = "SPC_logo/spc_v5.png"
 
 # Size of the logo
 zoom_logo=0.20
@@ -161,7 +161,7 @@ print("")
 'CHANGE THE STYLE'
 
 # You can change the colors of the graph by modifying the values in the file "SPC_colors_config.json".
-color_scheme = "SPC_color_schemes/double_trouble.json"
+color_scheme = "SPC_color_schemes/v5.json"
 
 # If you want to use a custom font, set the following value to True:
 add_custom_fonts = True

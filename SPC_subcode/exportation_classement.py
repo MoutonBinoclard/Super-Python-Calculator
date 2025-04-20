@@ -76,7 +76,6 @@ def exporter_classement_complet(leaderboard, filename): # Exporte un classement 
         for i, (playfab_combine, data) in enumerate(leaderboard.items()):
             
             for j in data[3]:
-                print(j)
                 pseudo = j[0]
                 score_final = data[1]
                 stats = j[2]
