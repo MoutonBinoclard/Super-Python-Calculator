@@ -97,8 +97,26 @@ def ajouter_stats_globales(classement):
         classement[joueur][2].append(nombre_de_victoires(classement, joueur))
         classement[joueur][2].append(nombre_d_eliminations(classement, joueur))
         classement[joueur][2].append(calculer_kda(classement, joueur))
+        classement[joueur][2].append(max_kill_en_une_manche(classement, joueur))
     
     return classement
+
+# ----------------------------------------------------------------------------
+
+def max_kill_en_une_manche(leaderboard, ID): # Trouve le max de kill en une manche d'un joueur donné
+    # Vérifier si le joueur existe dans le dictionnaire
+    if ID not in leaderboard:
+        return 0
+    # Récupérer les manches du joueur
+    manches = leaderboard[ID][3]
+    # Calculer le max de kills en une manche
+    max_kills = 0
+    for manche in manches:
+        if manche[1][0] > 0:  # On ne compte que les manches où le placement est positif
+            if manche[1][1] > max_kills:
+                max_kills = manche[1][1]  # Mettre à jour le max de kills si nécessaire
+    
+    return max_kills
 
 # ----------------------------------------------------------------------------
 

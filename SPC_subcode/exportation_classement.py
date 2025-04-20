@@ -66,7 +66,7 @@ def exporter_classement_complet(leaderboard, filename): # Exporte un classement 
     with open(os.path.join("SPC_exports", filename), 'w', encoding='utf-8') as file:
         # Écrire l'en-tête du fichier
         # Générer dynamiquement l'en-tête pour chaque round
-        entete = "Position\tNom du joueur\tScore Final\tVictoires\tNb Parties\tKills\tKDA\tScore Réel\t"
+        entete = "Position\tNom du joueur\tScore Final\tVictoires\tNb Parties\tKills\tKDA\tMax Kill\tScore Réel\t"
         for round_num in range(1, nombre_de_rounds + 1):
             entete += f"Pts/Pos/Kill R{round_num}\t"
         entete = entete.rstrip('\t') + "\n"
@@ -76,18 +76,20 @@ def exporter_classement_complet(leaderboard, filename): # Exporte un classement 
         for i, (playfab_combine, data) in enumerate(leaderboard.items()):
             
             for j in data[3]:
+                print(j)
                 pseudo = j[0]
                 score_final = data[1]
                 stats = j[2]
                 manches = j[3]
                 score_reel=j[1]
-
-                nb_parties, nb_victoires, nb_kills, kda = stats
+                
+                # stats = [nb_parties, nb_victoires, nb_kills, kda, max_kill]
+                nb_parties, nb_victoires, nb_kills, kda, max_kill = stats
 
                 #print(pseudo, score_final, nb_victoires, nb_parties, nb_kills, kda)
 
                 # Écrire les informations du joueur dans le fichier
-                file.write(f"{i + 1}\t{pseudo}\t{score_final:.2f}\t{nb_victoires}\t{nb_parties}\t{nb_kills}\t{kda:.2f}\t{score_reel:.2f}\t")
+                file.write(f"{i + 1}\t{pseudo}\t{score_final:.2f}\t{nb_victoires}\t{nb_parties}\t{nb_kills}\t{kda:.2f}\t{max_kill}\t{score_reel:.2f}\t")
 
                 # Récupérer les scores de chaque manche (nouvelle structure)
                 scores_manches = [manche[0] for manche in manches]
