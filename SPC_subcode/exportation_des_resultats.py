@@ -1,6 +1,7 @@
 from SPC_subcode.exportation_classement import exporter_classement_complet, exporter_classement_partiel
 from SPC_subcode.exportation_graphiques import exporter_graph, exporter_graph_placement_moyen
 from SPC_subcode.gestion_du_dossier import creer_dossier_export
+from SPC_subcode.creation_tableau import creer_et_sauvegarder_tableau
 
 # ----------------------------------------------------------------------------
 
@@ -19,4 +20,8 @@ def exportation(classement, nom_du_tournoi, couleurs, logo, logo_path, zoom_logo
     print("graphs exportation done")
     print("")
     
+    print("calc exportation in progress...")
+    creer_et_sauvegarder_tableau("./SPC_exports/classement_complet.txt","./SPC_exports/tableau_classement.png")
+    print("calc exportation done")
+    print("")
 

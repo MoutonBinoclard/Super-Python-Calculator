@@ -59,11 +59,24 @@ def exporter_classement_en_ligne(leaderboard, filename): # Exporte un classement
 # ----------------------------------------------------------------------------
 
 def exporter_classement_complet(leaderboard, filename): # Exporte un classement detaillé dans un fichier
+    # Trouver le nombre de rounds (manches) en regardant le premier joueur du leaderboard
+    first_player_data = next(iter(leaderboard.values()))
+    first_joueur = first_player_data[3][0]
+    manches = first_joueur[3]
+    nombre_de_rounds = len(manches)
     
+    
+    
+
     # Ouvrir le fichier en mode écriture avec l'encodage UTF-8
     with open(os.path.join("SPC_exports", filename), 'w', encoding='utf-8') as file:
         # Écrire l'en-tête du fichier
-        file.write("Position\tNom du joueur\tScore Final\tVictoires\tNb Parties\tKills\tKDA\tScore Réel\tPoints / Placement / Kill - par round\n")
+        # Générer dynamiquement l'en-tête pour chaque round
+        entete = "Position\tNom du joueur\tScore Final\tVictoires\tNb Parties\tKills\tKDA\tScore Réel\t"
+        for round_num in range(1, nombre_de_rounds + 1):
+            entete += f"Pts/Pos/Kill R{round_num}\t"
+        entete = entete.rstrip('\t') + "\n"
+        file.write(entete)
 
         # Parcourir chaque joueur dans le classement
         for i, (playfab_combine, data) in enumerate(leaderboard.items()):
