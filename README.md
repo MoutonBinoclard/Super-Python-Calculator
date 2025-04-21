@@ -16,13 +16,13 @@ The project is still being developped, but here are what the script can do so fa
 - Tools to easely create teams and not struggle with PlayfabID
 - Supporting scoring preset depending on the number of players, placement and kills
 - Customization of the colors and the font of exported graphics
+- Web server to display the leaderboard in real time (beta)
 
 You can always ask new feature of course (Don't know if I'll code them tho)
 
 ## Running SPC
 
 To run the code, download the lastest version, unzip the file, and open the program called "Super.Python.Calculator.py" with your favorite python IDE. Install the missing libraries if needed and run the code !
-
 
 
 ### Adding rounds
