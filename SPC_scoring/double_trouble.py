@@ -8,7 +8,8 @@ def kill_points(placement, kills, total_players):  # Define how kills award poin
 
     else:
         return kills
-"-----------------------------------------------------------------------------"
+    
+# ----------------------------------------------------------------------------
 
 def placement_points(placement, kills, total_players):  # Define how placement awards points
     # placement, kills, total_players -> int
@@ -29,7 +30,8 @@ def placement_points(placement, kills, total_players):  # Define how placement a
             return 1
         else:
             return 0
-"-----------------------------------------------------------------------------"
+        
+# ----------------------------------------------------------------------------
 
 def masterkill(presence_de_masterkill, kills, total_players):  # Define how many points the Masterkill awards
     # presence_de_masterkill -> bool
