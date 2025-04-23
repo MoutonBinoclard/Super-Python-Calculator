@@ -73,7 +73,7 @@ print("")
 'ACTIVATE TEAMS'
 
 # To enable team mode, set the following value to True. Otherwise, set it to False:
-teams = False
+teams = True
 
 # Every person will now have their kills synced with the team they're playing with.
 

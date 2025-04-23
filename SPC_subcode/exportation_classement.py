@@ -66,7 +66,7 @@ def exporter_classement_complet(leaderboard, filename): # Exporte un classement 
     with open(os.path.join("SPC_exports", filename), 'w', encoding='utf-8') as file:
         # Écrire l'en-tête du fichier
         # Générer dynamiquement l'en-tête pour chaque round
-        entete = "Position\tNom du joueur\tScore Final\tVictoires\tNb Parties\tKills\tKDA\tMax Kill\tScore Réel\t"
+        entete = "Position\tNom du joueur\tScore Final\tVictoires\tNb Parties\tKills\tKill Av.\tMax Kill\tScore Réel\t"
         for round_num in range(1, nombre_de_rounds + 1):
             entete += f"Pts/Pos/Kill R{round_num}\t"
         entete = entete.rstrip('\t') + "\n"
