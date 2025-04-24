@@ -2,6 +2,11 @@ import math
 
 # ----------------------------------------------------------------------------
 
+# Scoring used for the Wheel of gun tournament by Suchy
+# Check his server here : https://discord.gg/n4hgT8ZY5Y
+
+# ----------------------------------------------------------------------------
+
 def kill_points(placement, kills, total_players):  # Define how kills award points
     # placement, kills, total_players -> int
 

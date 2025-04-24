@@ -1,5 +1,11 @@
 import math
 
+# ----------------------------------------------------------------------------
+
+# Currently used for the scrims in the Double Trouble server (https://discord.gg/Bwe2mdGXp6)
+
+# ----------------------------------------------------------------------------
+
 def kill_points(placement, kills, total_players):  # Define how kills award points
     # placement, kills, total_players -> int
 
