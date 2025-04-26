@@ -131,16 +131,16 @@ print("")
 'CHANGE THE NAME ON THE GRAPH'
 
 # Here, you can change the tournament name that will appear on the graph.
-nom_du_tournoi = "SPC V5 BABY !!!!!"
+nom_du_tournoi = "Test Tournament"
 
 # Here you can specify if you want to add a logotype to the graph
 logo=True
 
 # This is where you can change the path to the logo file:
-logo_path = "SPC_logo/spc_v5.png"
+logo_path = "SPC_logo/coupe_de_paques.png"
 
 # Size of the logo
-zoom_logo=0.20
+zoom_logo=0.22
 
 # If you want the date to show up on the graph, set the following value to True:
 date=True
@@ -161,7 +161,7 @@ print("")
 'CHANGE THE STYLE'
 
 # You can change the colors of the graph by modifying the values in the file "SPC_colors_config.json".
-color_scheme = "SPC_color_schemes/v5.json"
+color_scheme = "SPC_color_schemes/coupe_de_paques.json"
 
 # If you want to use a custom font, set the following value to True:
 add_custom_fonts = True
