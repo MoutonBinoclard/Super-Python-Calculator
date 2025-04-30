@@ -97,7 +97,7 @@ print("")
 # Type the name of the file containing the scoring system you want to use:
 # (The file must be in the SPC_scoring_presets folder.)
 
-from SPC_scoring.coupes_de_paques import kill_points, placement_points, masterkill
+from SPC_scoring.double_trouble_2 import kill_points, placement_points, masterkill
 import inspect
 
 # It must be something like SPC_scoring_presets.name_of_the_file_without_the_extension
@@ -131,13 +131,13 @@ print("")
 'CHANGE THE NAME ON THE GRAPH'
 
 # Here, you can change the tournament name that will appear on the graph.
-nom_du_tournoi = "Coupe de Pâques 2025"
+nom_du_tournoi = "Double Trouble"
 
 # Here you can specify if you want to add a logotype to the graph
 logo=True
 
 # This is where you can change the path to the logo file:
-logo_path = "SPC_logo/coupe_de_paques.png"
+logo_path = "SPC_logo/double_trouble.png"
 
 # Size of the logo
 zoom_logo=0.22
@@ -161,7 +161,7 @@ print("")
 'CHANGE THE STYLE'
 
 # You can change the colors of the graph by modifying the values in the file "SPC_colors_config.json".
-color_scheme = "SPC_color_schemes/coupe_de_paques.json"
+color_scheme = "SPC_color_schemes/double_trouble.json"
 
 # If you want to use a custom font, set the following value to True:
 add_custom_fonts = True

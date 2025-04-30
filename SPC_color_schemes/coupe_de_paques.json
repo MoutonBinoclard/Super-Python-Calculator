@@ -8,7 +8,7 @@
     "legend_border_color": "#80f1a9",
     "legend_text_color": "#80f1a9",
 
-    "gradient_colors": ["#33836b", "#80f1a9"],
+    "gradient_colors": ["#2b6856", "#80f1a9"],
     "chosen_number": 10,
     
     "x_label_color": "#80f1a9",
