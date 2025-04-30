@@ -20,12 +20,27 @@ The project is still being developped, but here are what the script can do so fa
 
 You can always ask new feature of course (Don't know if I'll code them tho)
 
-## Running SPC
+## Installation and Requirements
 
-To run the code, download the lastest version, unzip the file, and open the program called "Super.Python.Calculator.py" with your favorite python IDE. Install the missing libraries if needed and run the code !
+To run this script, you'll need to have Python 3.x installed on your machine and an IDE (like Visual Studio Code, PyCharm, etc.).
+
+If you don't know anything about how to configure one, I will say how I run it with Visual Studio Code:
+
+1. Download and install [Python](https://www.python.org/downloads/). To make it work, make sure to check the box "Add Python to PATH" during installation.
+2. Download and install [Visual Studio Code](https://code.visualstudio.com/).
+3. Open Visual Studio Code and install the Python extension (if not already installed).
+4. Open the folder where you unzipped the SPC files in Visual Studio Code.
+5. Open the SPC.py file in Visual Studio Code.
+6. There will be some libraries missing, so open the terminal in Visual Studio Code (View > Terminal) and run the following command to install the required libraries:
+   ```bash
+   pip install matplotlib pandas tkinter
+   ```
+7. If there are still some missing libraries, try to read the error and install what is missing.
+8. Once all the libraries are installed, you can run the script by clicking on the green play button in the top right corner of Visual Studio Code or by typing `python SPC.py` in the terminal.
 
 
-### Adding rounds
+
+## Adding rounds
 
 To add a new round, simply copy the /getplayers data into a .txt file and place it in the same folder as this script. The rounds will then be included in the scoring.
 
@@ -33,7 +48,7 @@ Also be sure to not use the SPC_ prefix for the rounds, Otherwise, they may get 
 
 
 
-### Edit the scoring
+## Edit the scoring
 
 To create a new scoring preset:
 
@@ -60,7 +75,7 @@ To load your custom preset:
 
 
 
-### Edit the colors of the graphs
+## Edit the colors of the graphs
 
 To customize the colors of the graphs:
 
@@ -100,7 +115,7 @@ The updated colors will be applied the next time you run the program.
 
 
 
-### Change the font used
+## Change the font used
 
 To customize the font used in the graphs:
 
@@ -120,7 +135,7 @@ To customize the font used in the graphs:
 
 The updated font will be applied globally to all graphs the next time you run the program.
 
-### Run the web server (beta)
+## Run the web server (beta)
 You can now open a web server ! It's very not that great, but hey, at least it's available !
 (You may need to run another instance of python for this to work, and it may not work on all OS)
 
