@@ -87,8 +87,8 @@ def exporter_graph(classement, nom_tr, cs, lg, lg_path, zoom, dt):
 
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
-    ax.spines['left'].set_color(cs["x_axis_color"])
-    ax.spines['bottom'].set_color(cs["y_axis_color"])
+    ax.spines['left'].set_color(cs["y_axis_color"])
+    ax.spines['bottom'].set_color(cs["x_axis_color"])
 
     plt.xticks(rotation=45, ha='right', fontsize=8, color=cs["x_label_color"])
     plt.yticks(color=cs["y_label_color"])
@@ -193,8 +193,8 @@ def exporter_graph_placement_moyen(classement, nom_tr, cs, lg, lg_path, zoom, dt
     # Ajuster les bordures et les axes
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
-    ax.spines['left'].set_color(cs["x_axis_color"])
-    ax.spines['bottom'].set_color(cs["y_axis_color"])
+    ax.spines['left'].set_color(cs["y_axis_color"])
+    ax.spines['bottom'].set_color(cs["x_axis_color"])
 
     # Ajuster la mise en page
     plt.tight_layout()
