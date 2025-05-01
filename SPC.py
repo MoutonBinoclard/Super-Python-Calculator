@@ -175,14 +175,6 @@ print("")
 # If you have any issues, feature requests, or you found a bug, feel free to contact me on Discord :D
 
 
-
-
-
-
-
-
-
-
 # Start of the code
 
 print("Loading fonts...")
