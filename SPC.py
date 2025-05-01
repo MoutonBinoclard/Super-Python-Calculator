@@ -107,13 +107,6 @@ print("")
 
 # ----------------------------------------------------------------------------
 
-'EXPORT THE TOP PLAYERS IN A TXT FILE'
-
-# This line define how many players you want to put in the top file
-nombre_de_joueurs_a_exporter = 5  # Number of players to include in the file.
-
-# ----------------------------------------------------------------------------
-
 'BAN PLAYERS'
 
 # To ban players from the tournament and automatically adjust placements
@@ -131,16 +124,16 @@ print("")
 'CHANGE THE NAME ON THE GRAPH'
 
 # Here, you can change the tournament name that will appear on the graph.
-nom_du_tournoi = "Double Trouble"
+nom_du_tournoi = "PVP Arena Solo"
 
 # Here you can specify if you want to add a logotype to the graph
 logo=True
 
 # This is where you can change the path to the logo file:
-logo_path = "SPC_logo/double_trouble.png"
+logo_path = "SPC_logo/pvp_arena_solo.png"
 
 # Size of the logo
-zoom_logo=0.22
+zoom_logo=0.16
 
 # If you want the date to show up on the graph, set the following value to True:
 date=True
@@ -161,7 +154,7 @@ print("")
 'CHANGE THE STYLE'
 
 # You can change the colors of the graph by modifying the values in the file "SPC_colors_config.json".
-color_scheme = "SPC_color_schemes/double_trouble.json"
+color_scheme = "SPC_color_schemes/pvp_arena_solo.json"
 
 # If you want to use a custom font, set the following value to True:
 add_custom_fonts = True
