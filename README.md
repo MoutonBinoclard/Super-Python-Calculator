@@ -6,6 +6,10 @@
 
 A complete calculator for scoring tournament for Super Animal Royale. It supports solo, duo and squads, offer the possibilitie to export leaderboards and its highly customizable !
 
+## Want to run the code ?
+
+All the instruction have been moved to the [Wiki](https://github.com/MoutonBinoclard/Super-Python-Calculator/wiki). Please check it out for the installation and usage of the script.
+
 ## Features
 
 The project is still being developped, but here are what the script can do so far :
