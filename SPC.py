@@ -1,20 +1,8 @@
-print("")
-print("---------------------")
-print("")
-
-
 # Super Python Calculator 
 # By Mouton Binoclard
 # Also known as a calculator for SAR tournaments
 
 # Version 5
-
-# Automatically synced with github repository now :D
-
-# ----------------------------------------------------------------------------
-
-# The organization of functions and code was done by Mouton Binoclard.
-# Most of the annotations and the matplotlib section were created by Deepseek AI (in French, of course, lol).
 
 # ----------------------------------------------------------------------------
 
@@ -27,12 +15,8 @@ print("")
 # For example, if you get an error about "tkinter", just install it with pip:
 # pip install tkinter
 
-import os
-import sys
-
 from matplotlib import rcParams
 from matplotlib import font_manager as fm
-
 import json
 
 # The next lines import functions from the sub-codes of the SPC folder, you don't need to download them.
@@ -51,22 +35,6 @@ warnings.simplefilter("ignore", UserWarning)
 print("Libraries successfully loaded.")
 print("")
 
-# ----------------------------------------------------------------------------
-
-# NOW, HERE ARE SOME INSTRUCTIONS ON HOW TO USE THE CODE!
-
-# ----------------------------------------------------------------------------
-
-# 1. After extracting this code, do NOT change the folder structure as well as the names of the files and folders.
-#    If you do, the code may not work properly.
-
-# 2. To add a new round, simply copy the /getplayers data into a .txt file
-#    and place it in the same folder as this script. The rounds will then be included in the scoring.
-
-# 3. Be sure to NEVER use the SPC_ prefix for your round files.
-#    Otherwise, the corresponding rounds may be excluded or even overwritten, and you could lose data.
-
-#    (Rounds will be processed in alphabetical order, so naming the files 1.txt, 2.txt, etc., might be good idea.)
 
 # ----------------------------------------------------------------------------
 
@@ -91,37 +59,17 @@ print("")
 
 'MODIFY THE SCORING SYSTEM'
 
-# To adjust the scoring system, update the function definitions in the Python preset file.
-# When team mode is active, kills represent the total kills achieved by the player's team.
-
-# Type the name of the file containing the scoring system you want to use:
-# (The file must be in the SPC_scoring_presets folder.)
-
 from SPC_scoring.pvp_arena_solo import kill_points, placement_points, masterkill
-import inspect
-
-# It must be something like SPC_scoring_presets.name_of_the_file_without_the_extension
-
-print("Scoring system loaded from file:", inspect.getfile(kill_points))
-print("")
 
 # ----------------------------------------------------------------------------
 
 'BAN PLAYERS'
 
-# To ban players from the tournament and automatically adjust placements
-# per round, add their IDs to the list below:
-
 ID_banni_du_tournoi = []
-
-# The list should have this form: ['53CEA3CB603F91EE', 'FEC13EBE7DA0943D', 'B4726A1348E0D88', ...]
-
-print("Banned players:", ID_banni_du_tournoi)
-print("")
 
 # ----------------------------------------------------------------------------
 
-'CHANGE THE NAME ON THE GRAPH'
+'LOGO, NAME, DATE and FONT'
 
 nom_du_tournoi = "PVP Arena Solo"
 
@@ -131,14 +79,14 @@ zoom_logo=0.16
 
 date=True
 
-# ----------------------------------------------------------------------------
-
-'CHANGE THE STYLE'
-
-color_scheme = "SPC_color_schemes/pvp_arena_solo.json"
-
 add_custom_fonts = True
 font_path = "SPC_fonts/FiraCode.ttf"
+
+# ----------------------------------------------------------------------------
+
+'COLOR SCHEME'
+
+color_scheme = "SPC_color_schemes/pvp_arena_solo.json"
 
 # ----------------------------------------------------------------------------
 
@@ -149,15 +97,12 @@ font_path = "SPC_fonts/FiraCode.ttf"
 
 
 
-
-
-
-
+#import inspect
+#print("Scoring system loaded from file:", inspect.getfile(kill_points))
+#print("")
 
 
 # Start of the code
-
-print("Loading fonts...")
 
 if add_custom_fonts:
     # Charger la police personnalisée
