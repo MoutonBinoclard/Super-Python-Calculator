@@ -6,9 +6,6 @@
 
 # ----------------------------------------------------------------------------
 
-print("Launching SPC...")
-print("")
-
 # IMPORTANT:
 # Some libraries aren't shown here since they're only used in some sub-codes.
 # If you have any issues, just install the missing libraries using pip.
@@ -19,7 +16,6 @@ from matplotlib import rcParams
 from matplotlib import font_manager as fm
 import json
 
-# The next lines import functions from the sub-codes of the SPC folder, you don't need to download them.
 
 from SPC_subcode.initialisation import trouver_id, lister_fichiers_repertoire
 from SPC_subcode.round_en_liste import fichier_round_en_liste
@@ -28,28 +24,14 @@ from SPC_subcode.statistiques import ajouter_stats_globales, calculer_points_tot
 from SPC_subcode.exportation_des_resultats import exportation
 from SPC_subcode.gestion_equipes import mise_en_place_teams, creation_classement_2
 
-# Import de warning pour ignorer les avertissements de matplotlib
 import warnings
 warnings.simplefilter("ignore", UserWarning)
-
-print("Libraries successfully loaded.")
-print("")
-
 
 # ----------------------------------------------------------------------------
 
 'ACTIVATE TEAMS'
 
 teams = False
-
-# Every person will now have their kills synced with the team they're playing with.
-
-# The first time you will the run code with the teams enabled, the code will ask you to create the teams with a wonderful graphical interface 
-# They will be saved in a file named 'SPC___Teams.txt'
-
-# If you want to change it, you can :
-# - Manually change the id in the file
-# - Delete the file and than start the code ato create the teams again
 
 # ----------------------------------------------------------------------------
 
