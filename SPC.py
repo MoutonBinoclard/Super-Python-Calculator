@@ -6,12 +6,6 @@
 
 # ----------------------------------------------------------------------------
 
-# IMPORTANT:
-# Some libraries aren't shown here since they're only used in some sub-codes.
-# If you have any issues, just install the missing libraries using pip.
-# For example, if you get an error about "tkinter", just install it with pip:
-# pip install tkinter
-
 from matplotlib import rcParams
 from matplotlib import font_manager as fm
 import json
