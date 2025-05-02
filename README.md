@@ -20,27 +20,6 @@ The project is still being developped, but here are what the script can do so fa
 
 You can always ask new feature of course (Don't know if I'll code them tho)
 
-
-## Change the font used
-
-To customize the font used in the graphs:
-
-1. Navigate to the `SPC_fonts` folder.
-2. Add your custom font file (e.g., `MyCustomFont.ttf`) to this folder.
-3. Open `Super.Python.Calculator.py`.
-4. Locate the following lines:
-   ```python
-   add_custom_fonts = True
-   font_path = "SPC_fonts/Rubik.ttf"
-   ```
-5. Replace `"SPC_fonts/Rubik.ttf"` with the path to your custom font file. For example:
-   ```python
-   font_path = "SPC_fonts/MyCustomFont.ttf"
-   ```
-6. Save the changes and run the program.
-
-The updated font will be applied globally to all graphs the next time you run the program.
-
 ## Run the web server (beta)
 You can now open a web server ! It's very not that great, but hey, at least it's available !
 (You may need to run another instance of python for this to work, and it may not work on all OS)
