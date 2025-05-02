@@ -123,53 +123,23 @@ print("")
 
 'CHANGE THE NAME ON THE GRAPH'
 
-# Here, you can change the tournament name that will appear on the graph.
 nom_du_tournoi = "PVP Arena Solo"
 
-# Here you can specify if you want to add a logotype to the graph
 logo=True
-
-# This is where you can change the path to the logo file:
 logo_path = "SPC_logo/pvp_arena_solo.png"
-
-# Size of the logo
 zoom_logo=0.16
 
-# If you want the date to show up on the graph, set the following value to True:
 date=True
-
-print("Tournament name:", nom_du_tournoi)
-
-print("Logo is set to", logo)
-if logo :
-    print("Logo path is:", logo_path)
-    print("Logo zoom is set to", zoom_logo)
-
-print("Date is set to", date)
-
-print("")
 
 # ----------------------------------------------------------------------------
 
 'CHANGE THE STYLE'
 
-# You can change the colors of the graph by modifying the values in the file "SPC_colors_config.json".
 color_scheme = "SPC_color_schemes/pvp_arena_solo.json"
 
-# If you want to use a custom font, set the following value to True:
 add_custom_fonts = True
-
-# Put the font path here:
 font_path = "SPC_fonts/FiraCode.ttf"
 
-print("Color scheme loaded from file", color_scheme)
-print("Custom font is set to", add_custom_fonts)
-if add_custom_fonts:
-    print("Font path is:", font_path)
-
-print("")
-print("---------------------")
-print("")
 # ----------------------------------------------------------------------------
 
 # If you have any issues, feature requests, or you found a bug, feel free to contact me on Discord :D
