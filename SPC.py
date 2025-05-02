@@ -40,7 +40,6 @@ print("")
 
 'ACTIVATE TEAMS'
 
-# To enable team mode, set the following value to True. Otherwise, set it to False:
 teams = False
 
 # Every person will now have their kills synced with the team they're playing with.
@@ -51,9 +50,6 @@ teams = False
 # If you want to change it, you can :
 # - Manually change the id in the file
 # - Delete the file and than start the code ato create the teams again
-
-print("Teams mode is set to", teams)
-print("")
 
 # ----------------------------------------------------------------------------
 
