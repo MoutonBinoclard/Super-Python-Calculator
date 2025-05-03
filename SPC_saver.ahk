@@ -1,12 +1,13 @@
-; AutoHotkey V2 script to launch with Ctrl+D, send commands, and save clipboard content
+; AutoHotkey V2 script to launch with Ctrl+M, send commands, and save clipboard content
 
-^0::
+^m::
 {
     Send "{Enter}"
-    Sleep 50
+    Sleep 100
     Send "/getplayers"
-    Sleep 50
+    Sleep 100
     Send "{Enter}"
+    Sleep 300
 
     ClipWait 2
     if !A_Clipboard
@@ -35,4 +36,7 @@
     File := FileOpen(FileName, "w", "UTF-8")
     File.Write(A_Clipboard)
     File.Close()
+
+    ; Notify the user with a tray tip
+    TrayTip "SPC Saver", "Fichier enregistré : " FileName, 5
 }

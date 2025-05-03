@@ -109,6 +109,10 @@ for fichier_de_manche in liste_fichiers_partie :
 
 print("Analyzing the following rounds:")
 print(liste_fichiers_partie)
+if liste_fichiers_partie == []:
+    import sys
+    print("No rounds found. Exiting...")
+    sys.exit()
 print("")
 # ----------------------------------------------------------------------------
 
