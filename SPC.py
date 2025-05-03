@@ -21,15 +21,14 @@ from SPC_subcode.gestion_equipes import mise_en_place_teams, creation_classement
 import warnings
 warnings.simplefilter("ignore", UserWarning)
 
+
 # ----------------------------------------------------------------------------
-"""
-   _____      __  __  _                 
-  / ___/___  / /_/ /_(_)___  ____ ______
-  \__ \/ _ \/ __/ __/ / __ \/ __ `/ ___/
- ___/ /  __/ /_/ /_/ / / / / /_/ (__  ) 
-/____/\___/\__/\__/_/_/ /_/\__, /____/  
-                          /____/        
-"""
+
+'SETTINGS'
+
+# If you have any questions, feature requests, or you found a bug, feel free to contact me on Discord :D
+# However, check the wiki first, it might be there already : https://github.com/MoutonBinoclard/Super-Python-Calculator/wiki
+
 # ----------------------------------------------------------------------------
 
 'ACTIVATE TEAMS'
@@ -52,16 +51,16 @@ ID_banni_du_tournoi = []
 
 'LOGO, NAME, DATE and FONT'
 
-nom_du_tournoi = "PVP Arena Solo"
+nom_du_tournoi = "La Coupe du Pont du 1er Mai (Même si elle à lieu le 3 Mai)"
 
-logo=True
+logo=False
 logo_path = "SPC_logo/pvp_arena_solo.png"
 zoom_logo=0.16
 
 date=True
 
 add_custom_fonts = True
-custom_font = fm.FontProperties(fname=r"C:\Windows\Fonts\FiraCode-VariableFont_wght.ttf")
+custom_font = fm.FontProperties(fname=r"C:\Windows\Fonts\DINEngschriftStd.otf")
 
 # ----------------------------------------------------------------------------
 
@@ -70,9 +69,6 @@ custom_font = fm.FontProperties(fname=r"C:\Windows\Fonts\FiraCode-VariableFont_w
 color_scheme = "SPC_color_schemes/pvp_arena_solo.json"
 
 # ----------------------------------------------------------------------------
-
-# If you have any issues, feature requests, or you found a bug, feel free to contact me on Discord :D
-
 
 
 
