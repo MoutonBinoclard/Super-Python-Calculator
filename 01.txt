@@ -1,0 +1,65 @@
+﻿pID	Player	PlayfabID	SquadID	TeamID	Kills	Placement
+1	worst-player	AA2D9E83C1600EB9	-1	-1	1	55
+2	BREXOR	FE29BEC501CD3006	-1	-1	3	-1
+3	anattaalleyoop317	86F5D4D78F52B022	-1	-1	0	51
+4	albertosp84	10569F17F7164F80	-1	-1	1	35
+5	Mouton Binoclard	53F9EFB9912B04AE	-1	-1	7	22
+6	CissemBZ	69D308D7BEE1B012	-1	-1	0	64
+7	Roberto	191B4959B7756625	-1	-1	3	-1
+8	olivka	938624351D00169	-1	-1	3	-1
+12	BubbelGum <3	396B3FF52E7A22F1	-1	-1	0	45
+10	zolibluk	347C1402B9E51EDB	-1	-1	0	47
+11	OP Bluz	B3D6847AA6D36607	-1	-1	2	58
+13	olios	F17DB75027889848	-1	-1	0	63
+14	Aboodwock	7CC9D4825A8F5FA7	-1	-1	3	-1
+15	weakpluto	C9C6A4713F675452	-1	-1	5	-1
+18	Barkley		-1	-1	1	-1
+17	Miausino_m5	BFF076195327D5ED	-1	-1	0	23
+19	Dr. Taco		-1	-1	0	62
+20	Bella		-1	-1	0	30
+21	Buddy		-1	-1	0	25
+22	Sweetpea		-1	-1	0	24
+23	Mop		-1	-1	1	42
+24	Skippy		-1	-1	0	33
+25	Dave Growl		-1	-1	1	-1
+26	Foximus Prime		-1	-1	0	57
+27	Regret		-1	-1	0	43
+28	Ash		-1	-1	0	41
+29	NotMango		-1	-1	0	49
+30	Glitter		-1	-1	0	50
+31	Bandit		-1	-1	0	60
+32	Chloe		-1	-1	1	-1
+33	Tanner		-1	-1	0	53
+34	Wiggles		-1	-1	0	34
+35	Noob		-1	-1	2	44
+36	Boopsie		-1	-1	1	31
+37	Kindness		-1	-1	1	36
+38	Sushi		-1	-1	0	32
+39	Alice Pooper		-1	-1	0	38
+40	Frank		-1	-1	0	-1
+41	Banan		-1	-1	1	20
+42	Greg from Accounting		-1	-1	0	-1
+43	Toast		-1	-1	0	61
+44	Pocket		-1	-1	1	-1
+45	Papaya		-1	-1	0	-1
+46	Grandpaw		-1	-1	1	59
+47	Kenny		-1	-1	1	19
+48	Love		-1	-1	0	37
+49	Carpet		-1	-1	0	40
+50	Trash		-1	-1	0	29
+51	Mr. Pickles		-1	-1	1	27
+52	Cake		-1	-1	0	-1
+53	Buster		-1	-1	0	46
+54	Dave from Sales		-1	-1	3	21
+55	Crash		-1	-1	0	56
+56	Pete		-1	-1	0	28
+57	Grandma		-1	-1	0	-1
+58	Soup		-1	-1	0	-1
+59	Sparky		-1	-1	0	26
+60	Clive		-1	-1	0	39
+61	Dukey		-1	-1	0	48
+62	Fluffy		-1	-1	0	52
+63	Hugs		-1	-1	1	-1
+64	Kappa		-1	-1	1	-1
+65	Thor		-1	-1	0	54
+66	Mittens		-1	-1	0	-1

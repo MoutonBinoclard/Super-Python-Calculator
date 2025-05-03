@@ -37,6 +37,17 @@
     File.Write(A_Clipboard)
     File.Close()
 
-    ; Notify the user with a tray tip
-    TrayTip "SPC Saver", "Fichier enregistré : " FileName, 5
+
+    ; Read the first 5 lines of the saved file for preview
+    preview := ""
+    File := FileOpen(FileName, "r", "UTF-8")
+    Loop 5
+    {
+        line := File.ReadLine()
+        if line = ""
+            break
+        preview .= line "`n"
+    }
+    File.Close()
+    MsgBox "Round saved as " FileName "`n`nPreview:`n" preview, "SPC Saver"
 }
