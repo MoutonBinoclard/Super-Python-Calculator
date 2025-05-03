@@ -51,7 +51,7 @@ ID_banni_du_tournoi = []
 
 'LOGO, NAME, DATE and FONT'
 
-nom_du_tournoi = "La Coupe du Pont du 1er Mai (Même si elle a lieu le 3 Mai)"
+nom_du_tournoi = "Solo Tournament"
 
 logo=False
 logo_path = "SPC_logo/pvp_arena_solo.png"
@@ -60,13 +60,13 @@ zoom_logo=0.16
 date=True
 
 add_custom_fonts = True
-custom_font = fm.FontProperties(fname=r"C:\Windows\Fonts\DINEngschriftStd.otf")
+custom_font = fm.FontProperties(fname=r"C:\Windows\Fonts\consola.ttf")
 
 # ----------------------------------------------------------------------------
 
 'COLOR SCHEME'
 
-color_scheme = "SPC_color_schemes/blueprint.json"
+color_scheme = "SPC_color_schemes/pvp_arena_solo.json"
 
 # ----------------------------------------------------------------------------
 
