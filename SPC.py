@@ -57,7 +57,7 @@ font_name = "Zoetic"
 # ----------------------------------------------------------------------------
 
 'COLOR SCHEME'
-
+#testcommit
 color_scheme = "SPC_color_schemes/pvp_arena_solo.json"
 
 # ----------------------------------------------------------------------------
@@ -83,7 +83,7 @@ if add_custom_fonts:
     print(fp.get_name())
 
     # fontlist-vXXX.json
-    
+
     # Appliquer la police globalement
     rcParams['font.family'] = [font_name]
 
