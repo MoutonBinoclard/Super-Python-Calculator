@@ -22,6 +22,15 @@ import warnings
 warnings.simplefilter("ignore", UserWarning)
 
 # ----------------------------------------------------------------------------
+"""
+   _____      __  __  _                 
+  / ___/___  / /_/ /_(_)___  ____ ______
+  \__ \/ _ \/ __/ __/ / __ \/ __ `/ ___/
+ ___/ /  __/ /_/ /_/ / / / / /_/ (__  ) 
+/____/\___/\__/\__/_/_/ /_/\__, /____/  
+                          /____/        
+"""
+# ----------------------------------------------------------------------------
 
 'ACTIVATE TEAMS'
 
@@ -69,23 +78,12 @@ color_scheme = "SPC_color_schemes/pvp_arena_solo.json"
 
 
 
-#import inspect
-#print("Scoring system loaded from file:", inspect.getfile(kill_points))
-#print("")
-
-
 # Start of the code
-
 
 if add_custom_fonts:
 
-
     font_name=custom_font.get_name()
-    # fontlist-vXXX.json
-    # Appliquer la police globalement
     rcParams['font.family'] = [font_name]
-
-
 
 else:
     # Réinitialiser la police à la valeur par défaut de Matplotlib
