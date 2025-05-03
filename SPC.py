@@ -52,7 +52,7 @@ zoom_logo=0.16
 date=True
 
 add_custom_fonts = True
-font_name = "Zoetic"
+font_name = "Fira Code"
 
 # ----------------------------------------------------------------------------
 
@@ -79,8 +79,8 @@ color_scheme = "SPC_color_schemes/pvp_arena_solo.json"
 
 if add_custom_fonts:
 
-    fp = fm.FontProperties(fname=r"C:\Windows\Fonts\Zoetic.ttf")
-    print(fp.get_name())
+    #fp = fm.FontProperties(fname=r"C:\Windows\Fonts\Zoetic.ttf")
+    #print(fp.get_name())
 
     # fontlist-vXXX.json
 
