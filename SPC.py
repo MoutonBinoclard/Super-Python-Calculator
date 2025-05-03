@@ -52,7 +52,7 @@ zoom_logo=0.16
 date=True
 
 add_custom_fonts = True
-font_name = "Fira Code"
+custom_font = fm.FontProperties(fname=r"C:\Windows\Fonts\FiraCode-VariableFont_wght.ttf")
 
 # ----------------------------------------------------------------------------
 
@@ -79,11 +79,9 @@ color_scheme = "SPC_color_schemes/pvp_arena_solo.json"
 
 if add_custom_fonts:
 
-    #fp = fm.FontProperties(fname=r"C:\Windows\Fonts\Zoetic.ttf")
-    #print(fp.get_name())
 
+    font_name=custom_font.get_name()
     # fontlist-vXXX.json
-
     # Appliquer la police globalement
     rcParams['font.family'] = [font_name]
 
