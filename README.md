@@ -34,9 +34,12 @@ All the instruction have been moved to the [Wiki](https://github.com/MoutonBinoc
 
 <img src="SPC_assets/git3.png" alt="Use scoring systems that can go from simple to complex" style="width:100%">
 
+
 - Colors are fully customizable for each element
 - Color presets can be saved, shared and loaded
-- Custom font are suupported (ttf and otf) (with some bugs tho)
+- Custom font are supported (ttf and otf) (with some bugs tho)
+- Custom logo can be added
+- Date can be shown
 
 ---
 
