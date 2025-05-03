@@ -52,7 +52,7 @@ zoom_logo=0.16
 date=True
 
 add_custom_fonts = True
-font_path = "SPC_fonts/FiraCode.ttf"
+font_name = "Zoetic"
 
 # ----------------------------------------------------------------------------
 
@@ -76,11 +76,18 @@ color_scheme = "SPC_color_schemes/pvp_arena_solo.json"
 
 # Start of the code
 
+
 if add_custom_fonts:
-    # Charger la police personnalisée
-    custom_font = fm.FontProperties(fname=font_path)
+
+    fp = fm.FontProperties(fname=r"C:\Windows\Fonts\Zoetic.ttf")
+    print(fp.get_name())
+
+    # fontlist-vXXX.json
+    
     # Appliquer la police globalement
-    rcParams['font.family'] = custom_font.get_name()
+    rcParams['font.family'] = [font_name]
+
+
 
 else:
     # Réinitialiser la police à la valeur par défaut de Matplotlib
