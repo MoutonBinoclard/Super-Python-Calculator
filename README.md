@@ -32,9 +32,9 @@ All the instruction have been moved to the [Wiki](https://github.com/MoutonBinoc
 
 ---
 
-<img src="SPC_assets/git3.png" alt="Use scoring systems that can go from simple to complex" style="width:100%">
+<img src="SPC_assets/git3.png" alt="Highly Customizable" style="width:100%">
 
-
+### Colors, yeeeaaaaah !
 - Colors are fully customizable for each element
 - Color presets can be saved, shared and loaded
 - Custom font are supported (ttf and otf) (with some bugs tho)
@@ -43,6 +43,15 @@ All the instruction have been moved to the [Wiki](https://github.com/MoutonBinoc
 
 ---
 
-- Web server to display the leaderboard in real time (beta)
+<img src="SPC_assets/git4.png" alt="Useful features for streamers and analysis" style="width:100%">
 
-You can always ask new feature of course (Don't know if I'll code them tho)
+### And don't forget the perks for streamers and players
+- Web server to display the leaderboard in real time
+- Export simple leaderboard to quickly send or show on a stream
+- Full leaderboard that can be pasted in libre office calc or excel
+- Python : Fully customizable if you know how to code haha !
+
+---
+
+### And before I forget
+You can always ask new feature of course (Don't know if I'll code them tho). Also if you want to improve the code, feel free to create a pull request. I will be happy to merge it if it is well coded and documented !

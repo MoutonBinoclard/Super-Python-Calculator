@@ -66,7 +66,7 @@ custom_font = fm.FontProperties(fname=r"C:\Windows\Fonts\consola.ttf")
 
 'COLOR SCHEME'
 
-color_scheme = "SPC_color_schemes/pvp_arena_solo.json"
+color_scheme = "SPC_color_schemes/blueprint.json"
 
 # ----------------------------------------------------------------------------
 
