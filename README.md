@@ -6,6 +6,8 @@
 
 A complete calculator for scoring tournament for Super Animal Royale. It supports solo, duo and squads, offer the possibilitie to export leaderboards and its highly customizable !
 
+Oh and before I forget, this code is not meant to manage the settings and the commands in a private game. If you want to do so, I'll recommend you to check Suchy's [Private Game Helper](https://github.com/Suchy499/PrivateGameHelper-for-Super-Animal-Royale)
+
 ## Want to run the code ?
 
 All the instruction have been moved to the [Wiki](https://github.com/MoutonBinoclard/Super-Python-Calculator/wiki). Please check it out for the installation and usage of the script.
@@ -50,6 +52,7 @@ All the instruction have been moved to the [Wiki](https://github.com/MoutonBinoc
 - Export simple leaderboard to quickly send or show on a stream
 - Full leaderboard that can be pasted in libre office calc or excel
 - Python : Fully customizable if you know how to code haha !
+- Autohotkey script to save round and launch games
 
 ---
 
