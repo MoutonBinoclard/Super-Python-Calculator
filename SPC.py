@@ -39,7 +39,7 @@ teams = False
 
 'MODIFY THE SCORING SYSTEM'
 
-from SPC_scoring.spi import kill_points, placement_points, masterkill
+from SPC_scoring.pvp_arena_solo import kill_points, placement_points, masterkill
 
 # ----------------------------------------------------------------------------
 
@@ -51,7 +51,7 @@ ID_banni_du_tournoi = []
 
 'LOGO, NAME, DATE and FONT'
 
-nom_du_tournoi = "Solo Tournament"
+nom_du_tournoi = "PVP Arena Duo"
 
 logo=False
 logo_path = "SPC_logo/pvp_arena_solo.png"
@@ -66,7 +66,7 @@ custom_font = fm.FontProperties(fname=r"C:\Windows\Fonts\consola.ttf")
 
 'COLOR SCHEME'
 
-color_scheme = "SPC_color_schemes/blueprint.json"
+color_scheme = "SPC_color_schemes/pvp_arena_solo.json"
 
 # ----------------------------------------------------------------------------
 

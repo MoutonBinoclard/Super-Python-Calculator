@@ -14,7 +14,14 @@ def kill_points(placement, kills, total_players):  # Define how kills award poin
         return 0  # DO NOT TOUCH, this line removes spectators and players who are not present!
 
     else:
-        return 0
+        if 0 <= kills <= 6:
+            return kills
+        elif 7 <= kills <= 9:
+            return 6 + (kills - 6) * 2
+        elif 10 <= kills <= 20:
+            return 6 + 3*2 + (kills - 9) * 3
+        else :
+            return 6 + 3*2 + 11*3
     
 # ----------------------------------------------------------------------------
 
