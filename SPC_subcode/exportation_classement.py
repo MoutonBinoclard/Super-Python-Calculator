@@ -32,7 +32,7 @@ def exporter_classement_partiel(leaderboard, filename):  # Exporte un classement
         for i, (playfab_id, data) in enumerate(leaderboard.items()):
             pseudo = data[0]
             score_final = data[1]
-            file.write(f"{i + 1}. {pseudo} - {score_final:.2f}pt\n")
+            file.write(f"{i + 1}. {pseudo} - {score_final:.2f}pts\n")
 
 # ----------------------------------------------------------------------------
 
@@ -45,7 +45,7 @@ def exporter_classement_en_ligne(leaderboard, filename):  # Exporte un classemen
             # data[3] est la liste des joueurs (pour les équipes/combine)
             pseudo = data[0]  # Prendre le pseudo du premier joueur de la liste
             score_final = data[1]  # Prendre le score final du joueur
-            classement_en_ligne.append(f"{i + 1}. {pseudo} - {score_final:.2f}pt")
+            classement_en_ligne.append(f"{i + 1}. {pseudo} - {score_final:.2f}pts")
         # Joindre tous les éléments avec " / " et ajouter un "/ " à la fin
         ligne_finale = " / ".join(classement_en_ligne) + " / "
         file.write(ligne_finale)
