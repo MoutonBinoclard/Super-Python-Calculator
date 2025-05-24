@@ -39,7 +39,7 @@ teams = False
 
 'MODIFY THE SCORING SYSTEM'
 
-from SPC_scoring.spi import kill_points, placement_points, masterkill
+from SPC_scoring.melee_only import kill_points, placement_points, masterkill
 
 bonus=True
 # If you want to add bonus points, set this to True
@@ -57,7 +57,7 @@ ID_banni_du_tournoi = []
 nom_du_tournoi = "Double Trouble"
 
 logo=True
-logo_path = "SPC_logo/double_trouble.png"
+logo_path = "SPC_logo/melee_only.png"
 zoom_logo=0.16
 
 date=True
@@ -69,7 +69,7 @@ custom_font = fm.FontProperties(fname=r"C:\Windows\Fonts\consola.ttf")
 
 'COLOR SCHEME'
 
-color_scheme = "SPC_color_schemes/double_trouble.json"
+color_scheme = "SPC_color_schemes/melee_only.json"
 
 # ----------------------------------------------------------------------------
 
