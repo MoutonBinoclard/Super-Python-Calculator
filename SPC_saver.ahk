@@ -3,11 +3,11 @@
 ^m::
 {
     Send "{Enter}"
-    Sleep 100
+    Sleep 150
     Send "/getplayers"
-    Sleep 100
+    Sleep 150
     Send "{Enter}"
-    Sleep 300
+    Sleep 700
 
     ClipWait 2
     if !A_Clipboard

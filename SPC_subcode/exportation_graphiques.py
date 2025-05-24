@@ -42,7 +42,7 @@ def generer_degrade_couleurs(couleurs, nombre_de_couleurs):
 
 # ----------------------------------------------------------------------------
 
-def exporter_graph(classement, nom_tr, cs, lg, lg_path, zoom, dt):
+def exporter_graph(classement, nom_tr, cs, lg, lg_path, zoom, dt, bonus):
 
     # Score max
     le_haut_du_graph = max([data[1] for data in classement.values()]) if classement else 0
@@ -94,6 +94,7 @@ def exporter_graph(classement, nom_tr, cs, lg, lg_path, zoom, dt):
     plt.yticks(color=cs["y_label_color"])
 
     labels = [f"Manche {i+1}" for i in range(nb_manches)]
+    if bonus : labels[-1]= "Bonus"
     legend = plt.legend(legend_handles, labels, loc='upper right', title_fontsize='small', fontsize='x-small',
                         handleheight=0.8, handlelength=1, labelspacing=0.3, facecolor=cs["background_color"],
                         edgecolor=cs["legend_border_color"], labelcolor=cs["legend_text_color"])

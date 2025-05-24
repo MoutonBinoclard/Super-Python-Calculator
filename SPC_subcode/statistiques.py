@@ -120,7 +120,7 @@ def max_kill_en_une_manche(leaderboard, ID): # Trouve le max de kill en une manc
 
 # ----------------------------------------------------------------------------
 
-def calculer_points_totaux_et_round(leaderboard2):
+def calculer_points_totaux_et_round(leaderboard2, bonus):
     # classement2: {'ID_combine':[Nom, score final, [[score manche 1, placement manche 1], ...], [[classement[ID1]], [classement[ID2]], ...]]}
     for ID in leaderboard2:
         nombre_de_manches = len(leaderboard2[ID][3][0][3])
@@ -133,6 +133,10 @@ def calculer_points_totaux_et_round(leaderboard2):
                 if joueur[3][i][1][0] < placementmin or placementmin == 0:
                     placementmin = joueur[3][i][1][0]
             leaderboard2[ID][2].append([scoremax, placementmin])
+    
+    if bonus:
+        from SPC_subcode.bonus_points import ajout_bonus
+        leaderboard2 = ajout_bonus(leaderboard2)
     
     # calcul du score final
     for ID in leaderboard2:

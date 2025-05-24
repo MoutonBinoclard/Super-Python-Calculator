@@ -41,6 +41,9 @@ teams = False
 
 from SPC_scoring.spi import kill_points, placement_points, masterkill
 
+bonus=True
+# If you want to add bonus points, set this to True
+
 # ----------------------------------------------------------------------------
 
 'BAN PLAYERS'
@@ -51,10 +54,10 @@ ID_banni_du_tournoi = []
 
 'LOGO, NAME, DATE and FONT'
 
-nom_du_tournoi = "LA COUPE DU SAMEDI"
+nom_du_tournoi = "Double Trouble"
 
-logo=False
-logo_path = "SPC_logo/pvp_arena_solo.png"
+logo=True
+logo_path = "SPC_logo/double_trouble.png"
 zoom_logo=0.16
 
 date=True
@@ -66,7 +69,7 @@ custom_font = fm.FontProperties(fname=r"C:\Windows\Fonts\consola.ttf")
 
 'COLOR SCHEME'
 
-color_scheme = "SPC_color_schemes/blueprint.json"
+color_scheme = "SPC_color_schemes/double_trouble.json"
 
 # ----------------------------------------------------------------------------
 
@@ -152,10 +155,12 @@ teams_presentes = mise_en_place_teams(classement, teams, liste_fichiers_partie)
 
 
 classement_2 = creation_classement_2(classement, teams_presentes)
-classement_2 = calculer_points_totaux_et_round(classement_2)
+classement_2 = calculer_points_totaux_et_round(classement_2, bonus)
 classement_2 = dict(sorted(classement_2.items(), key=lambda item: item[1][1], reverse=True))
 
-exportation(classement_2, nom_du_tournoi, couleurs, logo, logo_path, zoom_logo, date)
+print(classement_2)
+
+exportation(classement_2, nom_du_tournoi, couleurs, logo, logo_path, zoom_logo, date, bonus)
 print("DONE !")
 
 # Forme du classement :

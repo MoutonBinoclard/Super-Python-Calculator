@@ -5,7 +5,7 @@ from SPC_subcode.creation_tableau import creer_et_sauvegarder_tableau
 
 # ----------------------------------------------------------------------------
 
-def exportation(classement, nom_du_tournoi, couleurs, logo, logo_path, zoom_logo, date):
+def exportation(classement, nom_du_tournoi, couleurs, logo, logo_path, zoom_logo, date, bonus):
 
     print("leaderboard exportation in progress...")
     creer_dossier_export()
@@ -16,7 +16,7 @@ def exportation(classement, nom_du_tournoi, couleurs, logo, logo_path, zoom_logo
     print("")    
     
     print("graphs exportation in progress...")
-    exporter_graph(classement, nom_du_tournoi, couleurs, logo, logo_path, zoom_logo, date)
+    exporter_graph(classement, nom_du_tournoi, couleurs, logo, logo_path, zoom_logo, date, bonus)
     exporter_graph_placement_moyen(classement, nom_du_tournoi, couleurs, logo, logo_path, zoom_logo, date)
     print("graphs exportation done")
     print("")
