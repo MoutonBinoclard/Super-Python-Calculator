@@ -158,8 +158,6 @@ classement_2 = creation_classement_2(classement, teams_presentes)
 classement_2 = calculer_points_totaux_et_round(classement_2, bonus)
 classement_2 = dict(sorted(classement_2.items(), key=lambda item: item[1][1], reverse=True))
 
-print(classement_2)
-
 exportation(classement_2, nom_du_tournoi, couleurs, logo, logo_path, zoom_logo, date, bonus)
 print("DONE !")
 

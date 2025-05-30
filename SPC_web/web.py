@@ -13,6 +13,10 @@ def index():
 def serve_static(filename):
     return send_from_directory(project_root, filename)
 
+@app.route('/favicon.png')
+def favicon():
+    return send_from_directory(os.path.join(project_root, 'SPC_web'), 'favicon.png')
+
 if __name__ == '__main__':
     # Start ngrok tunnel
     port = 5000

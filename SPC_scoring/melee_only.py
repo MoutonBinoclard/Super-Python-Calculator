@@ -50,6 +50,6 @@ def masterkill(presence_de_masterkill, kills, total_players):  # Define how many
     # total_players -> int
 
     if presence_de_masterkill:
-        return 3
+        return 2
     else:
         return 0
