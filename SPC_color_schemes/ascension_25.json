@@ -1,0 +1,39 @@
+{ 
+    "background_color": "#343135",
+    
+    "title_color": "#ab97b4",
+    "date_color": "#c0b97a",
+    "points_color": "#ab97b4",
+
+    "legend_border_color": "#54986a",
+    "legend_text_color": "#c0b97a",
+
+    "gradient_colors": ["#57485c", "#ab97b4"],
+    "chosen_number": 10,
+    
+    "x_label_color": "#c0b97a",
+    "y_label_color": "#c0b97a",
+
+    "x_axis_color": "#54986a",
+    "y_axis_color": "#54986a",
+
+    "x_ticks_color": "#54986a",
+    "y_ticks_color": "#54986a",
+
+    "horizontal_lines_color": "#54986a",
+
+    "fliers_color": "#ab97b4",
+    "caps_color": "#ab97b4",
+    "whiskers_color": "#ab97b4",
+    "medians_color": "none",
+    "mean_color": "#ab97b4",
+    
+    "boxes_inside_color": "#343135",
+    "boxes_outside_color": "#3d7b6d",
+
+    "grid_color": "#ab97b4",
+    "top_cells_color": "#343135",
+    "cells_color": "#343135",
+    "top_text_color": "#c0b97a",
+    "text_color": "#ab97b4"
+}
