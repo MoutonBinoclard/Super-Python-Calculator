@@ -1,56 +1,44 @@
 # SPC Version 6
 # Coded by Mouton Binoclard
 
-'SETTINGS'
-
-# If you have any questions, feature requests, or you found a bug, feel free to contact me on Discord :D
-# However, check the wiki first, it might be there already : https://github.com/MoutonBinoclard/Super-Python-Calculator/wiki
-
-# ----------------------------------------------------------------------------
-
-'ACTIVATE TEAMS'
-
-team_mode = False
-
-# ----------------------------------------------------------------------------
-
-'MODIFY THE SCORING SYSTEM'
-
-scoring_system = "spi"
-bonus = False # Not coded yet
-
-# ----------------------------------------------------------------------------
-
-'NAME, LOGO, DATE and FONT'
-
-tournament_name = "Ascension 25"
-
-logo=False
-logo_path = "SPC_logo/ascension_25.png"
-zoom_logo=0.16
-
-date=False
-
-add_custom_fonts = True
-custom_font = r"C:\Windows\Fonts\consola.ttf"
-
-# ----------------------------------------------------------------------------
 
 'COLOR SCHEME'
 
 color_scheme = "SPC_color_schemes/ascension_25.json"
 
 
+import json
 
+def load_settings(path="settings.json"):
+    with open(path, "r") as f:
+        settings = json.load(f)
+    return (
+        settings["team_mode"],
+        settings["scoring_system"],
+        settings["bonus"],
+        settings["tournament_name"],
+        settings["logo"],
+        settings["logo_path"],
+        settings["zoom_logo"],
+        settings["date"],
+        settings["add_custom_fonts"],
+        settings["custom_font"],
+        settings["color_scheme"]
+    )
 
-
-
-
-
-
-
-
-
+(
+    team_mode,
+    scoring_system,
+    bonus,
+    tournament_name,
+    logo,
+    logo_path,
+    zoom_logo,
+    date,
+    add_custom_fonts,
+    custom_font,
+    color_scheme
+) = load_settings()
 
 
 import warnings

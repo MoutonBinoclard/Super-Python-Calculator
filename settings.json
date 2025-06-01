@@ -1,0 +1,13 @@
+{
+    "team_mode": false,
+    "scoring_system": "spi",
+    "bonus": false,
+    "tournament_name": "Ascension 25",
+    "logo": false,
+    "logo_path": "SPC_logo/ascension_25.png",
+    "zoom_logo": 0.16,
+    "date": true,
+    "add_custom_fonts": true,
+    "custom_font": "C:\\Windows\\Fonts\\consola.ttf",
+    "color_scheme": "SPC_color_schemes/ascension_25.json"
+}
