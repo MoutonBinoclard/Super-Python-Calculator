@@ -5,6 +5,7 @@ import os
 import sys
 import pathlib
 import shutil
+from datetime import datetime
 
 # Dynamically determine base directory (where this script is located)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -79,7 +80,7 @@ class SettingsEditor(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Settings Editor")
-        self.geometry("400x450")
+        self.geometry("380x500")
         self.settings = load_settings()
         self.scoring_systems = load_scoring_systems()
         self.logo_names, self.logo_files = load_logo_files()
@@ -98,7 +99,7 @@ class SettingsEditor(tk.Tk):
         row = 0
 
         # --- Header Section ---
-        header_frame = ttk.LabelFrame(self, text="Header")
+        header_frame = ttk.LabelFrame(self, text="Tournament Informations")
         header_frame.grid(row=row, column=0, columnspan=2, sticky="ew", padx=5, pady=5)
         header_row = 0
 
@@ -109,6 +110,12 @@ class SettingsEditor(tk.Tk):
         ttk.Label(header_frame, text="Tournament Name:").grid(row=header_row, column=0, sticky="w")
         self.tournament_var = tk.StringVar(value=self.settings.get("tournament_name", ""))
         ttk.Entry(header_frame, textvariable=self.tournament_var).grid(row=header_row, column=1, sticky="ew")
+        header_row += 1
+
+        # Event host section
+        ttk.Label(header_frame, text="Event Host:").grid(row=header_row, column=0, sticky="w")
+        self.event_host_var = tk.StringVar(value=self.settings.get("event_host", ""))
+        ttk.Entry(header_frame, textvariable=self.event_host_var).grid(row=header_row, column=1, sticky="ew")
         header_row += 1
 
         header_frame.columnconfigure(1, weight=1)
@@ -190,13 +197,89 @@ class SettingsEditor(tk.Tk):
         row += 1
         # --- End Logo Section ---
 
+        # --- Manage Tournament Section ---
+        row += 1
+        save_tournament_frame = ttk.LabelFrame(self, text="Manage Tournament")
+        save_tournament_frame.grid(row=row, column=0, columnspan=2, sticky="ew", padx=5, pady=5)
+        ttk.Button(save_tournament_frame, text="Save Tournament to Folder", command=self.save_tournament).grid(row=0, column=0, sticky="ew", pady=5)
+        ttk.Button(save_tournament_frame, text="DELETE ROUNDS", command=self.delete_rounds).grid(row=0, column=1, sticky="ew", pady=5)
+
         # Save button
+        row += 1
         ttk.Button(self, text="Save", command=self.save).grid(row=row, column=0, columnspan=1, pady=10, sticky="ew")
         # Button to delete fontlist files
         ttk.Button(self, text="Delete matplotlib fontlist", command=delete_fontlist_files).grid(row=row, column=1, columnspan=1, pady=10, sticky="ew")
 
         # Make columns expand
         self.columnconfigure(1, weight=1)
+
+    def save_tournament(self):
+        # Ask user for destination directory
+        dest_dir = filedialog.askdirectory(title="Select folder to save tournament")
+        if not dest_dir:
+            return
+
+        # Get tournament name and event host from settings.json
+        tournament_name = self.settings.get("tournament_name", "").strip()
+        event_host = self.settings.get("event_host", "").strip()
+        date_str = datetime.now().strftime("%Y_%m_%d")
+        folder_name = f"{date_str} - {tournament_name} - {event_host}"
+        save_path = os.path.join(dest_dir, folder_name)
+
+        try:
+            os.makedirs(save_path, exist_ok=True)
+            files_copied = 0
+
+            # Copy all files from SPC_exports (including subfolders)
+            exports_dir = os.path.join(BASE_DIR, "SPC_exports")
+            if os.path.isdir(exports_dir):
+                for root, dirs, files in os.walk(exports_dir):
+                    for fname in files:
+                        src = os.path.join(root, fname)
+                        rel_path = os.path.relpath(src, exports_dir)
+                        dest = os.path.join(save_path, rel_path)
+                        os.makedirs(os.path.dirname(dest), exist_ok=True)
+                        shutil.copy2(src, dest)
+                        files_copied += 1
+
+            # Copy all .txt files from root (BASE_DIR)
+            for fname in os.listdir(BASE_DIR):
+                if fname.lower().endswith(".txt"):
+                    src = os.path.join(BASE_DIR, fname)
+                    if os.path.isfile(src):
+                        shutil.copy2(src, save_path)
+                        files_copied += 1
+
+            messagebox.showinfo("Success", f"Tournament saved to:\n{save_path}\n{files_copied} files copied.")
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to save tournament: {e}")
+
+    def delete_rounds(self):
+        # Ask for confirmation before deleting
+        confirm = messagebox.askyesno(
+            "Confirm Delete",
+            "This will delete ALL .txt files in the root folder.\nAre you sure you want to continue?"
+        )
+        if not confirm:
+            return
+
+        # Delete all .txt files from the root (BASE_DIR)
+        deleted = []
+        errors = []
+        for fname in os.listdir(BASE_DIR):
+            if fname.lower().endswith(".txt"):
+                path = os.path.join(BASE_DIR, fname)
+                try:
+                    os.remove(path)
+                    deleted.append(fname)
+                except Exception as e:
+                    errors.append(f"{fname}: {e}")
+        if deleted:
+            messagebox.showinfo("Success", f"Deleted: {', '.join(deleted)}")
+        elif not errors:
+            messagebox.showinfo("Info", "No .txt files found.")
+        if errors:
+            messagebox.showerror("Error", "\n".join(errors))
 
     def save(self):
         self.settings["team_mode"] = self.team_mode_var.get()
@@ -214,6 +297,7 @@ class SettingsEditor(tk.Tk):
         self.settings["date"] = self.date_var.get()
         self.settings["scoring_system"] = self.scoring_var.get()
         self.settings["tournament_name"] = self.tournament_var.get()
+        self.settings["event_host"] = self.event_host_var.get()
         try:
             save_settings(self.settings)
             messagebox.showinfo("Success", "Settings saved.")

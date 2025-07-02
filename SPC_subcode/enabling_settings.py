@@ -38,3 +38,13 @@ def custom_font_loader(add_custom_fonts, custom_font):
         # Réinitialiser la police à la valeur par défaut de Matplotlib
         rcParams['font.family'] = 'DejaVu Sans'  # Police par défaut de Matplotlib
 
+# -----------------------------------------------------------------------------
+# Notes:
+# - rcParams['font.family'] expects a font family name, not a file path.
+# - If the font is not installed system-wide, Matplotlib will not find it by name.
+# - To use a font from a file (not installed), register it with:
+#     fm.fontManager.addfont(path_to_font)
+#   and then use its family name in rcParams.
+# - custom_font should be a string path to the font file (e.g., "SPC_fonts/myfont.ttf").
+# -----------------------------------------------------------------------------
+

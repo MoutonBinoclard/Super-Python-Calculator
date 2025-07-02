@@ -121,6 +121,7 @@ def export_leaderboard_graph(rankings, tournament_name, color_scheme, show_logo,
 
     updated_labels = [rankings[player_id][1] for player_id in x_labels]
     ax.set_xticklabels(updated_labels)
+    ax.set_xlim(-1, len(x_labels) +0)
 
     plt.tight_layout()
     plt.subplots_adjust(left=0.15, right=0.85, top=0.82)
@@ -208,6 +209,7 @@ def exporter_graph_placement_moyen(classement, nom_tr, cs, lg, lg_path, zoom, dt
     # Rotation des noms des joueurs pour une meilleure lisibilité avec une taille de police réduite
     plt.xticks(rotation=45, ha='right', fontsize=8, color=cs["x_label_color"])  # Correction de la couleur des ticks X
     plt.yticks(color=cs["y_label_color"])  # Correction de la couleur des ticks Y
+    ax.set_xlim(0, len(labels) + 1)
 
     # Ajuster les bordures et les axes
     ax.spines['top'].set_visible(False)

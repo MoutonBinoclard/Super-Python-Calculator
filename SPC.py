@@ -101,7 +101,6 @@ fusion_dict = add_round_scores_to_fusion_dict(fusion_dict)
 fusion_dict = add_final_score_to_fusion_dict(fusion_dict)
 fusion_dict = sort_fusion_dict_by_score(fusion_dict)
 
-
 #print(fusion_dict)
 
 ##############################################
