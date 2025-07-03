@@ -2,13 +2,13 @@
     "team_mode": false,
     "scoring_system": "spi",
     "bonus": false,
-    "tournament_name": "Solo Super Tournament",
+    "tournament_name": "BLUNDERBUSS & CO",
     "logo": false,
     "logo_path": "SPC_logo/spc_v5.png",
     "zoom_logo": 0.16,
     "date": true,
     "add_custom_fonts": true,
     "custom_font": "C:\\Windows\\Fonts\\space-grotesk-v12-latin-700.ttf",
-    "color_scheme": "SPC_color_schemes/showdown.json",
+    "color_scheme": "SPC_color_schemes/blunder_and_co.json",
     "event_host": "Mouton Binoclard"
 }
