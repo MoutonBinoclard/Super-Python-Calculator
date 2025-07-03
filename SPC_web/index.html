@@ -64,6 +64,55 @@
             user-select: none;
             z-index: 1001;
         }
+        .download-btn {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 12px 20px;
+            background: #464646;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            transition: background 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        .download-btn:hover {
+            background: #8d8d8d;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px auto;
+            flex-wrap: wrap;
+        }
+        .btn {
+            width: 200px;
+            padding: 12px 20px;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            transition: background 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-download {
+            background: #464646;
+        }
+        .btn-download:hover {
+            background: #8d8d8d;
+        }
+        .btn-view {
+            background: #464646;
+        }
+        .btn-view:hover {
+            background: #8d8d8d;
+        }
     </style>
 </head>
 <body>
@@ -78,6 +127,10 @@
     <div class="modal" id="img-modal">
         <span class="modal-close" id="modal-close">&times;</span>
         <img id="modal-img" src="" alt="Large view">
+    </div>
+    <div class="button-container">
+        <button class="btn btn-download" id="download-btn">Download Leaderboard Data</button>
+        <button class="btn btn-view" id="view-btn">View file in browser</button>
     </div>
     <div class="table-container">
         <table id="classement-table"></table>
@@ -122,6 +175,21 @@
         // Close modal on click outside image
         document.getElementById('img-modal').addEventListener('click', function(e) {
             if (e.target === this) this.classList.remove('active');
+        });
+
+        // Download button functionality
+        document.getElementById('download-btn').addEventListener('click', function() {
+            const link = document.createElement('a');
+            link.href = 'SPC_exports/detailed_leaderboard.txt';
+            link.download = 'detailed_leaderboard.txt';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+
+        // View button functionality
+        document.getElementById('view-btn').addEventListener('click', function() {
+            window.open('SPC_exports/detailed_leaderboard.txt', '_blank');
         });
     </script>
 </body>
