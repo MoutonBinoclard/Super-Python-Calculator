@@ -66,13 +66,24 @@ def export_spreadsheet(final_dict_sorted, tournament_name, cs, logo, logo_path, 
     df = pd.DataFrame(all_players_data)
 
     # Afficher et sauvegarder le tableau en image PNG avec dimensions optimisées
-    fig_height = len(df) * 0.25 + 0.6  # Hauteur réduite
+    fig_height = len(df) * 0.2 + 0.4  # Reduced height calculation
     fig_width = len(df.columns) * 1.1  # Largeur réduite
     fig, ax = plt.subplots(figsize=(fig_width, fig_height))
     ax.axis('off')
-    table = ax.table(cellText=df.values, colLabels=df.columns, loc='center', cellLoc='center')
+    
+    # Use bbox to control exact positioning with minimal top/bottom margins
+    table = ax.table(cellText=df.values, colLabels=df.columns, 
+                    bbox=[0.02, 0.01, 0.96, 0.98], cellLoc='center')
     table.auto_set_font_size(False)
-    table.set_fontsize(10)
+    table.set_fontsize(8)  # Reduced font size
+    
+    # Set cell height to accommodate text better
+    cellDict = table.get_celld()
+    for i in range(len(df) + 1):  # +1 for header row
+        for j in range(len(df.columns)):
+            cellDict[(i, j)].set_height(0.08)  # Increase cell height
+    
+    # Manual column width adjustment based on content
     table.auto_set_column_width(col=list(range(len(df.columns))))
     
     # Appliquer les couleurs du schéma
@@ -88,9 +99,8 @@ def export_spreadsheet(final_dict_sorted, tournament_name, cs, logo, logo_path, 
             table[(j+1, i)].set_text_props(color=cs["text_color"])
             table[(j+1, i)].set_edgecolor(cs["grid_color"])
     
-    # Marges ultra serrées autour du tableau
-    plt.subplots_adjust(left=0.05, right=0.05, top=0.05, bottom=0.05)
-
+    # Remove the subplots_adjust call since bbox handles positioning
+    
     filename = f"{tournament_name}_results.png"
     plt.savefig(
         os.path.join("SPC_exports", "spreadsheet.png"),
