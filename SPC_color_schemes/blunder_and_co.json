@@ -31,9 +31,9 @@
     "boxes_inside_color": "#e8c606",
     "boxes_outside_color": "#cd465a",
 
-    "grid_color": "#ff3ade",
-    "top_cells_color": "#4a4a4a",
-    "cells_color": "#000d43",
-    "top_text_color": "#ff3ade",
-    "text_color": "#ff3ade"
+    "grid_color": "#4f1dae",
+    "top_cells_color": "#4f1dae",
+    "cells_color": "#e8c606",
+    "top_text_color": "#cd465a",
+    "text_color": "#cd465a"
 }

@@ -1,6 +1,7 @@
 import os
 from SPC_subcode.results_text_exportation import *
 from SPC_subcode.results_graph_exportation import *
+from SPC_subcode.results_spreadsheet_exportation import export_spreadsheet
 
 def creation_export_folder():
     """
@@ -21,5 +22,7 @@ def starting_exportation_process(final_dict_sorted, tournament_name, colors, log
 
     export_leaderboard_graph(final_dict_sorted, tournament_name, colors, logo, logo_path, zoom_logo, date, bonus)
     exporter_graph_placement_moyen(final_dict_sorted, tournament_name, colors, logo, logo_path, zoom_logo, date, bonus)
+    export_spreadsheet(final_dict_sorted, tournament_name, colors, logo, logo_path, zoom_logo, date, bonus)
+
                 
 
