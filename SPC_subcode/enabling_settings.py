@@ -33,10 +33,14 @@ def custom_font_loader(add_custom_fonts, custom_font):
 
         font_name=custom_font.get_name()
         rcParams['font.family'] = [font_name]
+        #rcParams['font.weight'] = font_weight = custom_font.get_weight()
+        rcParams['font.weight'] = 'bold'  # Set to 'bold' or any other weight you prefer
+        # il faut pouvoir selectionner le poids dans l'edtieur de parametres
 
     else:
         # Réinitialiser la police à la valeur par défaut de Matplotlib
         rcParams['font.family'] = 'DejaVu Sans'  # Police par défaut de Matplotlib
+        rcParams['font.weight'] = 'normal'
 
 # -----------------------------------------------------------------------------
 # Notes:

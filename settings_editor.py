@@ -80,7 +80,27 @@ class SettingsEditor(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Settings Editor")
-        self.geometry("380x500")
+        self.geometry("380x550")
+        
+        # Dark theme configuration
+        self.configure(bg='#2d2d2d')
+        
+        # Configure ttk styles for dark theme
+        self.style = ttk.Style()
+        self.style.theme_use('clam')
+        
+        # Configure dark theme colors
+        self.style.configure('TFrame', background='#2d2d2d')
+        self.style.configure('TLabelframe', background='#2d2d2d', foreground='#ffffff')
+        self.style.configure('TLabelframe.Label', background='#2d2d2d', foreground='#ffffff')
+        self.style.configure('TLabel', background='#2d2d2d', foreground='#ffffff')
+        self.style.configure('TButton', background='#404040', foreground='#ffffff')
+        self.style.map('TButton', background=[('active', '#505050')])
+        self.style.configure('TEntry', fieldbackground='#404040', foreground='#ffffff', bordercolor='#606060')
+        self.style.configure('TCheckbutton', background='#2d2d2d', foreground='#ffffff')
+        self.style.configure('TMenubutton', background='#404040', foreground='#ffffff', arrowcolor='#ffffff')
+        self.style.map('TMenubutton', background=[('active', '#505050')])
+        
         self.settings = load_settings()
         self.scoring_systems = load_scoring_systems()
         self.logo_names, self.logo_files = load_logo_files()
@@ -190,7 +210,10 @@ class SettingsEditor(tk.Tk):
 
         ttk.Label(logo_frame, text="Zoom Logo:").grid(row=logo_row, column=0, sticky="w")
         self.zoom_logo_var = tk.DoubleVar(value=self.settings.get("zoom_logo", 1.0))
-        tk.Scale(logo_frame, variable=self.zoom_logo_var, from_=0.1, to=0.7, resolution=0.01, orient="horizontal").grid(row=logo_row, column=1, sticky="ew")
+        # Configure Scale widget for dark theme
+        zoom_scale = tk.Scale(logo_frame, variable=self.zoom_logo_var, from_=0.1, to=0.7, resolution=0.01, orient="horizontal",
+                             bg='#404040', fg='#ffffff', activebackground='#505050', highlightbackground='#2d2d2d', troughcolor='#606060')
+        zoom_scale.grid(row=logo_row, column=1, sticky="ew")
         logo_row += 1
 
         logo_frame.columnconfigure(1, weight=1)
