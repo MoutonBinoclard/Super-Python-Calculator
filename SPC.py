@@ -107,3 +107,5 @@ fusion_dict = sort_fusion_dict_by_score(fusion_dict)
 
 # Exporting ghaphs and results, etc ...
 starting_exportation_process(fusion_dict, tournament_name, color_scheme, logo, logo_path, zoom_logo, date, bonus)
+
+print("FINISHED !")
