@@ -1,6 +1,6 @@
 {
     "team_mode": false,
-    "scoring_system": "spi",
+    "scoring_system": "scoring_overtakers",
     "bonus": false,
     "tournament_name": "SAR OVERTAKERS",
     "logo": true,
