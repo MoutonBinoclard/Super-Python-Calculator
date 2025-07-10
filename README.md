@@ -8,9 +8,9 @@ A complete calculator for scoring tournament for Super Animal Royale. It support
 
 Oh and before I forget, this code is not meant to manage the settings and the commands in a private game. If you want to do so, I'll recommend you to check Suchy's [Private Game Helper](https://github.com/Suchy499/PrivateGameHelper-for-Super-Animal-Royale)
 
-## Vidéo installation tutorial : OUT NOW !
+## Vidéo installation tutorial : OUT NOW ! (Just click on the image below)
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/1_p-Oum7Rek" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![Watch the video](https://img.youtube.com/vi/1_p-Oum7Rek/maxresdefault.jpg)](https://www.youtube.com/watch?v=1_p-Oum7Rek)
 
 
 ## Want to run the code ?
