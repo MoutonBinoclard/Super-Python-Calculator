@@ -10,7 +10,7 @@ Oh and before I forget, this code is not meant to manage the settings and the co
 
 ## Vidéo installation tutorial : OUT NOW !
 
-[![Watch the video](https://img.youtube.com/vi/1_p-Oum7Rek/maxresdefault.jpg)](https://www.youtube.com/watch?v=1_p-Oum7Rek)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/1_p-Oum7Rek" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 ## Want to run the code ?
