@@ -23,6 +23,7 @@ def load_settings(path="settings.json"):
         settings["date"],
         settings["add_custom_fonts"],
         settings["custom_font"],
+        settings["font_weight"],
         settings["color_scheme"]
     )
 
@@ -37,6 +38,7 @@ def load_settings(path="settings.json"):
     date,
     add_custom_fonts,
     custom_font,
+    font_weight,
     color_scheme
 ) = load_settings()
 
@@ -63,7 +65,7 @@ from SPC_subcode.results_exportation import starting_exportation_process
 
 kill_points, placement_points, masterkill = load_scoring_module(scoring_system)
 color_scheme = load_colors(color_scheme)
-custom_font_loader(add_custom_fonts, custom_font)
+custom_font_loader(add_custom_fonts, custom_font, font_weight)
 
 ##############################################
 

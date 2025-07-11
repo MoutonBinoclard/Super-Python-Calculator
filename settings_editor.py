@@ -7,12 +7,14 @@ import pathlib
 import shutil
 from datetime import datetime
 
+
 # Dynamically determine base directory (where this script is located)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SETTINGS_PATH = os.path.join(BASE_DIR, "settings.json")
 SPC_SCORING_DIR = os.path.join(BASE_DIR, "SPC_scoring")
 SPC_LOGO_DIR = os.path.join(BASE_DIR, "SPC_logo")
 SPC_COLOR_SCHEME_DIR = os.path.join(BASE_DIR, "SPC_color_schemes")
+WINDOWS_FONTS_DIR = os.path.join(os.environ.get('WINDIR', 'C:\\Windows'), 'Fonts')
 
 def load_settings():
     with open(SETTINGS_PATH, "r", encoding="utf-8") as f:
@@ -76,11 +78,84 @@ def delete_fontlist_files():
     else:
         messagebox.showinfo("Info", "No fontlist files found.")
 
+def get_font_weights(font_path):
+    """Extract available font weights from a font file."""
+    if not font_path or not os.path.isfile(font_path):
+        return []
+    
+    try:
+        # Try to use fontTools if available
+        from fontTools.ttLib import TTFont
+        font = TTFont(font_path)
+        
+        # Get the name table
+        name_table = font['name']
+        weights = set()
+        
+        # Look for subfamily names (ID 2) which often contain weight info
+        for record in name_table.names:
+            if record.nameID == 2:  # Subfamily name
+                subfamily = record.toUnicode() if hasattr(record, 'toUnicode') else str(record)
+                weights.add(subfamily)
+        
+        font.close()
+        return sorted(list(weights)) if weights else ["Regular"]
+        
+    except ImportError:
+        # Fallback: return common weight names if fontTools not available
+        return ["Regular", "Bold", "Light", "Medium", "Thin", "Black"]
+    except Exception:
+        # If font parsing fails, return basic options
+        return ["Regular", "Bold"]
+
+def load_font_families():
+    """Load font families from Windows Fonts directory."""
+    if not os.path.isdir(WINDOWS_FONTS_DIR):
+        return {}
+    
+    font_families = {}
+    for fname in os.listdir(WINDOWS_FONTS_DIR):
+        if fname.lower().endswith(('.ttf', '.otf')):
+            # Extract family name from filename (assuming format: FamilyName-Weight.ttf)
+            base_name = os.path.splitext(fname)[0]
+            if '-' in base_name:
+                family, weight = base_name.rsplit('-', 1)
+            else:
+                family, weight = base_name, "Regular"
+            
+            if family not in font_families:
+                font_families[family] = []
+            font_families[family].append({
+                'weight': weight,
+                'file': fname,
+                'path': os.path.join(WINDOWS_FONTS_DIR, fname)
+            })
+    
+    # Sort weights for each family
+    for family in font_families:
+        font_families[family].sort(key=lambda x: x['weight'])
+    
+    return font_families
+
+def get_font_weights_from_family(font_families, family_name):
+    """Get available weights for a specific font family."""
+    if family_name in font_families:
+        return [font['weight'] for font in font_families[family_name]]
+    return ["Regular"]
+
+def get_font_path_from_family_weight(font_families, family_name, weight):
+    """Get the full font path from family name and weight."""
+    if family_name in font_families:
+        for font in font_families[family_name]:
+            if font['weight'] == weight:
+                return font['path']
+    return ""
+
 class SettingsEditor(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Settings Editor")
-        self.geometry("380x550")
+        self.geometry("380x750")  # Increased height to accommodate taller listbox
         
         # Dark theme configuration
         self.configure(bg='#2d2d2d')
@@ -113,7 +188,36 @@ class SettingsEditor(tk.Tk):
             os.path.splitext(f)[0]: os.path.join("SPC_color_schemes", f).replace("\\", "/")
             for f in self.color_files
         }
+        self.font_families = load_font_families()
         self.create_widgets()
+
+    def update_font_weights(self, *args):
+        """Update the font weight dropdown based on selected font family."""
+        # Get selected family from listbox
+        selection = self.font_family_listbox.curselection()
+        if not selection:
+            return
+            
+        family_name = self.font_family_listbox.get(selection[0])
+        if family_name == "No fonts found":
+            return
+        
+        # Update the selected font display
+        self.selected_font_var.set(f"Selected: {family_name}")
+            
+        weights = get_font_weights_from_family(self.font_families, family_name)
+        
+        # Update the option menu
+        menu = self.font_weight_menu['menu']
+        menu.delete(0, 'end')
+        
+        for weight in weights:
+            menu.add_command(label=weight, command=tk._setit(self.font_weight_var, weight))
+        
+        # Set default value if current value is not in new weights
+        current_weight = self.font_weight_var.get()
+        if current_weight not in weights and weights:
+            self.font_weight_var.set(weights[0])
 
     def create_widgets(self):
         row = 0
@@ -173,10 +277,85 @@ class SettingsEditor(tk.Tk):
         ttk.Checkbutton(customization_frame, text="Add Custom Fonts", variable=self.add_custom_fonts_var).grid(row=customization_row, column=0, sticky="w", columnspan=2)
         customization_row += 1
 
-        ttk.Label(customization_frame, text="Custom Font:").grid(row=customization_row, column=0, sticky="w")
-        self.custom_font_var = tk.StringVar(value=self.settings.get("custom_font", ""))
-        ttk.Entry(customization_frame, textvariable=self.custom_font_var).grid(row=customization_row, column=1, sticky="ew")
+        # Selected font display
+        self.selected_font_var = tk.StringVar()
+        selected_font_label = ttk.Label(customization_frame, textvariable=self.selected_font_var, 
+                                       foreground='#00ff00', font=('Arial', 9, 'bold'))
+        selected_font_label.grid(row=customization_row, column=0, columnspan=2, sticky="w", pady=(0, 5))
         customization_row += 1
+
+        # Font family scrollable listbox
+        ttk.Label(customization_frame, text="Font Family:").grid(row=customization_row, column=0, sticky="nw")
+        
+        # Create frame for listbox and scrollbar
+        font_frame = tk.Frame(customization_frame, bg='#2d2d2d')
+        font_frame.grid(row=customization_row, column=1, sticky="ew", pady=2)
+        
+        # Extract current family from settings
+        current_font_path = self.settings.get("custom_font", "")
+        current_family = ""
+        if current_font_path:
+            current_filename = os.path.basename(current_font_path)
+            base_name = os.path.splitext(current_filename)[0]
+            if '-' in base_name:
+                current_family = base_name.rsplit('-', 1)[0]
+            else:
+                current_family = base_name
+        
+        family_names = sorted(self.font_families.keys())
+        if not family_names:
+            family_names = ["No fonts found"]
+        
+        # Create listbox with scrollbar (increased height to 8 lines)
+        self.font_family_listbox = tk.Listbox(font_frame, height=8, bg='#404040', fg='#ffffff', 
+                                             selectbackground='#505050', selectforeground='#ffffff',
+                                             borderwidth=1, relief='solid', font=('Arial', 9))
+        scrollbar_font = tk.Scrollbar(font_frame, bg='#404040', troughcolor='#606060', 
+                                     activebackground='#505050')
+        
+        self.font_family_listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        scrollbar_font.pack(side=tk.RIGHT, fill=tk.Y)
+        
+        # Configure scrollbar
+        self.font_family_listbox.config(yscrollcommand=scrollbar_font.set)
+        scrollbar_font.config(command=self.font_family_listbox.yview)
+        
+        # Populate listbox
+        for family in family_names:
+            self.font_family_listbox.insert(tk.END, family)
+        
+        # Select current family and update display
+        if current_family in family_names:
+            index = family_names.index(current_family)
+            self.font_family_listbox.selection_set(index)
+            self.font_family_listbox.see(index)
+            self.selected_font_var.set(f"Selected: {current_family}")
+        elif family_names:
+            self.font_family_listbox.selection_set(0)
+            self.selected_font_var.set(f"Selected: {family_names[0]}")
+        
+        customization_row += 1
+
+        # Font weight dropdown
+        ttk.Label(customization_frame, text="Font Weight:").grid(row=customization_row, column=0, sticky="w")
+        self.font_weight_var = tk.StringVar(value=self.settings.get("font_weight", "Regular"))
+        
+        # Get initial weights for selected family
+        if self.font_family_listbox.curselection():
+            selected_family = self.font_family_listbox.get(self.font_family_listbox.curselection()[0])
+            initial_weights = get_font_weights_from_family(self.font_families, selected_family)
+        else:
+            initial_weights = ["Regular"]
+            
+        if not initial_weights:
+            initial_weights = ["Regular"]
+        self.font_weight_menu = ttk.OptionMenu(customization_frame, self.font_weight_var, self.font_weight_var.get(), *initial_weights)
+        self.font_weight_menu.grid(row=customization_row, column=1, sticky="ew")
+        customization_row += 1
+
+        # Bind font family selection changes to update weights
+        if family_names != ["No fonts found"]:
+            self.font_family_listbox.bind('<<ListboxSelect>>', self.update_font_weights)
 
         # Color scheme dropdown
         ttk.Label(customization_frame, text="Color Scheme:").grid(row=customization_row, column=0, sticky="w")
@@ -316,7 +495,14 @@ class SettingsEditor(tk.Tk):
         selected_color_name = self.color_scheme_var.get()
         self.settings["color_scheme"] = self.color_name_to_path.get(selected_color_name, "")
         self.settings["add_custom_fonts"] = self.add_custom_fonts_var.get()
-        self.settings["custom_font"] = self.custom_font_var.get()
+        # Construct font path from family and weight
+        selection = self.font_family_listbox.curselection()
+        if selection:
+            selected_family = self.font_family_listbox.get(selection[0])
+            selected_weight = self.font_weight_var.get()
+            font_path = get_font_path_from_family_weight(self.font_families, selected_family, selected_weight)
+            self.settings["custom_font"] = font_path
+        self.settings["font_weight"] = self.font_weight_var.get()
         self.settings["date"] = self.date_var.get()
         self.settings["scoring_system"] = self.scoring_var.get()
         self.settings["tournament_name"] = self.tournament_var.get()

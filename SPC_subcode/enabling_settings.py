@@ -17,7 +17,7 @@ def load_colors(fichier): # Charger les couleurs depuis le fichier JSON
     with open(fichier, "r", encoding="utf-8") as f:
         return json.load(f)
     
-def custom_font_loader(add_custom_fonts, custom_font):
+def custom_font_loader(add_custom_fonts, custom_font, font_weight):
     """
     Loads a custom font into Matplotlib's configuration or resets to the default font.
     Parameters:
@@ -27,16 +27,30 @@ def custom_font_loader(add_custom_fonts, custom_font):
         - If add_custom_fonts is True, updates Matplotlib's rcParams to use the custom font.
         - If add_custom_fonts is False, resets the font family to Matplotlib's default ('DejaVu Sans').
     """
+    # Map font weights to matplotlib-compatible values
+    weight_mapping = {
+        'thin': 100,
+        'ultralight': 200,
+        'light': 300,
+        'regular': 400,
+        'normal': 400,
+        'medium': 500,
+        'semibold': 600,
+        'bold': 700,
+        'ultrabold': 800,
+        'heavy': 900,
+        'black': 900
+    }
+    
     custom_font = fm.FontProperties(fname=custom_font)
 
     if add_custom_fonts:
 
         font_name=custom_font.get_name()
         rcParams['font.family'] = [font_name]
-        #rcParams['font.weight'] = font_weight = custom_font.get_weight()
-        rcParams['font.weight'] = 'bold'  # Set to 'bold' or any other weight you prefer
-        # il faut pouvoir selectionner le poids dans l'edtieur de parametres
-
+        # Convert font weight to matplotlib-compatible value
+        matplotlib_weight = weight_mapping.get(font_weight.lower(), 400)
+        rcParams['font.weight'] = matplotlib_weight
     else:
         # Réinitialiser la police à la valeur par défaut de Matplotlib
         rcParams['font.family'] = 'DejaVu Sans'  # Police par défaut de Matplotlib
