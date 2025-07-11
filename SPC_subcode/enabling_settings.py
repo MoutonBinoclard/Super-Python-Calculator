@@ -48,6 +48,7 @@ def custom_font_loader(add_custom_fonts, custom_font, font_weight):
 
         font_name=custom_font.get_name()
         rcParams['font.family'] = [font_name]
+        print(font_name)
         # Convert font weight to matplotlib-compatible value
         matplotlib_weight = weight_mapping.get(font_weight.lower(), 400)
         rcParams['font.weight'] = matplotlib_weight
