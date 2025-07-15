@@ -4,12 +4,12 @@
     "bonus": false,
     "tournament_name": "SAR OVERTAKERS",
     "logo": true,
-    "logo_path": "SPC_logo/overtakers.png",
+    "logo_path": "SPC_logo/summer_chaos.png",
     "font_weight": "Bold",
-    "zoom_logo": 0.2,
+    "zoom_logo": 0.15,
     "date": true,
     "add_custom_fonts": true,
     "custom_font": "C:\\Windows\\Fonts\\Rubik-Bold.ttf",
-    "color_scheme": "SPC_color_schemes/overtakers_cs.json",
+    "color_scheme": "SPC_color_schemes/summer_chaos.json",
     "event_host": "EggsSkrambled"
 }
