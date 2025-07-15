@@ -2,7 +2,7 @@
     "team_mode": false,
     "scoring_system": "scoring_overtakers",
     "bonus": false,
-    "tournament_name": "SAR OVERTAKERS",
+    "tournament_name": "Summer Chaos",
     "logo": true,
     "logo_path": "SPC_logo/summer_chaos.png",
     "font_weight": "Bold",
@@ -11,5 +11,5 @@
     "add_custom_fonts": true,
     "custom_font": "C:\\Windows\\Fonts\\Rubik-Bold.ttf",
     "color_scheme": "SPC_color_schemes/summer_chaos.json",
-    "event_host": "EggsSkrambled"
+    "event_host": "Mouton Binoclard"
 }
