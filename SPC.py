@@ -71,6 +71,7 @@ fusion_dict = remove_non_player(fusion_dict)
 from subcode.fusion_dict import sort_fusion_dict
 fusion_dict = sort_fusion_dict(fusion_dict)
 
+show_entries_from_base_dict(base_dict)
 # All the calculations are done
 
 from subcode.export_launch import launch_exportations

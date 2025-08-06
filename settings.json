@@ -1,5 +1,5 @@
 {
-    "team_mode": false,
+    "team_mode": true,
     "scoring_system": "spi",
     "tournament_name": "Summer Chaos",
     "logo": true,
@@ -11,5 +11,5 @@
     "custom_font": "C:\\Windows\\Fonts\\Rubik-Bold.ttf",
     "color_scheme": "color_schemes/super_animal_world.json",
     "event_host": "Mouton Binoclard",
-    "auto_team": false
+    "auto_team": true
 }

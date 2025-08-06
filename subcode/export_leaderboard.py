@@ -63,12 +63,14 @@ def export_full_csv(dict_fusion, dict_base):
             plac_avg = round(dict_base[player_id]['plac_avg'], 2)
             max_kill = dict_base[player_id]['max_kill']
             row = [player_id, name, placement, final_score, rounds_played, total_kills, total_wins, kill_avg, plac_avg, max_kill]
-            for round_info in team_data['rounds']:
+            counter = 0
+            for round_info in dict_base[player_id]['rounds']:
                 row.append(round_info['placement'])
                 row.append(round_info['kills'])
-                row.append(round_info.get('masterkill', False))  # Use .get for safety
+                row.append(round_info['masterkill_solo'])
                 row.append(round_info['number_of_players'])
-                row.append(round(round_info.get('score', 0), 2))
+                row.append(round(dict_fusion[team_id]['rounds'][counter]['score'], 2))
+                counter += 1
                 
             rows.append(row)  # Collect the row
         placement_counter += 1  # Increment for each player
