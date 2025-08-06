@@ -11,9 +11,9 @@ from datetime import datetime
 # Dynamically determine base directory (where this script is located)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SETTINGS_PATH = os.path.join(BASE_DIR, "settings.json")
-SPC_SCORING_DIR = os.path.join(BASE_DIR, "SPC_scoring")
-SPC_LOGO_DIR = os.path.join(BASE_DIR, "SPC_logo")
-SPC_COLOR_SCHEME_DIR = os.path.join(BASE_DIR, "SPC_color_schemes")
+SPC_SCORING_DIR = os.path.join(BASE_DIR, "scoring")
+SPC_LOGO_DIR = os.path.join(BASE_DIR, "logo")
+SPC_COLOR_SCHEME_DIR = os.path.join(BASE_DIR, "color_schemes")
 WINDOWS_FONTS_DIR = os.path.join(os.environ.get('WINDIR', 'C:\\Windows'), 'Fonts')
 
 def load_settings():
@@ -42,10 +42,10 @@ def load_logo_files():
     return [], []
 
 def load_color_schemes():
-    # List all files in SPC_color_schemes directory, remove extension
+    # List all .json files in SPC_color_schemes directory, remove extension
     if os.path.isdir(SPC_COLOR_SCHEME_DIR):
         files = os.listdir(SPC_COLOR_SCHEME_DIR)
-        color_files = [f for f in files if os.path.isfile(os.path.join(SPC_COLOR_SCHEME_DIR, f))]
+        color_files = [f for f in files if os.path.isfile(os.path.join(SPC_COLOR_SCHEME_DIR, f)) and f.lower().endswith('.json')]
         color_names = [os.path.splitext(f)[0] for f in color_files]
         return sorted(color_names), color_files
     return [], []
@@ -180,12 +180,12 @@ class SettingsEditor(tk.Tk):
         self.scoring_systems = load_scoring_systems()
         self.logo_names, self.logo_files = load_logo_files()
         self.logo_name_to_path = {
-            os.path.splitext(f)[0]: os.path.join("SPC_logo", f).replace("\\", "/")
+            os.path.splitext(f)[0]: os.path.join("logo", f).replace("\\", "/")
             for f in self.logo_files
         }
         self.color_names, self.color_files = load_color_schemes()
         self.color_name_to_path = {
-            os.path.splitext(f)[0]: os.path.join("SPC_color_schemes", f).replace("\\", "/")
+            os.path.splitext(f)[0]: os.path.join("color_schemes", f).replace("\\", "/")
             for f in self.color_files
         }
         self.font_families = load_font_families()
@@ -260,8 +260,8 @@ class SettingsEditor(tk.Tk):
         ttk.Checkbutton(scoring_frame, text="Team Mode", variable=self.team_mode_var).grid(row=scoring_row, column=0, sticky="w")
         scoring_row += 1
 
-        self.bonus_var = tk.BooleanVar(value=self.settings.get("bonus", False))
-        ttk.Checkbutton(scoring_frame, text="Bonus", variable=self.bonus_var).grid(row=scoring_row, column=0, sticky="w")
+        self.auto_team_var = tk.BooleanVar(value=self.settings.get("auto_team", False))
+        ttk.Checkbutton(scoring_frame, text="Auto Team", variable=self.auto_team_var).grid(row=scoring_row, column=0, sticky="w")
         scoring_row += 1
 
         scoring_frame.columnconfigure(1, weight=1)
@@ -390,7 +390,7 @@ class SettingsEditor(tk.Tk):
         ttk.Label(logo_frame, text="Zoom Logo:").grid(row=logo_row, column=0, sticky="w")
         self.zoom_logo_var = tk.DoubleVar(value=self.settings.get("zoom_logo", 1.0))
         # Configure Scale widget for dark theme
-        zoom_scale = tk.Scale(logo_frame, variable=self.zoom_logo_var, from_=0.1, to=0.7, resolution=0.01, orient="horizontal",
+        zoom_scale = tk.Scale(logo_frame, variable=self.zoom_logo_var, from_=0.01, to=0.3, resolution=0.005, orient="horizontal",
                              bg='#404040', fg='#ffffff', activebackground='#505050', highlightbackground='#2d2d2d', troughcolor='#606060')
         zoom_scale.grid(row=logo_row, column=1, sticky="ew")
         logo_row += 1
@@ -433,7 +433,7 @@ class SettingsEditor(tk.Tk):
             files_copied = 0
 
             # Copy all files from SPC_exports (including subfolders)
-            exports_dir = os.path.join(BASE_DIR, "SPC_exports")
+            exports_dir = os.path.join(BASE_DIR, "exports")
             if os.path.isdir(exports_dir):
                 for root, dirs, files in os.walk(exports_dir):
                     for fname in files:
@@ -485,7 +485,7 @@ class SettingsEditor(tk.Tk):
 
     def save(self):
         self.settings["team_mode"] = self.team_mode_var.get()
-        self.settings["bonus"] = self.bonus_var.get()
+        self.settings["auto_team"] = self.auto_team_var.get()
         # Save logo_path as full path using selected logo name
         selected_logo_name = self.logo_file_var.get()
         self.settings["logo_path"] = self.logo_name_to_path.get(selected_logo_name, "")

@@ -1,36 +1,15 @@
-# SPC Version 6
-# Coded by Mouton Binoclard
+# Small utilitie to better see a dictionary
+from subcode.utilities import show_entries_from_base_dict, show_entries_from_fusion_dict
 
+# Remove warnings
+import warnings
+warnings.simplefilter("ignore", UserWarning)
 
-'COLOR SCHEME'
-
-color_scheme = "SPC_color_schemes/ascension_25.json"
-
-
-import json
-
-def load_settings(path="settings.json"):
-    with open(path, "r") as f:
-        settings = json.load(f)
-    return (
-        settings["team_mode"],
-        settings["scoring_system"],
-        settings["bonus"],
-        settings["tournament_name"],
-        settings["logo"],
-        settings["logo_path"],
-        settings["zoom_logo"],
-        settings["date"],
-        settings["add_custom_fonts"],
-        settings["custom_font"],
-        settings["font_weight"],
-        settings["color_scheme"]
-    )
-
+# Loading the parameters
+from subcode.enabling_settings import load_settings
 (
     team_mode,
     scoring_system,
-    bonus,
     tournament_name,
     logo,
     logo_path,
@@ -39,75 +18,69 @@ def load_settings(path="settings.json"):
     add_custom_fonts,
     custom_font,
     font_weight,
-    color_scheme
+    color_scheme,
+    auto_team,
 ) = load_settings()
 
 
-import warnings
-warnings.simplefilter("ignore", UserWarning)
-
-from SPC_subcode.enabling_settings import *
-from SPC_subcode.creation_of_base_dictionary import find_ids
-from SPC_subcode.sync_dictionary_with_round import fully_update_base_dictionary
-from SPC_subcode.list_files import list_files
-from SPC_subcode.update_stats_for_players import update_stats_for_all_players
-from SPC_subcode.score_calculation import calculate_score_for_everyone
-from SPC_subcode.filtering_dictionary import filter_score, remove_full_time_spectators_or_non_players
-from SPC_subcode.creation_dict_fusion import creation_teams_files, creation_fusion_dict
-from SPC_subcode.finalization_fusion_dict import add_data_player_to_fusion_dict, add_round_scores_to_fusion_dict, add_final_score_to_fusion_dict, sort_fusion_dict_by_score
-from SPC_subcode.results_exportation import starting_exportation_process
-
-
-
-##############################################
-
-# Enabling settings
-
+# Load the scoring system
+from subcode.enabling_settings import load_scoring_module
 kill_points, placement_points, masterkill = load_scoring_module(scoring_system)
+
+# Load the color scheme
+from subcode.enabling_settings import load_colors
 color_scheme = load_colors(color_scheme)
+
+# Load the custom
+from subcode.enabling_settings import custom_font_loader
 custom_font_loader(add_custom_fonts, custom_font, font_weight)
 
-##############################################
+# Base dictionary creation
+from subcode.base_dict import create_start_dict
+base_dict = create_start_dict()
 
-# Creating the base dictionary
-# It contains all the data extracted from the text files in the current directory
-# After this step, the teams can be created
+# Adding rounds to the base dictionary
+from subcode.round_extraction import add_all_rounds_to_base_dict
+base_dict = add_all_rounds_to_base_dict(base_dict)
 
-# Form of the dictionary:
-# {'PlayfabID1': ['PlayerName1', Final_Score, [[score_round1, placement_round1], ...], [info_round1, ...], {'nb_rounds': 0, 'nb_wins': 0, 'nb_kills': 0, 'kill_avg': 0}],...}
+# Adding statistics to the base dictionary
+from subcode.base_stats import add_stats_for_every_id
+base_dict = add_stats_for_every_id(base_dict)
 
-# For of the info_round list :
-# [placement, squad_id, number_of_players, number_of_squads, kills, team_kills, masterkill_solo, masterkill_squad]
+# Creation of the teams
+from subcode.team_file import load_teams
+current_teams = load_teams(base_dict, team_mode, auto_team)
 
-dict_base = find_ids(list_files('.txt', 'SPC_'))
-dict_base = fully_update_base_dictionary(dict_base, list_files('.txt', 'SPC_'))
-dict_base = update_stats_for_all_players(dict_base)
-dict_base = calculate_score_for_everyone(dict_base, team_mode, kill_points, placement_points, masterkill)
-dict_base = filter_score(dict_base, None, None)
-dict_base = remove_full_time_spectators_or_non_players(dict_base)
+# Creation fusion dict
+from subcode.fusion_dict import create_fus_dict
+fusion_dict = (create_fus_dict(base_dict, current_teams))
 
-#print(dict_base)
+# Adding stats to the fusion dict
+from subcode.fusion_dict import stats_to_fusion
+fusion_dict = stats_to_fusion(fusion_dict, base_dict, team_mode)
 
-##############################################
+# Adding scores to the fusion dict
+from subcode.fusion_dict import add_scores_to_fusion_dict
+fusion_dict = add_scores_to_fusion_dict(fusion_dict, kill_points, placement_points, masterkill)
 
-# Creating the final dictionary
-# It contains the teams (even in solo mode)
+# Remove non-player
+from subcode.filter_dict import remove_non_player
+fusion_dict = remove_non_player(fusion_dict)
 
-# Form of the dictionary :
-#{'PlayfabCombine' : [[ID1, ...], Names, Final_Score, [[score_round1, placement_round1], ...], [Full_dict_player1, ...]]}
+# Sort by score, descending order
+from subcode.fusion_dict import sort_fusion_dict
+fusion_dict = sort_fusion_dict(fusion_dict)
 
-creation_teams_files(dict_base, team_mode)
-fusion_dict = creation_fusion_dict(dict_base)
-fusion_dict = add_data_player_to_fusion_dict(fusion_dict, dict_base)
-fusion_dict = add_round_scores_to_fusion_dict(fusion_dict)
-fusion_dict = add_final_score_to_fusion_dict(fusion_dict)
-fusion_dict = sort_fusion_dict_by_score(fusion_dict)
+# All the calculations are done
 
-#print(fusion_dict)
-
-##############################################
-
-# Exporting ghaphs and results, etc ...
-starting_exportation_process(fusion_dict, tournament_name, color_scheme, logo, logo_path, zoom_logo, date, bonus)
-
-print("FINISHED !")
+from subcode.export_launch import launch_exportations
+launch_exportations(
+    fusion_dict,
+    base_dict,
+    tournament_name,
+    color_scheme,
+    logo,
+    logo_path,
+    zoom_logo,
+    date
+)
