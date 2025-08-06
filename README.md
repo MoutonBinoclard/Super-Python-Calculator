@@ -63,3 +63,9 @@ All the instruction have been moved to the [Wiki](https://github.com/MoutonBinoc
 
 ### And before I forget
 You can always ask new feature of course (Don't know if I'll code them tho). Also if you want to improve the code, feel free to create a pull request. I will be happy to merge it if it is well coded and documented !
+
+
+### Some commands for me :
+pyinstaller --onefile --windowed --add-data "settings.json;." --add-data "color_schemes/*;color_schemes" --add-data "logo/*;logo" --add-data "scoring/*;scoring" settings_editor.py
+
+pyinstaller --onefile --add-data "subcode;subcode" --add-data "assets;assets" --add-data "color_schemes;color_schemes" --add-data "logo;logo" --add-data "scoring;scoring" --add-data "web;web" SPC.py

@@ -17,6 +17,26 @@ SPC_COLOR_SCHEME_DIR = os.path.join(BASE_DIR, "color_schemes")
 WINDOWS_FONTS_DIR = os.path.join(os.environ.get('WINDIR', 'C:\\Windows'), 'Fonts')
 
 def load_settings():
+    # Valeurs par défaut si settings.json n'existe pas
+    default_settings = {
+        "date": False,
+        "tournament_name": "",
+        "event_host": "",
+        "scoring_system": "",
+        "team_mode": False,
+        "auto_team": False,
+        "add_custom_fonts": False,
+        "custom_font": "",
+        "font_weight": "Regular",
+        "color_scheme": "",
+        "logo": False,
+        "logo_path": "",
+        "zoom_logo": 1.0
+    }
+    if not os.path.exists(SETTINGS_PATH):
+        with open(SETTINGS_PATH, "w", encoding="utf-8") as f:
+            json.dump(default_settings, f, indent=4)
+        return default_settings
     with open(SETTINGS_PATH, "r", encoding="utf-8") as f:
         return json.load(f)
 
