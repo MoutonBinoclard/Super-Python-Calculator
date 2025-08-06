@@ -9,6 +9,7 @@ A complete calculator for scoring tournament for Super Animal Royale. It support
 Oh and before I forget, this code is not meant to manage the settings and the commands in a private game. If you want to do so, I'll recommend you to check Suchy's [Private Game Helper](https://github.com/Suchy499/PrivateGameHelper-for-Super-Animal-Royale)
 
 ## Vidéo installation tutorial : OUT NOW ! (Just click on the image below)
+### Since the release contains exe files now, just follow this tutorial if you're on mac or linux
 
 [![Watch the video](https://img.youtube.com/vi/1_p-Oum7Rek/maxresdefault.jpg)](https://www.youtube.com/watch?v=1_p-Oum7Rek)
 
@@ -66,6 +67,6 @@ You can always ask new feature of course (Don't know if I'll code them tho). Als
 
 
 ### Some commands for me :
-pyinstaller --onefile --windowed --add-data "settings.json;." --add-data "color_schemes/*;color_schemes" --add-data "logo/*;logo" --add-data "scoring/*;scoring" settings_editor.py
+pyinstaller --onefile --windowed settings_editor.py
 
 pyinstaller --onefile --add-data "subcode;subcode" --add-data "assets;assets" --add-data "color_schemes;color_schemes" --add-data "logo;logo" --add-data "scoring;scoring" --add-data "web;web" SPC.py

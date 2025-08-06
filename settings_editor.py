@@ -7,13 +7,17 @@ import pathlib
 import shutil
 from datetime import datetime
 
+# Determine if running as a PyInstaller executable
+if getattr(sys, 'frozen', False):
+    BASE_DIR = os.path.dirname(sys.executable)  # Executable's directory
+else:
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Script's directory
 
-# Dynamically determine base directory (where this script is located)
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SETTINGS_PATH = os.path.join(BASE_DIR, "settings.json")
 SPC_SCORING_DIR = os.path.join(BASE_DIR, "scoring")
 SPC_LOGO_DIR = os.path.join(BASE_DIR, "logo")
 SPC_COLOR_SCHEME_DIR = os.path.join(BASE_DIR, "color_schemes")
+
 WINDOWS_FONTS_DIR = os.path.join(os.environ.get('WINDIR', 'C:\\Windows'), 'Fonts')
 
 def load_settings():
