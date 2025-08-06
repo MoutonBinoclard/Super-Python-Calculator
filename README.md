@@ -1,5 +1,5 @@
 <p align="center">
-<img src="SPC_assets/banner.png" alt="Banner SPC" style="width:100%">
+<img src="assets/banner.png" alt="Banner SPC" style="width:100%">
 </p>
 
 # Super Python Calculator
@@ -19,7 +19,7 @@ All the instruction have been moved to the [Wiki](https://github.com/MoutonBinoc
 
 ## What's all the code about ?
 
-<img src="SPC_assets/git1.png" alt="Convert /getplayers commands to graphs and datasheets" style="width:100%">
+<img src="assets/git1.png" alt="Convert /getplayers commands to graphs and datasheets" style="width:100%">
 
 ### Convert /getplayers commands to graphs and datasheets
 - No limits for the numbers of games and let the games be added or removed with ease
@@ -29,7 +29,7 @@ All the instruction have been moved to the [Wiki](https://github.com/MoutonBinoc
 
 ---
 
-<img src="SPC_assets/git2.png" alt="Use scoring systems that can go from simple to complex" style="width:100%">
+<img src="assets/git2.png" alt="Use scoring systems that can go from simple to complex" style="width:100%">
 
 ### Scoring systems ? I think the sky is the limit !
 - Supporting scoring preset that can be saved and loaded
@@ -39,7 +39,7 @@ All the instruction have been moved to the [Wiki](https://github.com/MoutonBinoc
 
 ---
 
-<img src="SPC_assets/git3.png" alt="Highly Customizable" style="width:100%">
+<img src="assets/git3.png" alt="Highly Customizable" style="width:100%">
 
 ### Colors, yeeeaaaaah !
 - Colors are fully customizable for each element
@@ -50,7 +50,7 @@ All the instruction have been moved to the [Wiki](https://github.com/MoutonBinoc
 
 ---
 
-<img src="SPC_assets/git4.png" alt="Useful features for streamers and analysis" style="width:100%">
+<img src="assets/git4.png" alt="Useful features for streamers and analysis" style="width:100%">
 
 ### And don't forget the perks for streamers and players
 - Web server to display the leaderboard in real time
