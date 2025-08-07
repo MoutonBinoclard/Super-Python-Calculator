@@ -8,17 +8,9 @@ A complete calculator for scoring tournament for Super Animal Royale. It support
 
 Oh and before I forget, this code is not meant to manage the settings and the commands in a private game. If you want to do so, I'll recommend you to check Suchy's [Private Game Helper](https://github.com/Suchy499/PrivateGameHelper-for-Super-Animal-Royale)
 
-## Express explanation
-Download the last release
-- To edit the settings, launch settings_editor.exe
-- To launch the calculation, launch SPC.exe
-- To save the rounds more easely, run save_round.exe, make sure your key to chat is enter, and then at the end of the game, press CTRL+m
+## Video tutorial, how to install and use the SPC
 
-## Vidéo installation tutorial : OUT NOW ! (Just click on the image below)
-### Since the release contains exe files now, just follow this tutorial if you're on mac or linux
-
-[![Watch the video](https://img.youtube.com/vi/1_p-Oum7Rek/maxresdefault.jpg)](https://www.youtube.com/watch?v=1_p-Oum7Rek)
-
+[![Watch the video](https://img.youtube.com/vi/NSysrF8z56c/maxresdefault.jpg)](https://youtu.be/NSysrF8z56c)
 
 ## Want to run the code ?
 
