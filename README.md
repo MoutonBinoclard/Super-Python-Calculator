@@ -66,5 +66,4 @@ You can always ask new feature of course (Don't know if I'll code them tho). Als
 
 ### Some commands for me :
 pyinstaller --onefile --windowed settings_editor.py
-
-pyinstaller --onefile --add-data "subcode;subcode" --add-data "assets;assets" --add-data "color_schemes;color_schemes" --add-data "logo;logo" --add-data "scoring;scoring" --add-data "web;web" SPC.py
+pyinstaller --onefile SPC.py

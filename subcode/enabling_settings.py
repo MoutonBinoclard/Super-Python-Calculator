@@ -2,13 +2,19 @@ import importlib
 import json
 from matplotlib import rcParams
 from matplotlib import font_manager as fm
+import importlib.util
+import os
 
 def load_scoring_module(module_name):
-    """
-    Dynamically imports a scoring module from the 'SPC_scoring' package and retrieves its scoring attributes.
-    """
-    scoring_module = importlib.import_module(f"scoring.{module_name}")
-    return scoring_module.kill_points, scoring_module.placement_points, scoring_module.masterkill
+    scoring_path = os.path.join(os.getcwd(), "scoring", f"{module_name}.py")
+    spec = importlib.util.spec_from_file_location(module_name, scoring_path)
+    scoring_module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(scoring_module)
+    return (
+        scoring_module.kill_points,
+        scoring_module.placement_points,
+        scoring_module.masterkill,
+    )
 
 def load_colors(fichier): # Charger les couleurs depuis le fichier JSON
     """
