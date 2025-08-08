@@ -2,8 +2,8 @@ import math
 
 # ----------------------------------------------------------------------------
 
-# This is the recommendation for scoring a SQUAD tournament that are mentioned
-# in the Event Format Doc. You can check it here: https://docs.google.com/document/d/16QC3gHi54TgKgCmIGTbVwdj4uO_kf-zB0mxx-yl7Rdo/edit?usp=sharing
+desc = """This is the recommendation for scoring a SQUAD tournament that are mentioned in the Event Format Doc. 
+You can check it here: https://docs.google.com/document/d/16QC3gHi54TgKgCmIGTbVwdj4uO_kf-zB0mxx-yl7Rdo/edit?usp=sharing"""
 
 # ----------------------------------------------------------------------------
 

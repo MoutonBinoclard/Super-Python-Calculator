@@ -2,7 +2,7 @@ import math
 
 # ----------------------------------------------------------------------------
 
-# Currently used for the scrims in the Double Trouble server (https://discord.gg/Bwe2mdGXp6)
+desc = """Used for the "Whiskered melee only tournament" here : https://discord.gg/zCybJ7eHdk"""
 
 # ----------------------------------------------------------------------------
 

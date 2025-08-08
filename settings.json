@@ -1,15 +1,15 @@
 {
-    "team_mode": true,
+    "team_mode": false,
     "scoring_system": "spi",
-    "tournament_name": "Test Tournament",
+    "tournament_name": "Tournament Name",
     "logo": false,
     "logo_path": "logo/super_marten_royale_large.png",
     "font_weight": "Medium",
     "zoom_logo": 0.04,
     "date": true,
-    "add_custom_fonts": true,
+    "add_custom_fonts": false,
     "custom_font": "C:\\Windows\\Fonts\\SpaceGrotesk-Medium.ttf",
-    "color_scheme": "color_schemes/v6_blue_space.json",
-    "event_host": "Mouton Binoclard",
-    "auto_team": true
+    "color_scheme": "color_schemes/v7_liquid_crystal.json",
+    "event_host": "Host Name",
+    "auto_team": false
 }

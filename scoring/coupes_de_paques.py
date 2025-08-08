@@ -2,8 +2,8 @@ import math
 
 # ----------------------------------------------------------------------------
 
-# Used for the "Coupe de Pâques" tournament organized by Asphou
-# On the SARFR server (https://discord.gg/4PcpcuTstA)
+desc = """Used for the "Coupe de Pâques" tournament organized by Asphou
+On the SARFR server (https://discord.gg/4PcpcuTstA)"""
 
 # ----------------------------------------------------------------------------
 

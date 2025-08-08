@@ -2,8 +2,9 @@ import math
 
 # ----------------------------------------------------------------------------
 
-# What even is this ?????? Kill awards more if you die early.
-# From the The H.A.M. Server (https://discord.gg/psVrUGeEdJ)
+desc = """What even is this ??????
+Kill awards more if you die early
+From the The H.A.M. Server (https://discord.gg/psVrUGeEdJ)"""
 
 # ----------------------------------------------------------------------------
 

@@ -6,6 +6,13 @@ import sys
 import pathlib
 import shutil
 from datetime import datetime
+import importlib.util
+from PIL import Image, ImageTk  # Add PIL import for image handling
+
+informations = """Save tournament to folder : Saves all graph and round in a folder
+Delete rounds : Deletes all rounds in the root folder (No turning back)
+Save settings : Saves the current settings to settings.json
+Delete matplotlib fontlist : If the fonts doesnt work, this might help"""
 
 # Determine if running as a PyInstaller executable
 if getattr(sys, 'frozen', False):
@@ -55,6 +62,34 @@ def load_scoring_systems():
         scoring_names = [os.path.splitext(f)[0] for f in files if os.path.isfile(os.path.join(SPC_SCORING_DIR, f))]
         return sorted(scoring_names)
     return []
+
+def get_scoring_description(scoring_name):
+    """Load the description from a scoring system module."""
+    if not scoring_name:
+        return ""
+    
+    try:
+        # Construct the file path
+        file_path = os.path.join(SPC_SCORING_DIR, f"{scoring_name}.py")
+        if not os.path.exists(file_path):
+            return "Description not available"
+        
+        # Load the module dynamically
+        spec = importlib.util.spec_from_file_location(f"scoring_{scoring_name}", file_path)
+        if spec is None or spec.loader is None:
+            return "Failed to load scoring system"
+            
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        
+        # Get the description variable
+        if hasattr(module, 'desc'):
+            return module.desc
+        else:
+            return "No description available"
+    
+    except Exception as e:
+        return f"Error loading description: {str(e)}"
 
 def load_logo_files():
     # List all files in SPC_logo directory, remove extension
@@ -179,7 +214,7 @@ class SettingsEditor(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Settings Editor")
-        self.geometry("380x750")  # Increased height to accommodate taller listbox
+        self.geometry("660x550")  # Wider and less tall for two columns
         
         # Dark theme configuration
         self.configure(bg='#2d2d2d')
@@ -207,6 +242,12 @@ class SettingsEditor(tk.Tk):
             os.path.splitext(f)[0]: os.path.join("logo", f).replace("\\", "/")
             for f in self.logo_files
         }
+        self.logo_name_to_file = {
+            os.path.splitext(f)[0]: f
+            for f in self.logo_files
+        }
+        # Logo preview image reference
+        self.logo_image = None
         self.color_names, self.color_files = load_color_schemes()
         self.color_name_to_path = {
             os.path.splitext(f)[0]: os.path.join("color_schemes", f).replace("\\", "/")
@@ -243,12 +284,92 @@ class SettingsEditor(tk.Tk):
         if current_weight not in weights and weights:
             self.font_weight_var.set(weights[0])
 
+    def update_scoring_description(self, *args):
+        """Update the description text when scoring system is changed."""
+        selected_scoring = self.scoring_var.get()
+        description = get_scoring_description(selected_scoring)
+        self.scoring_desc_text.config(state=tk.NORMAL)
+        self.scoring_desc_text.delete(1.0, tk.END)
+        self.scoring_desc_text.insert(tk.END, description)
+        self.scoring_desc_text.config(state=tk.DISABLED)
+
+    def load_logo_preview(self, logo_name):
+        """Load and resize the selected logo for preview"""
+        try:
+            # Clear previous image reference
+            self.logo_image = None
+            
+            # If no logo selected or preview not enabled, show blank
+            if not logo_name or not self.logo_names:
+                self.logo_preview_label.config(image='', text="No logo available")
+                return
+                
+            # Get the file path
+            logo_file = self.logo_name_to_file.get(logo_name)
+            if not logo_file:
+                self.logo_preview_label.config(image='', text="Logo file not found")
+                return
+                
+            logo_path = os.path.join(SPC_LOGO_DIR, logo_file)
+            if not os.path.isfile(logo_path):
+                self.logo_preview_label.config(image='', text="Logo file not found")
+                return
+                
+            # Open and resize the image
+            img = Image.open(logo_path)
+            
+            # Calculate resize ratio maintaining aspect ratio
+            width, height = img.size
+            max_width, max_height = 150, 100
+            
+            # Calculate resize ratio
+            width_ratio = max_width / width if width > max_width else 1
+            height_ratio = max_height / height if height > max_height else 1
+            ratio = min(width_ratio, height_ratio)
+            
+            # Apply resize if needed
+            if ratio < 1:
+                new_width = int(width * ratio)
+                new_height = int(height * ratio)
+                img = img.resize((new_width, new_height), Image.LANCZOS)
+            
+            # Convert to PhotoImage for Tkinter
+            photo = ImageTk.PhotoImage(img)
+            
+            # Update the label
+            self.logo_preview_label.config(image=photo, text='')
+            
+            # Keep a reference to prevent garbage collection
+            self.logo_image = photo
+            
+        except Exception as e:
+            self.logo_preview_label.config(image='', text=f"Error: {str(e)}")
+            print(f"Error loading logo: {e}")
+
+    def update_logo_preview(self, *args):
+        """Update the logo preview when selection changes"""
+        selected_logo = self.logo_file_var.get()
+        self.load_logo_preview(selected_logo)
+
     def create_widgets(self):
-        row = 0
+        # Create main container frames for left and right columns
+        left_frame = ttk.Frame(self)
+        right_frame = ttk.Frame(self)
+        
+        left_frame.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+        right_frame.grid(row=0, column=1, sticky="nsew", padx=5, pady=5)
+        
+        # Configure weight for the columns
+        self.columnconfigure(0, weight=1)
+        self.columnconfigure(1, weight=1)
+        self.rowconfigure(0, weight=1)
+        
+        # --- LEFT COLUMN ---
+        left_row = 0
 
         # --- Header Section ---
-        header_frame = ttk.LabelFrame(self, text="Tournament Informations")
-        header_frame.grid(row=row, column=0, columnspan=2, sticky="ew", padx=5, pady=5)
+        header_frame = ttk.LabelFrame(left_frame, text="Tournament Informations")
+        header_frame.grid(row=left_row, column=0, sticky="ew", padx=5, pady=5)
         header_row = 0
 
         self.date_var = tk.BooleanVar(value=self.settings.get("date", False))
@@ -267,17 +388,47 @@ class SettingsEditor(tk.Tk):
         header_row += 1
 
         header_frame.columnconfigure(1, weight=1)
-        row += 1
+        left_row += 1
         # --- End Header Section ---
 
         # --- Scoring Section ---
-        scoring_frame = ttk.LabelFrame(self, text="Scoring")
-        scoring_frame.grid(row=row, column=0, columnspan=2, sticky="ew", padx=5, pady=5)
+        scoring_frame = ttk.LabelFrame(left_frame, text="Scoring")
+        scoring_frame.grid(row=left_row, column=0, sticky="ew", padx=5, pady=5)
         scoring_row = 0
 
         ttk.Label(scoring_frame, text="Scoring System:").grid(row=scoring_row, column=0, sticky="w")
         self.scoring_var = tk.StringVar(value=self.settings.get("scoring_system", self.scoring_systems[0] if self.scoring_systems else ""))
-        ttk.OptionMenu(scoring_frame, self.scoring_var, self.scoring_var.get(), *self.scoring_systems).grid(row=scoring_row, column=1, sticky="ew")
+        scoring_menu = ttk.OptionMenu(scoring_frame, self.scoring_var, self.scoring_var.get(), *self.scoring_systems)
+        scoring_menu.grid(row=scoring_row, column=1, sticky="ew")
+        # Add trace to update description when scoring system changes
+        self.scoring_var.trace_add("write", self.update_scoring_description)
+        scoring_row += 1
+
+        # Add description text area
+        ttk.Label(scoring_frame, text="Description:").grid(row=scoring_row, column=0, sticky="nw", pady=(5,0))
+        scoring_row += 1
+        
+        # Text widget for description with scrollbar
+        desc_frame = tk.Frame(scoring_frame, bg='#2d2d2d')
+        desc_frame.grid(row=scoring_row, column=0, columnspan=2, sticky="ew", pady=(0,5))
+        
+        self.scoring_desc_text = tk.Text(desc_frame, height=4, width=40, wrap=tk.WORD,
+                                        bg='#404040', fg='#ffffff', font=('Arial', 9),
+                                        relief='solid', borderwidth=1)
+        scrollbar_desc = tk.Scrollbar(desc_frame, bg='#404040', troughcolor='#606060',
+                                    activebackground='#505050')
+        
+        self.scoring_desc_text.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        scrollbar_desc.pack(side=tk.RIGHT, fill=tk.Y)
+        
+        self.scoring_desc_text.config(yscrollcommand=scrollbar_desc.set)
+        scrollbar_desc.config(command=self.scoring_desc_text.yview)
+        
+        # Load initial description
+        initial_description = get_scoring_description(self.scoring_var.get())
+        self.scoring_desc_text.insert(tk.END, initial_description)
+        self.scoring_desc_text.config(state=tk.DISABLED)  # Make read-only
+        
         scoring_row += 1
 
         self.team_mode_var = tk.BooleanVar(value=self.settings.get("team_mode", False))
@@ -289,12 +440,12 @@ class SettingsEditor(tk.Tk):
         scoring_row += 1
 
         scoring_frame.columnconfigure(1, weight=1)
-        row += 1
+        left_row += 1
         # --- End Scoring Section ---
 
-        # --- Customization Section ---
-        customization_frame = ttk.LabelFrame(self, text="Customization")
-        customization_frame.grid(row=row, column=0, columnspan=2, sticky="ew", padx=5, pady=5)
+        # --- Customization Section (LEFT) ---
+        customization_frame = ttk.LabelFrame(left_frame, text="Customization")
+        customization_frame.grid(row=left_row, column=0, sticky="ew", padx=5, pady=5)
         customization_row = 0
 
         self.add_custom_fonts_var = tk.BooleanVar(value=self.settings.get("add_custom_fonts", False))
@@ -330,8 +481,8 @@ class SettingsEditor(tk.Tk):
         if not family_names:
             family_names = ["No fonts found"]
         
-        # Create listbox with scrollbar (increased height to 8 lines)
-        self.font_family_listbox = tk.Listbox(font_frame, height=8, bg='#404040', fg='#ffffff', 
+        # Create listbox with scrollbar (reduced height to 6 lines to save vertical space)
+        self.font_family_listbox = tk.Listbox(font_frame, height=6, bg='#404040', fg='#ffffff', 
                                              selectbackground='#505050', selectforeground='#ffffff',
                                              borderwidth=1, relief='solid', font=('Arial', 9))
         scrollbar_font = tk.Scrollbar(font_frame, bg='#404040', troughcolor='#606060', 
@@ -390,12 +541,15 @@ class SettingsEditor(tk.Tk):
         customization_row += 1
 
         customization_frame.columnconfigure(1, weight=1)
-        row += 1
-        # --- End Customization Section ---
-
-        # --- Logo Section ---
-        logo_frame = ttk.LabelFrame(self, text="Logo")
-        logo_frame.grid(row=row, column=0, columnspan=2, sticky="ew", padx=5, pady=5)
+        left_row += 1
+        # --- End Customization Section (LEFT) ---
+        
+        # --- RIGHT COLUMN ---
+        right_row = 0
+        
+        # --- Logo Section (RIGHT) ---
+        logo_frame = ttk.LabelFrame(right_frame, text="Logo")
+        logo_frame.grid(row=right_row, column=0, sticky="ew", padx=5, pady=5)
         logo_row = 0
 
         self.logo_var = tk.BooleanVar(value=self.settings.get("logo", False))
@@ -408,7 +562,28 @@ class SettingsEditor(tk.Tk):
         current_logo_path = self.settings.get("logo_path", "")
         current_logo_name = os.path.splitext(os.path.basename(current_logo_path))[0] if current_logo_path else ""
         self.logo_file_var = tk.StringVar(value=current_logo_name if current_logo_name in self.logo_names else (self.logo_names[0] if self.logo_names else ""))
-        ttk.OptionMenu(logo_frame, self.logo_file_var, self.logo_file_var.get(), *self.logo_names).grid(row=logo_row, column=1, sticky="ew")
+        
+        # Create dropdown menu for logo selection
+        logo_menu = ttk.OptionMenu(logo_frame, self.logo_file_var, self.logo_file_var.get(), *self.logo_names, 
+                                 command=lambda _: self.update_logo_preview())
+        logo_menu.grid(row=logo_row, column=1, sticky="ew")
+        logo_row += 1
+
+        # Logo preview label on the right side
+        ttk.Label(logo_frame, text="Preview:").grid(row=logo_row, column=0, sticky="nw", pady=5)
+        # Frame to contain the logo preview with fixed size
+        preview_frame = tk.Frame(logo_frame, width=150, height=100, bg='#404040', bd=1, relief=tk.SUNKEN)
+        preview_frame.grid(row=logo_row, column=1, sticky="w", pady=5)
+        preview_frame.pack_propagate(False)  # Prevent frame from resizing to fit content
+        
+        # Label to show the logo image
+        self.logo_preview_label = tk.Label(preview_frame, bg='#404040', fg='#ffffff', 
+                                         text="No logo selected", font=('Arial', 9),
+                                         anchor='center', justify='center')
+        self.logo_preview_label.pack(fill=tk.BOTH, expand=True)
+        
+        # Load initial preview
+        self.load_logo_preview(self.logo_file_var.get())
         logo_row += 1
 
         ttk.Label(logo_frame, text="Zoom Logo:").grid(row=logo_row, column=0, sticky="w")
@@ -420,24 +595,65 @@ class SettingsEditor(tk.Tk):
         logo_row += 1
 
         logo_frame.columnconfigure(1, weight=1)
-        row += 1
-        # --- End Logo Section ---
+        right_row += 1
+        # --- End Logo Section (RIGHT) ---
 
-        # --- Manage Tournament Section ---
-        row += 1
-        save_tournament_frame = ttk.LabelFrame(self, text="Manage Tournament")
-        save_tournament_frame.grid(row=row, column=0, columnspan=2, sticky="ew", padx=5, pady=5)
-        ttk.Button(save_tournament_frame, text="Save Tournament to Folder", command=self.save_tournament).grid(row=0, column=0, sticky="ew", pady=5)
-        ttk.Button(save_tournament_frame, text="DELETE ROUNDS", command=self.delete_rounds).grid(row=0, column=1, sticky="ew", pady=5)
+        # --- Manage Tournament Section (RIGHT) ---
+        save_tournament_frame = ttk.LabelFrame(right_frame, text="Manage Tournament")
+        save_tournament_frame.grid(row=right_row, column=0, sticky="ew", padx=5, pady=5)
+        # Configure columns to expand equally
+        save_tournament_frame.columnconfigure(0, weight=1)
+        save_tournament_frame.columnconfigure(1, weight=1)
+        # Centered and same size buttons
+        btn_save = ttk.Button(save_tournament_frame, text="Save Tournament to Folder", command=self.save_tournament)
+        btn_delete = ttk.Button(save_tournament_frame, text="DELETE ROUNDS", command=self.delete_rounds)
+        btn_save.grid(row=0, column=0, sticky="ew", padx=(10,5), pady=10)
+        btn_delete.grid(row=0, column=1, sticky="ew", padx=(5,10), pady=10)
+        right_row += 1
+        # --- End Manage Tournament Section (RIGHT) ---
 
+        # --- Actions Section (RIGHT) ---
+        actions_frame = ttk.LabelFrame(right_frame, text="Actions")
+        actions_frame.grid(row=right_row, column=0, sticky="ew", padx=5, pady=5)
+        actions_frame.columnconfigure(0, weight=1)
+        actions_frame.columnconfigure(1, weight=1)
+        
         # Save button
-        row += 1
-        ttk.Button(self, text="Save", command=self.save).grid(row=row, column=0, columnspan=1, pady=10, sticky="ew")
+        ttk.Button(actions_frame, text="Save Settings", command=self.save).grid(row=0, column=0, sticky="ew", padx=5, pady=10)
         # Button to delete fontlist files
-        ttk.Button(self, text="Delete matplotlib fontlist", command=delete_fontlist_files).grid(row=row, column=1, columnspan=1, pady=10, sticky="ew")
+        ttk.Button(actions_frame, text="Delete matplotlib fontlist", command=delete_fontlist_files).grid(row=0, column=1, sticky="ew", padx=5, pady=10)
+        right_row += 1
+        # --- End Actions Section (RIGHT) ---
 
-        # Make columns expand
-        self.columnconfigure(1, weight=1)
+        # --- Informations Section (RIGHT) ---
+        info_frame = ttk.LabelFrame(right_frame, text="Informations")
+        info_frame.grid(row=right_row, column=0, sticky="ew", padx=5, pady=5)
+        info_frame.columnconfigure(0, weight=1)
+        
+        # Create frame for text widget and scrollbar
+        info_text_frame = tk.Frame(info_frame, bg='#2d2d2d')
+        info_text_frame.grid(row=0, column=0, sticky="ew", padx=5, pady=5)
+        info_text_frame.columnconfigure(0, weight=1)
+        
+        # Text widget for informations with scrollbar
+        info_text = tk.Text(info_text_frame, height=5, width=40, wrap=tk.WORD,
+                           bg='#404040', fg='#ffffff', font=('Arial', 9),
+                           relief='solid', borderwidth=1)
+        info_scrollbar = tk.Scrollbar(info_text_frame, bg='#404040', troughcolor='#606060',
+                                     activebackground='#505050')
+        
+        info_text.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        info_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        
+        info_text.config(yscrollcommand=info_scrollbar.set)
+        info_scrollbar.config(command=info_text.yview)
+        
+        # Insert the informations text and make read-only
+        info_text.insert(tk.END, informations)
+        info_text.config(state=tk.DISABLED)
+        
+        right_row += 1
+        # --- End Informations Section (RIGHT) ---
 
     def save_tournament(self):
         # Ask user for destination directory
