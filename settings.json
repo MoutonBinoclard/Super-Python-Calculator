@@ -1,15 +1,15 @@
 {
     "team_mode": true,
     "scoring_system": "spi",
-    "tournament_name": "Summer Chaos",
-    "logo": true,
+    "tournament_name": "Test Tournament",
+    "logo": false,
     "logo_path": "logo/super_marten_royale_large.png",
-    "font_weight": "Bold",
+    "font_weight": "Medium",
     "zoom_logo": 0.04,
     "date": true,
     "add_custom_fonts": true,
-    "custom_font": "C:\\Windows\\Fonts\\Rubik-Bold.ttf",
-    "color_scheme": "color_schemes/super_animal_world.json",
+    "custom_font": "C:\\Windows\\Fonts\\SpaceGrotesk-Medium.ttf",
+    "color_scheme": "color_schemes/v6_blue_space.json",
     "event_host": "Mouton Binoclard",
     "auto_team": true
 }

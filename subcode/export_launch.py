@@ -1,5 +1,6 @@
 from subcode.export_graph import *
 from subcode.export_leaderboard import *
+from subcode.export_spreadsheet import *
 
 def launch_exportations(fusion_dict, base_dict, tournament_name, color_scheme, logo, logo_path, zoom_logo, date):
     """
@@ -19,6 +20,7 @@ def launch_exportations(fusion_dict, base_dict, tournament_name, color_scheme, l
     print("Starting exportation of the results... This may take longer than the rest of the program, be patient !")
     export_full_csv(fusion_dict, base_dict)
     
-    export_graph_leaderboard(fusion_dict, tournament_name, color_scheme, logo, logo_path, zoom_logo, date)
     export_average_placement_graph(fusion_dict, tournament_name, color_scheme, logo, logo_path, zoom_logo, date)
+    export_graph_leaderboard(fusion_dict, tournament_name, color_scheme, logo, logo_path, zoom_logo, date)
+    export_spreadsheet_from_csv_2("exports/leaderboard_full.csv", tournament_name, color_scheme, logo, logo_path, zoom_logo, date)
     print("\nExportation finished !")

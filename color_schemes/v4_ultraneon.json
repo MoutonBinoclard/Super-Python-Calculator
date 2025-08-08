@@ -9,7 +9,6 @@
     "legend_text_color": "#ff3ade",
 
     "gradient_colors": ["#ff3ade", "#9900ff", "#0044ff", "#00ffff", "#00ff00"],
-    "chosen_number": 10,
     
     "x_label_color": "#ff3ade",
     "y_label_color": "#ff3ade",
@@ -32,8 +31,8 @@
     "boxes_outside_color": "#ff3ade",
 
     "grid_color": "#ff3ade",
-    "top_cells_color": "#4a4a4a",
+    "top_cells_color": "#000d43",
     "cells_color": "#000d43",
-    "top_text_color": "#ff3ade",
+    "top_text_color": "#00ffff",
     "text_color": "#ff3ade"
 }

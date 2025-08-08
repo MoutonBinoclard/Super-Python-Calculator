@@ -9,7 +9,6 @@
     "legend_text_color": "#cd465a",
 
     "gradient_colors": ["#4f1dae", "#b534a5", "#cd465a", "#dd6e21"],
-    "chosen_number": 10,
     
     "x_label_color": "#4f1dae",
     "y_label_color": "#4f1dae",
