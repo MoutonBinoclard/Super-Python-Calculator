@@ -7,7 +7,7 @@
     "font_weight": "Bold",
     "zoom_logo": 0.04,
     "date": true,
-    "add_custom_fonts": true,
+    "add_custom_fonts": false,
     "custom_font": "C:\\Windows\\Fonts\\SpaceGrotesk-Bold.ttf",
     "color_scheme": "color_schemes/v7_liquid_crystal.json",
     "event_host": "Host Name",

@@ -490,9 +490,21 @@ class SettingsEditor(tk.Tk):
             col_frame.pack(side=tk.LEFT, padx=4, pady=2)
             col_frame.pack_propagate(False)
 
-            # Color square
-            square = tk.Label(col_frame, width=2, height=1, bg=value, relief='solid', borderwidth=1)
-            square.pack(side=tk.TOP, fill=tk.X, expand=False, pady=(2,0))
+            # Support "none" color: show as interface background and draw diagonal
+            is_none = isinstance(value, str) and value.lower() == "none"
+            display_color = "#2d2d2d" if is_none else value
+
+            if is_none:
+                # Canvas for diagonal line
+                square_canvas = tk.Canvas(col_frame, width=32, height=18, bg=display_color, highlightthickness=0, bd=0)
+                square_canvas.pack(side=tk.TOP, fill=tk.X, expand=False, pady=(2,0))
+                # Draw diagonal line (from top-left to bottom-right)
+                square_canvas.create_line(2, 2, 30, 16, fill="#888", width=2)
+            else:
+                # Color square
+                square = tk.Label(col_frame, width=2, height=1, bg=display_color, relief='solid', borderwidth=1)
+                square.pack(side=tk.TOP, fill=tk.X, expand=False, pady=(2,0))
+
             # Color key label
             label = tk.Label(col_frame, text=key, bg='#2d2d2d', fg='#fff', font=('Arial', 8))
             label.pack(side=tk.TOP, fill=tk.X, expand=False, pady=(2,0))
