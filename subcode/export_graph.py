@@ -33,13 +33,39 @@ def generate_gradient_colors(colors, num_colors):
 
     return gradient
 
+def define_size_x_label(dict_fusion):
+    number_columns = len(dict_fusion)
+    max_player_team = 1
+    for keys in dict_fusion :
+        nb_players_in_team = len(dict_fusion[keys]['names'])
+        if nb_players_in_team > max_player_team:
+            max_player_team = nb_players_in_team
+    
+    if max_player_team == 1 :
+        return 8
+    
+    if max_player_team == 2 and number_columns >= 20:
+        return 5
+    
+    if max_player_team == 3 and number_columns < 13:
+        return 5
+    
+    if max_player_team == 4 and number_columns >= 10:
+        return 5
+    
+    else :
+        return 8
+    
+    
+
+
 
 def export_graph_leaderboard(dict_fusion, tournament_name, color_scheme, show_logo, logo_path, zoom_logo, show_date):
     """
     Exporte un graphique leaderboard à partir d'un dictionnaire fusionné.
     dict_fusion: {
         'id1 & id2': {
-            'names': 'Nom équipe',
+            'names': ['Nom joueur 1', 'Nom joueur 2', ...],
             'score': total_score,
             'rounds': [
                 {'score': ..., 'placement': ..., ...},
@@ -100,8 +126,8 @@ def export_graph_leaderboard(dict_fusion, tournament_name, color_scheme, show_lo
     ax.spines['bottom'].set_color(color_scheme["x_axis_color"])
 
     # Noms des équipes sur l'axe X
-    team_names = [dict_fusion[key]['names'] for key in team_keys]
-    plt.xticks(range(len(team_names)), team_names, rotation=45, ha='right', fontsize=8, color=color_scheme["x_label_color"])
+    team_names = ['\n'.join(dict_fusion[key]['names']) for key in team_keys]
+    plt.xticks(range(len(team_names)), team_names, rotation=45, ha='right', fontsize=define_size_x_label(dict_fusion), color=color_scheme["x_label_color"])
     plt.yticks(color=color_scheme["y_label_color"])
     ax.set_xlim(-1, len(team_names))
 
@@ -140,7 +166,7 @@ def export_average_placement_graph(dict_fusion, nom_tr, cs, lg, lg_path, zoom, d
     Exporte un graphique de placement moyen à partir d'un dictionnaire fusionné.
     dict_fusion: {
         'id1 & id2': {
-            'names': 'Nom équipe',
+            'names': ['Nom joueur 1', 'Nom joueur 2', ...],
             'rounds': [
                 {'placement': ..., ...},
                 ...
@@ -160,7 +186,7 @@ def export_average_placement_graph(dict_fusion, nom_tr, cs, lg, lg_path, zoom, d
             if round['placement'] > 0:
                 placements.append(round['placement'])
         data.append(placements)
-        labels.append(name_player)
+        labels.append('\n'.join(name_player))
 
     # Créer le graphique
     plt.figure(figsize=(12, 6), facecolor=cs["background_color"])
@@ -211,7 +237,7 @@ def export_average_placement_graph(dict_fusion, nom_tr, cs, lg, lg_path, zoom, d
     ax.set_ylim(bottom=placement_min + 1, top=0.5)
 
     # Rotation des noms des joueurs pour une meilleure lisibilité avec une taille de police réduite
-    plt.xticks(rotation=45, ha='right', fontsize=8, color=cs["x_label_color"])  # Correction de la couleur des ticks X
+    plt.xticks(rotation=45, ha='right', fontsize=define_size_x_label(dict_fusion), color=cs["x_label_color"])  # Correction de la couleur des ticks X
     plt.yticks(color=cs["y_label_color"])  # Correction de la couleur des ticks Y
     ax.set_xlim(0, len(labels) + 1)
 

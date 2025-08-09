@@ -4,7 +4,7 @@ def create_fus_dict(base_dict, current_teams):
         names = []
         for player_id in team :
             names.append(base_dict[player_id]['name'])
-        team_name = " & ".join(names)
+        team_name = names
         key = " & ".join(team)
         fusion_dict[key] = {
             'ids': team,

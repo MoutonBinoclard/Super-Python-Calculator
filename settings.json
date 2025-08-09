@@ -1,5 +1,5 @@
 {
-    "team_mode": false,
+    "team_mode": true,
     "scoring_system": "spi",
     "tournament_name": "Tournament Name",
     "logo": false,
@@ -11,5 +11,5 @@
     "custom_font": "C:\\Windows\\Fonts\\SpaceGrotesk-Bold.ttf",
     "color_scheme": "color_schemes/v7_liquid_crystal.json",
     "event_host": "Host Name",
-    "auto_team": false
+    "auto_team": true
 }
