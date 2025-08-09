@@ -1,22 +1,21 @@
 import matplotlib.pyplot as plt
-import numpy as np
 from datetime import datetime
 import os
 from matplotlib.colors import to_hex, to_rgb
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
+import math
 
 def generate_gradient_colors(colors, num_colors):
-
     # Convert hex colors to RGB
     rgb_colors = [to_rgb(color) for color in colors]
 
-    # Create an array of values to interpolate between the colors
-    t = np.linspace(0, len(rgb_colors) - 1, num_colors)
+    # Équivalent de np.linspace(start, end, num)
+    t = [i * (len(rgb_colors) - 1) / (num_colors - 1) for i in range(num_colors)]
 
     # Linearly interpolate between the colors
     gradient = []
     for i in t:
-        idx_low = int(np.floor(i))  # Lower index
+        idx_low = math.floor(i)  # Lower index
         idx_high = min(idx_low + 1, len(rgb_colors) - 1)  # Upper index
         ratio = i - idx_low  # Ratio for interpolation
 
@@ -30,10 +29,10 @@ def generate_gradient_colors(colors, num_colors):
         g = max(0, min(1, g))
         b = max(0, min(1, b))
 
-        # Convert the RGB color to hex and add to the list
         gradient.append(to_hex((r, g, b)))
 
     return gradient
+
 
 def export_graph_leaderboard(dict_fusion, tournament_name, color_scheme, show_logo, logo_path, zoom_logo, show_date):
     """

@@ -9,7 +9,7 @@
     "date": true,
     "add_custom_fonts": false,
     "custom_font": "C:\\Windows\\Fonts\\SpaceGrotesk-Medium.ttf",
-    "color_scheme": "color_schemes/v7_liquid_crystal.json",
+    "color_scheme": "color_schemes/v6_blue_space.json",
     "event_host": "Host Name",
     "auto_team": false
 }
