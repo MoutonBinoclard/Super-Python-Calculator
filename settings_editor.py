@@ -214,7 +214,7 @@ class SettingsEditor(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Settings Editor")
-        self.geometry("660x550")  # Wider and less tall for two columns
+        # Remove fixed geometry - we'll calculate it automatically
         
         # Dark theme configuration
         self.configure(bg='#2d2d2d')
@@ -255,6 +255,30 @@ class SettingsEditor(tk.Tk):
         }
         self.font_families = load_font_families()
         self.create_widgets()
+        
+        # After creating widgets, adjust window size automatically
+        self.adjust_window_size()
+
+    def adjust_window_size(self):
+        """Calculate and set the optimal window size based on content"""
+        # Update the window to calculate widget sizes
+        self.update_idletasks()
+        
+        # Get the required width and height
+        width = self.winfo_reqwidth()
+        height = self.winfo_reqheight()
+        
+        # Set minimum size constraints
+        self.minsize(650, 550)
+        
+        # Center the window on screen
+        screen_width = self.winfo_screenwidth()
+        screen_height = self.winfo_screenheight()
+        x = (screen_width - width) // 2
+        y = (screen_height - height) // 2
+        
+        # Set the window size and position
+        self.geometry(f"{width}x{height}+{x}+{y}")
 
     def update_font_weights(self, *args):
         """Update the font weight dropdown based on selected font family."""
@@ -351,6 +375,131 @@ class SettingsEditor(tk.Tk):
         selected_logo = self.logo_file_var.get()
         self.load_logo_preview(selected_logo)
 
+    def update_color_preview(self, *args):
+        """Update the color scheme preview zone."""
+        selected_color_name = self.color_scheme_var.get()
+        color_file = None
+        for name, file in zip(self.color_names, self.color_files):
+            if name == selected_color_name:
+                color_file = file
+                break
+        if not color_file:
+            # Clear preview if not found
+            for widget in self.color_preview_frame.winfo_children():
+                widget.destroy()
+            # Clear color list
+            for widget in self.color_list_frame.winfo_children():
+                widget.destroy()
+            return
+            
+        color_path = os.path.join(SPC_COLOR_SCHEME_DIR, color_file)
+        try:
+            with open(color_path, "r", encoding="utf-8") as f:
+                color_data = json.load(f)
+            bg_color = color_data.get("background_color", "#222")
+            gradient_colors = color_data.get("gradient_colors", [])
+        except Exception:
+            bg_color = "#222"
+            gradient_colors = []
+            color_data = {}
+
+        # Clear previous preview
+        for widget in self.color_preview_frame.winfo_children():
+            widget.destroy()
+        
+        # Fixed-width approach for color blocks
+        max_colors = 8  # Maximum number of colors we want to support in the display
+        
+        # Create a container frame with fixed width
+        color_container = tk.Frame(self.color_preview_frame, bg='#2d2d2d')
+        color_container.pack(fill=tk.X, expand=True)
+        
+        # Background color always gets a fixed proportion (about 25-30% of width)
+        bg_frame = tk.Frame(color_container, width=80, height=30)
+        bg_frame.pack(side=tk.LEFT, padx=2, pady=2)
+        bg_frame.pack_propagate(False)  # Prevent frame from resizing
+        
+        # Background color label
+        bg_label = tk.Label(
+            bg_frame, 
+            text="Background", 
+            bg=bg_color, 
+            fg="#fff" if bg_color.lower() != "#fff" else "#000"
+        )
+        bg_label.pack(fill=tk.BOTH, expand=True)
+        
+        # Calculate width for gradient colors (all equal)
+        num_gradients = len(gradient_colors)
+        if num_gradients > 0:
+            # Create a frame to hold all gradient colors with equal spacing
+            gradients_frame = tk.Frame(color_container, bg='#2d2d2d')
+            gradients_frame.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=2)
+            
+            # Each gradient color gets equal width
+            for idx, color in enumerate(gradient_colors):
+                # Create fixed-width frame for each color
+                color_frame = tk.Frame(gradients_frame, width=30, height=30)
+                color_frame.pack(side=tk.LEFT, padx=1, fill=tk.Y)
+                color_frame.pack_propagate(False)
+                
+                # Add the color label
+                color_label = tk.Label(
+                    color_frame, 
+                    text=f"G{idx+1}", 
+                    bg=color, 
+                    fg="#fff" if color.lower() != "#fff" else "#000"
+                )
+                color_label.pack(fill=tk.BOTH, expand=True)
+        
+        # --- New horizontal color list with color squares ---
+        # Clear previous color list widgets
+        for widget in self.color_list_frame.winfo_children():
+            widget.destroy()
+
+        # Set a fixed, smaller width for the canvas (e.g., 260px)
+        canvas_width = 260
+        canvas = tk.Canvas(self.color_list_frame, width=canvas_width, height=60, bg='#2d2d2d', highlightthickness=0)
+        h_scroll = tk.Scrollbar(self.color_list_frame, orient=tk.HORIZONTAL, command=canvas.xview, bg='#404040', troughcolor='#606060')
+        canvas.configure(xscrollcommand=h_scroll.set)
+        canvas.pack(side=tk.TOP, fill=tk.X, expand=False)  # expand=False keeps it at fixed width
+        h_scroll.pack(side=tk.BOTTOM, fill=tk.X)
+
+        color_row_frame = tk.Frame(canvas, bg='#2d2d2d')
+        canvas.create_window((0,0), window=color_row_frame, anchor='nw')
+
+        # Gather all colors to display: background + gradients + other keys
+        color_items = []
+        # Always show background_color first
+        color_items.append(('background_color', bg_color))
+        # Show gradient colors
+        for i, color in enumerate(gradient_colors):
+            color_items.append((f'gradient_{i+1}', color))
+        # Show other color keys (excluding background and gradients)
+        for key, value in color_data.items():
+            if key not in ['background_color', 'gradient_colors']:
+                if isinstance(value, str) and (value.startswith("#") or value.lower() == "none"):
+                    color_items.append((key, value))
+
+        # Create color squares side by side
+        for idx, (key, value) in enumerate(color_items):
+            col_frame = tk.Frame(color_row_frame, width=40, height=50, bg='#2d2d2d')
+            col_frame.pack(side=tk.LEFT, padx=4, pady=2)
+            col_frame.pack_propagate(False)
+
+            # Color square
+            square = tk.Label(col_frame, width=2, height=1, bg=value, relief='solid', borderwidth=1)
+            square.pack(side=tk.TOP, fill=tk.X, expand=False, pady=(2,0))
+            # Color key label
+            label = tk.Label(col_frame, text=key, bg='#2d2d2d', fg='#fff', font=('Arial', 8))
+            label.pack(side=tk.TOP, fill=tk.X, expand=False, pady=(2,0))
+            # Hex code label
+            hex_label = tk.Label(col_frame, text=value, bg='#2d2d2d', fg='#aaa', font=('Arial', 7))
+            hex_label.pack(side=tk.TOP, fill=tk.X, expand=False)
+
+        # Update scroll region
+        color_row_frame.update_idletasks()
+        canvas.config(scrollregion=canvas.bbox("all"))
+
     def create_widgets(self):
         # Create main container frames for left and right columns
         left_frame = ttk.Frame(self)
@@ -446,6 +595,9 @@ class SettingsEditor(tk.Tk):
         # --- Customization Section (LEFT) ---
         customization_frame = ttk.LabelFrame(left_frame, text="Customization")
         customization_frame.grid(row=left_row, column=0, sticky="ew", padx=5, pady=5)
+        # Configure the customization frame to expand horizontally
+        customization_frame.columnconfigure(0, weight=0)  # Label column
+        customization_frame.columnconfigure(1, weight=1)  # Content column
         customization_row = 0
 
         self.add_custom_fonts_var = tk.BooleanVar(value=self.settings.get("add_custom_fonts", False))
@@ -537,13 +689,35 @@ class SettingsEditor(tk.Tk):
         current_color_path = self.settings.get("color_scheme", "")
         current_color_name = os.path.splitext(os.path.basename(current_color_path))[0] if current_color_path else ""
         self.color_scheme_var = tk.StringVar(value=current_color_name if current_color_name in self.color_names else (self.color_names[0] if self.color_names else ""))
-        ttk.OptionMenu(customization_frame, self.color_scheme_var, self.color_scheme_var.get(), *self.color_names).grid(row=customization_row, column=1, sticky="ew")
+        color_dropdown = ttk.OptionMenu(customization_frame, self.color_scheme_var, self.color_scheme_var.get(), *self.color_names)
+        color_dropdown.grid(row=customization_row, column=1, sticky="ew")
         customization_row += 1
 
-        customization_frame.columnconfigure(1, weight=1)
-        left_row += 1
-        # --- End Customization Section (LEFT) ---
+        # --- Color scheme preview zone ---
+        ttk.Label(customization_frame, text="Preview:").grid(row=customization_row, column=0, sticky="nw", pady=(5, 0))
+        customization_row += 1
         
+        self.color_preview_frame = tk.Frame(customization_frame, bg='#2d2d2d')
+        self.color_preview_frame.grid(row=customization_row, column=0, columnspan=2, sticky="ew", pady=(2, 5))
+        customization_row += 1
+        
+        # --- Color list section ---
+        ttk.Label(customization_frame, text="Colors:").grid(row=customization_row, column=0, sticky="nw", pady=(2, 0))
+        customization_row += 1
+        
+        # Create frame for color list canvas with horizontal scrollbar
+        self.color_list_frame = tk.Frame(customization_frame, bg='#2d2d2d')
+        self.color_list_frame.grid(row=customization_row, column=0, columnspan=2, sticky="ew", pady=(0, 8))
+        customization_row += 1
+
+        # Configure left_frame to expand horizontally
+        left_frame.columnconfigure(0, weight=1)
+
+        # Initialize the color preview and list
+        self.update_color_preview()
+        self.color_scheme_var.trace_add("write", self.update_color_preview)
+        # --- End color scheme preview zone ---
+
         # --- RIGHT COLUMN ---
         right_row = 0
         
