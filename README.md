@@ -10,7 +10,7 @@ Oh and before I forget, this code is not meant to manage the settings and the co
 
 <p align="center">
     <a href="https://github.com/MoutonBinoclard/Super-Python-Calculator/releases/latest">
-        <strong>Download the latest release here</strong>
+        <strong>🔥 Download the latest release here 🔥</strong>
     </a>
 </p>
 
