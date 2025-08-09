@@ -14,7 +14,7 @@ Oh and before I forget, this code is not meant to manage the settings and the co
     </a>
 </p>
 
-## Video tutorial, how to install and use the SPC (activate subtitle !!!)
+## Video tutorial, how to install and use the SPC (English subtitles available) (Just click the picture below)
 
 [![Watch the video](https://img.youtube.com/vi/NSysrF8z56c/maxresdefault.jpg)](https://youtu.be/NSysrF8z56c)
 
