@@ -235,6 +235,10 @@ class SettingsEditor(tk.Tk):
         self.style.configure('TMenubutton', background='#404040', foreground='#ffffff', arrowcolor='#ffffff')
         self.style.map('TMenubutton', background=[('active', '#505050')])
         
+        # Add custom style for green button
+        self.style.configure('Green.TButton', background='#2ecc40', foreground='#ffffff')
+        self.style.map('Green.TButton', background=[('active', '#27ae60')])
+
         self.settings = load_settings()
         self.scoring_systems = load_scoring_systems()
         self.logo_names, self.logo_files = load_logo_files()
@@ -792,10 +796,19 @@ class SettingsEditor(tk.Tk):
         actions_frame.columnconfigure(0, weight=1)
         actions_frame.columnconfigure(1, weight=1)
         
-        # Save button
-        ttk.Button(actions_frame, text="Save Settings", command=self.save).grid(row=0, column=0, sticky="ew", padx=5, pady=10)
-        # Button to delete fontlist files
-        ttk.Button(actions_frame, text="Delete matplotlib fontlist", command=delete_fontlist_files).grid(row=0, column=1, sticky="ew", padx=5, pady=10)
+        # Swap button positions and add padding to match Manage Tournament
+        # "Delete matplotlib fontlist" on left, "Save Settings" on right
+        ttk.Button(
+            actions_frame, 
+            text="Delete matplotlib fontlist", 
+            command=delete_fontlist_files
+        ).grid(row=0, column=0, sticky="ew", padx=(10,5), pady=10)
+        ttk.Button(
+            actions_frame, 
+            text="Save Settings", 
+            command=self.save, 
+            style='Green.TButton'
+        ).grid(row=0, column=1, sticky="ew", padx=(5,10), pady=10)
         right_row += 1
         # --- End Actions Section (RIGHT) ---
 
@@ -810,7 +823,7 @@ class SettingsEditor(tk.Tk):
         info_text_frame.columnconfigure(0, weight=1)
         
         # Text widget for informations with scrollbar
-        info_text = tk.Text(info_text_frame, height=5, width=40, wrap=tk.WORD,
+        info_text = tk.Text(info_text_frame, height=7, width=40, wrap=tk.WORD,
                            bg='#404040', fg='#ffffff', font=('Arial', 9),
                            relief='solid', borderwidth=1)
         info_scrollbar = tk.Scrollbar(info_text_frame, bg='#404040', troughcolor='#606060',
