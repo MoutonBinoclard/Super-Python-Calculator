@@ -9,8 +9,8 @@ A complete calculator for scoring tournament for Super Animal Royale. It support
 Oh and before I forget, this code is not meant to manage the settings and the commands in a private game. If you want to do so, I'll recommend you to check Suchy's [Private Game Helper](https://github.com/Suchy499/PrivateGameHelper-for-Super-Animal-Royale)
 
 <p align="center">
-    <a href="https://github.com/MoutonBinoclard/Super-Python-Calculator/releases/download/7.2/Super-Python-Calculator-V7_2.zip" style="text-decoration:none;">
-        <span style="font-size:2em; font-weight:bold;">⬇️ Download the latest release ⬇️</span>
+    <a href="https://github.com/MoutonBinoclard/Super-Python-Calculator/releases/latest">
+        <strong>Download the latest release here</strong>
     </a>
 </p>
 
