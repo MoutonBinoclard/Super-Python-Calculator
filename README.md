@@ -1,5 +1,5 @@
 <p align="center">
-<img src="assets/banner.png" alt="Banner SPC" style="width:100%">
+<img src="assets/banner_main.png" alt="Banner SPC" style="width:100%">
 </p>
 
 # Super Python Calculator
