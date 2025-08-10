@@ -4,6 +4,7 @@ import json
 import os
 import importlib.util
 import re
+import sys  # <-- Add this
 
 class IntervalManager(ttk.LabelFrame):
     def __init__(self, master, **kwargs):
@@ -224,7 +225,7 @@ class ScoringCreatorApp(tk.Tk):
         masterkill_points = self.masterkill_section.get_value()
         
         # Save scoring files in the same directory as this script
-        scoring_dir = os.path.dirname(os.path.abspath(__file__))
+        scoring_dir = get_scoring_dir()
         file_path = os.path.join(scoring_dir, filename)
         
         # Check if file already exists
@@ -272,7 +273,7 @@ class ScoringCreatorApp(tk.Tk):
     
     def load_scoring(self):
         # Save scoring files in the same directory as this script
-        scoring_dir = os.path.dirname(os.path.abspath(__file__))
+        scoring_dir = get_scoring_dir()
         
         # Get all .py files in the scoring directory
         scoring_files = []
@@ -438,6 +439,13 @@ class ScoringCreatorApp(tk.Tk):
         code.append("        return 0")
         
         return "\n".join(code)
+
+def get_scoring_dir():
+    # Use the folder containing the EXE if frozen, else the script folder
+    if getattr(sys, 'frozen', False):
+        return os.path.dirname(sys.executable)
+    else:
+        return os.path.dirname(os.path.abspath(__file__))
 
 if __name__ == "__main__":
     app = ScoringCreatorApp()
