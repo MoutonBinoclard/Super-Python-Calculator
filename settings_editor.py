@@ -59,7 +59,12 @@ def load_scoring_systems():
     # List all files in SPC_scoring directory, remove extension
     if os.path.isdir(SPC_SCORING_DIR):
         files = os.listdir(SPC_SCORING_DIR)
-        scoring_names = [os.path.splitext(f)[0] for f in files if os.path.isfile(os.path.join(SPC_SCORING_DIR, f))]
+        scoring_names = [
+            os.path.splitext(f)[0]
+            for f in files
+            if os.path.isfile(os.path.join(SPC_SCORING_DIR, f))
+            and not f.startswith("SPC_")
+        ]
         return sorted(scoring_names)
     return []
 
@@ -104,7 +109,12 @@ def load_color_schemes():
     # List all .json files in SPC_color_schemes directory, remove extension
     if os.path.isdir(SPC_COLOR_SCHEME_DIR):
         files = os.listdir(SPC_COLOR_SCHEME_DIR)
-        color_files = [f for f in files if os.path.isfile(os.path.join(SPC_COLOR_SCHEME_DIR, f)) and f.lower().endswith('.json')]
+        color_files = [
+            f for f in files
+            if os.path.isfile(os.path.join(SPC_COLOR_SCHEME_DIR, f))
+            and f.lower().endswith('.json')
+            and not f.startswith("SPC_")
+        ]
         color_names = [os.path.splitext(f)[0] for f in color_files]
         return sorted(color_names), color_files
     return [], []

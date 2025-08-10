@@ -72,4 +72,5 @@ You can always ask new feature of course (Don't know if I'll code them tho). Als
 
 ### Some commands for me :
 pyinstaller --onefile --windowed settings_editor.py
+pyinstaller --onefile --windowed SPC_scoring_creator.py
 pyinstaller --onefile SPC.py

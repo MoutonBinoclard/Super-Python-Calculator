@@ -2,6 +2,7 @@ import math
 
 # ----------------------------------------------------------------------------
 
+created_with_scoring = False
 desc = """The Standardized Performance Index, my vision of a good scoring system
 All the function take the number of players into account so a small lobby awards less than a big one
 Currently in use on my server : https://discord.gg/Bm9WnUjdxR"""

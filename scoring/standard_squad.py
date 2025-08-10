@@ -2,6 +2,7 @@ import math
 
 # ----------------------------------------------------------------------------
 
+created_with_scoring = True
 desc = """This is the recommendation for scoring a SQUAD tournament that are mentioned in the Event Format Doc. 
 You can check it here: https://docs.google.com/document/d/16QC3gHi54TgKgCmIGTbVwdj4uO_kf-zB0mxx-yl7Rdo/edit?usp=sharing"""
 
@@ -14,7 +15,7 @@ def kill_points(placement, kills, total_players):  # Define how kills award poin
         return 0  # DO NOT TOUCH, this line removes spectators and players who are not present!
 
     else:
-        return kills
+        return kills * 1
     
 # ----------------------------------------------------------------------------
 

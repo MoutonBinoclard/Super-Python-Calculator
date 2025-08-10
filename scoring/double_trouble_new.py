@@ -2,6 +2,7 @@ import math
 
 # ----------------------------------------------------------------------------
 
+created_with_scoring = True
 desc = """Currently used for the scrims in the Double Trouble server (https://discord.gg/Bwe2mdGXp6)"""
 
 # ----------------------------------------------------------------------------
@@ -13,7 +14,7 @@ def kill_points(placement, kills, total_players):  # Define how kills award poin
         return 0  # DO NOT TOUCH, this line removes spectators and players who are not present!
 
     else:
-        return kills
+        return kills * 1
     
 # ----------------------------------------------------------------------------
 

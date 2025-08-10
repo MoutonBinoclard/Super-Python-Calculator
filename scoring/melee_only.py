@@ -2,6 +2,7 @@ import math
 
 # ----------------------------------------------------------------------------
 
+created_with_scoring = True
 desc = """Used for the "Whiskered melee only tournament" here : https://discord.gg/zCybJ7eHdk"""
 
 # ----------------------------------------------------------------------------
@@ -13,7 +14,7 @@ def kill_points(placement, kills, total_players):  # Define how kills award poin
         return 0  # DO NOT TOUCH, this line removes spectators and players who are not present!
 
     else:
-        return kills
+        return kills * 1
     
 # ----------------------------------------------------------------------------
 
