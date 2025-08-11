@@ -2,14 +2,17 @@
     "team_mode": true,
     "scoring_system": "spi",
     "tournament_name": "Tournament Name",
-    "logo": false,
+    "logo": true,
     "logo_path": "logo/super_marten_royale_large.png",
     "font_weight": "Bold",
     "zoom_logo": 0.04,
     "date": true,
-    "add_custom_fonts": false,
+    "add_custom_fonts": true,
     "custom_font": "C:\\Windows\\Fonts\\SpaceGrotesk-Bold.ttf",
     "color_scheme": "color_schemes/v7_liquid_crystal.json",
     "event_host": "Host Name",
-    "auto_team": true
+    "auto_team": true,
+    "enable_graph_export": true,
+    "enable_graph_placement_export": true,
+    "enable_spreadsheet_export": true
 }

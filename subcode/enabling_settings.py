@@ -92,4 +92,7 @@ def load_settings(path="settings.json"):
         settings["font_weight"],
         settings["color_scheme"],
         settings["auto_team"],
+        settings.get("enable_graph_export"),
+        settings.get("enable_graph_placement_export"),
+        settings.get("enable_spreadsheet_export")
     )

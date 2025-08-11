@@ -9,6 +9,10 @@ def generate_gradient_colors(colors, num_colors):
     # Convert hex colors to RGB
     rgb_colors = [to_rgb(color) for color in colors]
 
+    # Handle edge case: only one color requested
+    if num_colors <= 1:
+        return [to_hex(rgb_colors[0])] if rgb_colors else []
+
     # Équivalent de np.linspace(start, end, num)
     t = [i * (len(rgb_colors) - 1) / (num_colors - 1) for i in range(num_colors)]
 

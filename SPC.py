@@ -20,6 +20,9 @@ from subcode.enabling_settings import load_settings
     font_weight,
     color_scheme,
     auto_team,
+    enable_graph_export,
+    enable_graph_placement_export,
+    enable_spreadsheet_export
 ) = load_settings()
 
 
@@ -82,5 +85,8 @@ launch_exportations(
     logo,
     logo_path,
     zoom_logo,
-    date
+    date,
+    enable_graph_export,
+    enable_graph_placement_export,
+    enable_spreadsheet_export
 )

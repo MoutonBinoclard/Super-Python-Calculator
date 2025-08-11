@@ -42,7 +42,10 @@ def load_settings():
         "color_scheme": "",
         "logo": False,
         "logo_path": "",
-        "zoom_logo": 1.0
+        "zoom_logo": 1.0,
+        "enable_graph_export": True,
+        "enable_graph_placement_export": True,
+        "enable_spreadsheet_export": True
     }
     if not os.path.exists(SETTINGS_PATH):
         with open(SETTINGS_PATH, "w", encoding="utf-8") as f:
@@ -798,6 +801,40 @@ class SettingsEditor(tk.Tk):
         right_row += 1
         # --- End Logo Section (RIGHT) ---
 
+        # --- Export Section (RIGHT) ---
+        export_frame = ttk.LabelFrame(right_frame, text="Export")
+        export_frame.grid(row=right_row, column=0, sticky="ew", padx=5, pady=5)
+        export_frame.columnconfigure(0, weight=1)
+        export_frame.columnconfigure(1, weight=1)
+        export_row = 0
+
+        self.enable_graph_export_var = tk.BooleanVar(value=self.settings.get("enable_graph_export", True))
+        self.enable_graph_placement_export_var = tk.BooleanVar(value=self.settings.get("enable_graph_placement_export", True))
+        self.enable_spreadsheet_export_var = tk.BooleanVar(value=self.settings.get("enable_spreadsheet_export", True))
+
+        ttk.Checkbutton(export_frame, text="Enable Graph Export", variable=self.enable_graph_export_var).grid(row=export_row, column=0, sticky="w", columnspan=2)
+        export_row += 1
+        ttk.Checkbutton(export_frame, text="Enable Graph Placement Export", variable=self.enable_graph_placement_export_var).grid(row=export_row, column=0, sticky="w", columnspan=2)
+        export_row += 1
+        ttk.Checkbutton(export_frame, text="Enable Spreadsheet Export", variable=self.enable_spreadsheet_export_var).grid(row=export_row, column=0, sticky="w", columnspan=2)
+        export_row += 1
+
+        # Add warning text under the spreadsheet export checkbox
+        warning_label = ttk.Label(
+            export_frame,
+            text="Exporting leaderboard (as a picture) can significantly increase load time.\nIt is recommended to enable this only after the final round.",
+            foreground="#ffcc00",  # yellow-ish for visibility
+            font=('Arial', 8, 'italic'),
+            background='#2d2d2d',
+            wraplength=260,
+            justify='left'
+        )
+        warning_label.grid(row=export_row, column=0, columnspan=2, sticky="w", padx=(5,0), pady=(0,8))
+        export_row += 1
+
+        right_row += 1
+        # --- End Export Section (RIGHT) ---
+
         # --- Manage Tournament Section (RIGHT) ---
         save_tournament_frame = ttk.LabelFrame(right_frame, text="Manage Tournament")
         save_tournament_frame.grid(row=right_row, column=0, sticky="ew", padx=5, pady=5)
@@ -956,6 +993,9 @@ class SettingsEditor(tk.Tk):
         self.settings["scoring_system"] = self.scoring_var.get()
         self.settings["tournament_name"] = self.tournament_var.get()
         self.settings["event_host"] = self.event_host_var.get()
+        self.settings["enable_graph_export"] = self.enable_graph_export_var.get()
+        self.settings["enable_graph_placement_export"] = self.enable_graph_placement_export_var.get()
+        self.settings["enable_spreadsheet_export"] = self.enable_spreadsheet_export_var.get()
         try:
             save_settings(self.settings)
             messagebox.showinfo("Success", "Settings saved.")
