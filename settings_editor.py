@@ -45,7 +45,8 @@ def load_settings():
         "zoom_logo": 1.0,
         "enable_graph_export": True,
         "enable_graph_placement_export": True,
-        "enable_spreadsheet_export": True
+        "enable_spreadsheet_export": True,
+        "activate_game_saver_key": "m"  # Default activation key
     }
     if not os.path.exists(SETTINGS_PATH):
         with open(SETTINGS_PATH, "w", encoding="utf-8") as f:
@@ -361,7 +362,7 @@ class SettingsEditor(tk.Tk):
             
             # Calculate resize ratio maintaining aspect ratio
             width, height = img.size
-            max_width, max_height = 150, 100
+            max_width, max_height = 150, 75  # Reduce max_height to match smaller frame
             
             # Calculate resize ratio
             width_ratio = max_width / width if width > max_width else 1
@@ -775,7 +776,7 @@ class SettingsEditor(tk.Tk):
         # Logo preview label on the right side
         ttk.Label(logo_frame, text="Preview:").grid(row=logo_row, column=0, sticky="nw", pady=5)
         # Frame to contain the logo preview with fixed size
-        preview_frame = tk.Frame(logo_frame, width=150, height=100, bg='#404040', bd=1, relief=tk.SUNKEN)
+        preview_frame = tk.Frame(logo_frame, width=150, height=80, bg='#404040', bd=1, relief=tk.SUNKEN)
         preview_frame.grid(row=logo_row, column=1, sticky="w", pady=5)
         preview_frame.pack_propagate(False)  # Prevent frame from resizing to fit content
         
@@ -834,6 +835,32 @@ class SettingsEditor(tk.Tk):
 
         right_row += 1
         # --- End Export Section (RIGHT) ---
+
+        # --- Misc Section (RIGHT) ---
+        misc_frame = ttk.LabelFrame(right_frame, text="Misc")
+        misc_frame.grid(row=right_row, column=0, sticky="ew", padx=5, pady=5)
+        misc_frame.columnconfigure(1, weight=1)
+        misc_row = 0
+
+        # Activation key for game saver
+        ttk.Label(misc_frame, text="Game Saver Key:").grid(row=misc_row, column=0, sticky="w", padx=(5,0))
+        self.game_saver_key_var = tk.StringVar(value=self.settings.get("activate_game_saver_key", "m"))
+        key_entry = ttk.Entry(misc_frame, textvariable=self.game_saver_key_var, width=5)
+        key_entry.grid(row=misc_row, column=1, sticky="w", padx=5, pady=5)
+        
+        # Add a note label explaining the key usage
+        note_label = ttk.Label(
+            misc_frame,
+            text="The game will be saved using Ctrl + the key you specify above",
+            font=('Arial', 8, 'italic'),
+            background='#2d2d2d',
+            wraplength=260,
+            justify='left'
+        )
+        note_label.grid(row=misc_row+1, column=0, columnspan=2, sticky="w", padx=5, pady=(0,5))
+        
+        right_row += 1
+        # --- End Misc Section (RIGHT) ---
 
         # --- Manage Tournament Section (RIGHT) ---
         save_tournament_frame = ttk.LabelFrame(right_frame, text="Manage Tournament")
@@ -996,6 +1023,8 @@ class SettingsEditor(tk.Tk):
         self.settings["enable_graph_export"] = self.enable_graph_export_var.get()
         self.settings["enable_graph_placement_export"] = self.enable_graph_placement_export_var.get()
         self.settings["enable_spreadsheet_export"] = self.enable_spreadsheet_export_var.get()
+        # Save the game saver key setting
+        self.settings["activate_game_saver_key"] = self.game_saver_key_var.get()
         try:
             save_settings(self.settings)
             messagebox.showinfo("Success", "Settings saved.")
