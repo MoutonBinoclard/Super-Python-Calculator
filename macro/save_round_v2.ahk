@@ -18,7 +18,19 @@ hotkeyStr := "^" . gameSaverKey
 
 ; Dynamically assign hotkey
 Hotkey(hotkeyStr, ActivateGameSaver)
+
+; Show shortcut information to user
+ShowShortcutInfo(gameSaverKey)
 return
+
+; Function to show shortcut information
+ShowShortcutInfo(key)
+{
+    ; Format the key for display (capitalize it for better readability)
+    displayKey := Format("Ctrl + {1}", StrUpper(key))
+    
+    MsgBox("SPC Saver is active!`n`nUse " displayKey " to save a round.", "SPC Saver", "OK")
+}
 
 ; ==== End Dynamic Hotkey Loader ====
 
