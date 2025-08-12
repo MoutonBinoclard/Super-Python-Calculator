@@ -1,13 +1,13 @@
 from subcode.utilities import list_files
 
-def find_ids(file_to_check):
+def find_ids(files_to_check):
     """
     Return a list with every ID found in the giver files
     """
     id_list = []
 
     # Iterate through each file in the list
-    for filename in file_to_check:
+    for filename in files_to_check:
         with open(filename, 'r', encoding='utf-8') as file:
             lines = file.readlines()
         

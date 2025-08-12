@@ -23,7 +23,13 @@ def stats_to_fusion_one(fusion_dict, base_dict, fusion_id, team_mode):
         current_round_dict = {"score": 0, "placement": 0, "kills": 0, "masterkill": False, "number_of_players": 0}
         for team_id in fusion_dict[fusion_id]['ids']:
             current_placement = base_dict[team_id]['rounds'][round_number]['placement']
-            current_kills = base_dict[team_id]['rounds'][round_number]['team_kills']
+            
+            if team_mode:
+                current_kills = base_dict[team_id]['rounds'][round_number]['team_kills']
+            else:
+                current_kills = base_dict[team_id]['rounds'][round_number]['kills']
+
+
             current_number_of_players = base_dict[team_id]['rounds'][round_number]['number_of_players']
             
             if team_mode:
