@@ -43,7 +43,7 @@ from subcode.base_dict import create_start_dict
 base_dict = create_start_dict()
 
 # Adding rounds to the base dictionary
-from subcode.round_extraction import add_all_rounds_to_base_dict
+from subcode.round_extraction_V2 import add_all_rounds_to_base_dict
 base_dict = add_all_rounds_to_base_dict(base_dict)
 
 # Adding statistics to the base dictionary
