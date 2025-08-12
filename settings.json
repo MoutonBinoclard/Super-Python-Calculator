@@ -15,5 +15,7 @@
     "enable_graph_export": true,
     "enable_graph_placement_export": true,
     "enable_spreadsheet_export": true,
-    "activate_game_saver_key": "m"
+    "activate_game_saver_key": "m",
+    "graphs_pixel_density": 1000,
+    "spreadsheet_pixel_density": 150
 }

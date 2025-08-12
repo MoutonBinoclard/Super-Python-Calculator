@@ -805,19 +805,38 @@ class SettingsEditor(tk.Tk):
         # --- Export Section (RIGHT) ---
         export_frame = ttk.LabelFrame(right_frame, text="Export")
         export_frame.grid(row=right_row, column=0, sticky="ew", padx=5, pady=5)
-        export_frame.columnconfigure(0, weight=1)
-        export_frame.columnconfigure(1, weight=1)
+        export_frame.columnconfigure(0, weight=1)  # Left column for checkboxes
+        export_frame.columnconfigure(1, weight=1)  # Right column for pixel density inputs
         export_row = 0
 
         self.enable_graph_export_var = tk.BooleanVar(value=self.settings.get("enable_graph_export", True))
         self.enable_graph_placement_export_var = tk.BooleanVar(value=self.settings.get("enable_graph_placement_export", True))
         self.enable_spreadsheet_export_var = tk.BooleanVar(value=self.settings.get("enable_spreadsheet_export", True))
 
-        ttk.Checkbutton(export_frame, text="Enable Graph Export", variable=self.enable_graph_export_var).grid(row=export_row, column=0, sticky="w", columnspan=2)
+        # Graph export checkbox and pixel density entry
+        ttk.Checkbutton(export_frame, text="Enable Graph Export", variable=self.enable_graph_export_var).grid(row=export_row, column=0, sticky="w")
+        
+        # Create frame for graph pixel density with label and entry
+        graph_density_frame = tk.Frame(export_frame, bg='#2d2d2d')
+        graph_density_frame.grid(row=export_row, column=1, sticky="ew", padx=5)
+        ttk.Label(graph_density_frame, text="Density (px):").pack(side=tk.LEFT, padx=(0,5))
+        self.graph_pixel_density_var = tk.StringVar(value=str(self.settings.get("graphs_pixel_density", 600)))
+        ttk.Entry(graph_density_frame, textvariable=self.graph_pixel_density_var, width=5).pack(side=tk.LEFT)
         export_row += 1
-        ttk.Checkbutton(export_frame, text="Enable Graph Placement Export", variable=self.enable_graph_placement_export_var).grid(row=export_row, column=0, sticky="w", columnspan=2)
+        
+        # Graph placement export checkbox
+        ttk.Checkbutton(export_frame, text="Enable Graph Placement Export", variable=self.enable_graph_placement_export_var).grid(row=export_row, column=0, sticky="w")
         export_row += 1
-        ttk.Checkbutton(export_frame, text="Enable Spreadsheet Export", variable=self.enable_spreadsheet_export_var).grid(row=export_row, column=0, sticky="w", columnspan=2)
+        
+        # Spreadsheet export checkbox and pixel density entry
+        ttk.Checkbutton(export_frame, text="Enable Spreadsheet Export", variable=self.enable_spreadsheet_export_var).grid(row=export_row, column=0, sticky="w")
+        
+        # Create frame for spreadsheet pixel density with label and entry
+        sheet_density_frame = tk.Frame(export_frame, bg='#2d2d2d')
+        sheet_density_frame.grid(row=export_row, column=1, sticky="ew", padx=5)
+        ttk.Label(sheet_density_frame, text="Density (px):").pack(side=tk.LEFT, padx=(0,5))
+        self.spreadsheet_pixel_density_var = tk.StringVar(value=str(self.settings.get("spreadsheet_pixel_density", 150)))
+        ttk.Entry(sheet_density_frame, textvariable=self.spreadsheet_pixel_density_var, width=5).pack(side=tk.LEFT)
         export_row += 1
 
         # Add warning text under the spreadsheet export checkbox
@@ -862,39 +881,40 @@ class SettingsEditor(tk.Tk):
         right_row += 1
         # --- End Misc Section (RIGHT) ---
 
-        # --- Manage Tournament Section (RIGHT) ---
-        save_tournament_frame = ttk.LabelFrame(right_frame, text="Manage Tournament")
-        save_tournament_frame.grid(row=right_row, column=0, sticky="ew", padx=5, pady=5)
-        # Configure columns to expand equally
-        save_tournament_frame.columnconfigure(0, weight=1)
-        save_tournament_frame.columnconfigure(1, weight=1)
-        # Centered and same size buttons
-        btn_save = ttk.Button(save_tournament_frame, text="Save Tournament to Folder", command=self.save_tournament)
-        btn_delete = ttk.Button(save_tournament_frame, text="DELETE ROUNDS", command=self.delete_rounds)
-        btn_save.grid(row=0, column=0, sticky="ew", padx=(10,5), pady=10)
-        btn_delete.grid(row=0, column=1, sticky="ew", padx=(5,10), pady=10)
-        right_row += 1
-        # --- End Manage Tournament Section (RIGHT) ---
-
         # --- Actions Section (RIGHT) ---
         actions_frame = ttk.LabelFrame(right_frame, text="Actions")
         actions_frame.grid(row=right_row, column=0, sticky="ew", padx=5, pady=5)
         actions_frame.columnconfigure(0, weight=1)
         actions_frame.columnconfigure(1, weight=1)
         
-        # Swap button positions and add padding to match Manage Tournament
-        # "Delete matplotlib fontlist" on left, "Save Settings" on right
+        # Create a grid with 2 rows and 2 columns for the 4 buttons
+        # First row: Save Tournament and Delete Rounds (moved from Manage Tournament)
+        ttk.Button(
+            actions_frame, 
+            text="Save Tournament to Folder", 
+            command=self.save_tournament
+        ).grid(row=0, column=0, sticky="ew", padx=(10,5), pady=(10,5))
+        
+        ttk.Button(
+            actions_frame, 
+            text="DELETE ROUNDS", 
+            command=self.delete_rounds
+        ).grid(row=0, column=1, sticky="ew", padx=(5,10), pady=(10,5))
+        
+        # Second row: Delete matplotlib fontlist and Save Settings
         ttk.Button(
             actions_frame, 
             text="Delete matplotlib fontlist", 
             command=delete_fontlist_files
-        ).grid(row=0, column=0, sticky="ew", padx=(10,5), pady=10)
+        ).grid(row=1, column=0, sticky="ew", padx=(10,5), pady=(5,10))
+        
         ttk.Button(
             actions_frame, 
             text="Save Settings", 
             command=self.save, 
             style='Green.TButton'
-        ).grid(row=0, column=1, sticky="ew", padx=(5,10), pady=10)
+        ).grid(row=1, column=1, sticky="ew", padx=(5,10), pady=(5,10))
+        
         right_row += 1
         # --- End Actions Section (RIGHT) ---
 
@@ -1025,6 +1045,18 @@ class SettingsEditor(tk.Tk):
         self.settings["enable_spreadsheet_export"] = self.enable_spreadsheet_export_var.get()
         # Save the game saver key setting
         self.settings["activate_game_saver_key"] = self.game_saver_key_var.get()
+        
+        # Save pixel density settings with validation
+        try:
+            self.settings["graphs_pixel_density"] = int(self.graph_pixel_density_var.get())
+        except ValueError:
+            self.settings["graphs_pixel_density"] = 600  # Default if invalid
+            
+        try:
+            self.settings["spreadsheet_pixel_density"] = int(self.spreadsheet_pixel_density_var.get())
+        except ValueError:
+            self.settings["spreadsheet_pixel_density"] = 150  # Default if invalid
+            
         try:
             save_settings(self.settings)
             messagebox.showinfo("Success", "Settings saved.")

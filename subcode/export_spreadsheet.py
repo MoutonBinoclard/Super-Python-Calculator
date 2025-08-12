@@ -2,7 +2,7 @@ import csv
 import matplotlib.pyplot as plt
 import os
 
-def export_spreadsheet_from_csv(csv_path, tournament_name, cs, logo, logo_path, zoom_logo, date):
+def export_spreadsheet_from_csv(csv_path, tournament_name, cs, logo, logo_path, zoom_logo, date, spreadsheet_pixel_density):
     """
     Export a spreadsheet (png format) from a CSV file with color scheme applied.
     No margin: the table fills the entire image.
@@ -62,7 +62,7 @@ def export_spreadsheet_from_csv(csv_path, tournament_name, cs, logo, logo_path, 
     # Save image
     plt.savefig(
         os.path.join("exports", "spreadsheet.png"),
-        dpi=150,
+        dpi=spreadsheet_pixel_density,
         facecolor=cs["background_color"],
         pad_inches=0
     )

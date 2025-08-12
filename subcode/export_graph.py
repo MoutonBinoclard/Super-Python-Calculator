@@ -64,7 +64,7 @@ def define_size_x_label(dict_fusion):
 
 
 
-def export_graph_leaderboard(dict_fusion, tournament_name, color_scheme, show_logo, logo_path, zoom_logo, show_date):
+def export_graph_leaderboard(dict_fusion, tournament_name, color_scheme, show_logo, logo_path, zoom_logo, show_date, graphs_pixel_density):
     """
     Exporte un graphique leaderboard à partir d'un dictionnaire fusionné.
     dict_fusion: {
@@ -162,10 +162,10 @@ def export_graph_leaderboard(dict_fusion, tournament_name, color_scheme, show_lo
 
     # Créer le dossier d'export si besoin
     os.makedirs("exports", exist_ok=True)
-    plt.savefig(os.path.join("exports", "graph_leaderboard.png"), dpi=600, facecolor=color_scheme["background_color"])
+    plt.savefig(os.path.join("exports", "graph_leaderboard.png"), dpi=graphs_pixel_density, facecolor=color_scheme["background_color"])
     plt.close()
 
-def export_average_placement_graph(dict_fusion, nom_tr, cs, lg, lg_path, zoom, dt):
+def export_average_placement_graph(dict_fusion, nom_tr, cs, lg, lg_path, zoom, dt, graphs_pixel_density):
     """
     Exporte un graphique de placement moyen à partir d'un dictionnaire fusionné.
     dict_fusion: {
@@ -278,4 +278,4 @@ def export_average_placement_graph(dict_fusion, nom_tr, cs, lg, lg_path, zoom, d
                 fontdict={'color': cs["date_color"], 'fontsize': 8})
 
     # Enregistrer le graphique
-    plt.savefig(os.path.join("exports", "graph_average_placement.png"), dpi=600, facecolor=cs["background_color"])
+    plt.savefig(os.path.join("exports", "graph_average_placement.png"), dpi=graphs_pixel_density, facecolor=cs["background_color"])
