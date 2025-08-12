@@ -24,7 +24,8 @@ from subcode.enabling_settings import load_settings
     enable_graph_placement_export,
     enable_spreadsheet_export,
     graphs_pixel_density,
-    spreadsheet_pixel_density
+    spreadsheet_pixel_density,
+    logo_vertical_offset
 ) = load_settings()
 
 
@@ -92,5 +93,6 @@ launch_exportations(
     enable_graph_placement_export,
     enable_spreadsheet_export,
     graphs_pixel_density,
-    spreadsheet_pixel_density
+    spreadsheet_pixel_density,
+    logo_vertical_offset
 )

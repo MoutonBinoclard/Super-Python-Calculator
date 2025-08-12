@@ -96,5 +96,6 @@ def load_settings(path="settings.json"):
         settings.get("enable_graph_placement_export"),
         settings.get("enable_spreadsheet_export"),
         settings.get("graphs_pixel_density"),
-        settings.get("spreadsheet_pixel_density")
+        settings.get("spreadsheet_pixel_density"),
+        settings.get("logo_vertical_offset")
     )

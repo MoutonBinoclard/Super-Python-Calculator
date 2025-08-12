@@ -3,7 +3,7 @@ from subcode.export_leaderboard import *
 from subcode.export_spreadsheet import *
 import os
 
-def launch_exportations(fusion_dict, base_dict, tournament_name, color_scheme, logo, logo_path, zoom_logo, date, enable_graph_export, enable_graph_placement_export, enable_spreadsheet_export, graphs_pixel_density, spreadsheet_pixel_density):
+def launch_exportations(fusion_dict, base_dict, tournament_name, color_scheme, logo, logo_path, zoom_logo, date, enable_graph_export, enable_graph_placement_export, enable_spreadsheet_export, graphs_pixel_density, spreadsheet_pixel_density, logo_vertical_offset):
     """
     Launches the exportation of the leaderboard graph.
     
@@ -24,10 +24,10 @@ def launch_exportations(fusion_dict, base_dict, tournament_name, color_scheme, l
     export_full_csv(fusion_dict, base_dict)
 
     if enable_graph_placement_export:
-        export_average_placement_graph(fusion_dict, tournament_name, color_scheme, logo, logo_path, zoom_logo, date, graphs_pixel_density)
+        export_average_placement_graph(fusion_dict, tournament_name, color_scheme, logo, logo_path, zoom_logo, date, graphs_pixel_density, logo_vertical_offset)
     
     if enable_graph_export:
-        export_graph_leaderboard(fusion_dict, tournament_name, color_scheme, logo, logo_path, zoom_logo, date, graphs_pixel_density)
+        export_graph_leaderboard(fusion_dict, tournament_name, color_scheme, logo, logo_path, zoom_logo, date, graphs_pixel_density, logo_vertical_offset)
     
     if enable_spreadsheet_export :
         export_spreadsheet_from_csv("exports/leaderboard_full.csv", tournament_name, color_scheme, logo, logo_path, zoom_logo, date, spreadsheet_pixel_density)

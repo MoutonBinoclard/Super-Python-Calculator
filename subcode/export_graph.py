@@ -64,7 +64,7 @@ def define_size_x_label(dict_fusion):
 
 
 
-def export_graph_leaderboard(dict_fusion, tournament_name, color_scheme, show_logo, logo_path, zoom_logo, show_date, graphs_pixel_density):
+def export_graph_leaderboard(dict_fusion, tournament_name, color_scheme, show_logo, logo_path, zoom_logo, show_date, graphs_pixel_density, logo_vertical_offset):
     """
     Exporte un graphique leaderboard à partir d'un dictionnaire fusionné.
     dict_fusion: {
@@ -150,7 +150,7 @@ def export_graph_leaderboard(dict_fusion, tournament_name, color_scheme, show_lo
     if show_logo:
         logo_image = plt.imread(logo_path)
         image_box = OffsetImage(logo_image, zoom=zoom_logo)
-        annotation_box = AnnotationBbox(image_box, (0.5, 1.075), xycoords='axes fraction', frameon=False, box_alignment=(0.5, 0))
+        annotation_box = AnnotationBbox(image_box, (0.5, 1.075 + logo_vertical_offset), xycoords='axes fraction', frameon=False, box_alignment=(0.5, 0))
         ax.add_artist(annotation_box)
         ax.set_title("")
 
@@ -165,7 +165,7 @@ def export_graph_leaderboard(dict_fusion, tournament_name, color_scheme, show_lo
     plt.savefig(os.path.join("exports", "graph_leaderboard.png"), dpi=graphs_pixel_density, facecolor=color_scheme["background_color"])
     plt.close()
 
-def export_average_placement_graph(dict_fusion, nom_tr, cs, lg, lg_path, zoom, dt, graphs_pixel_density):
+def export_average_placement_graph(dict_fusion, nom_tr, cs, lg, lg_path, zoom, dt, graphs_pixel_density, logo_vertical_offset):
     """
     Exporte un graphique de placement moyen à partir d'un dictionnaire fusionné.
     dict_fusion: {
@@ -267,7 +267,7 @@ def export_average_placement_graph(dict_fusion, nom_tr, cs, lg, lg_path, zoom, d
         # Ajouter le logo au graphique
         ax = plt.gca()
         image_box = OffsetImage(logo_image, zoom=zoom)  # Ajuster le zoom pour auto-scaling
-        annotation_box = AnnotationBbox(image_box, (0.5, 1.075), xycoords='axes fraction', frameon=False, box_alignment=(0.5, 0))
+        annotation_box = AnnotationBbox(image_box, (0.5, 1.075 + logo_vertical_offset), xycoords='axes fraction', frameon=False, box_alignment=(0.5, 0))
         ax.add_artist(annotation_box)
         ax.set_title("")
 

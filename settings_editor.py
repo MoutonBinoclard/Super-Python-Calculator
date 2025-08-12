@@ -46,7 +46,8 @@ def load_settings():
         "enable_graph_export": True,
         "enable_graph_placement_export": True,
         "enable_spreadsheet_export": True,
-        "activate_game_saver_key": "m"  # Default activation key
+        "activate_game_saver_key": "m",  # Default activation key
+        "logo_vertical_offset": 0.0  # Default vertical offset
     }
     if not os.path.exists(SETTINGS_PATH):
         with open(SETTINGS_PATH, "w", encoding="utf-8") as f:
@@ -797,6 +798,17 @@ class SettingsEditor(tk.Tk):
                              bg='#404040', fg='#ffffff', activebackground='#505050', highlightbackground='#2d2d2d', troughcolor='#606060')
         zoom_scale.grid(row=logo_row, column=1, sticky="ew")
         logo_row += 1
+        
+        # Add vertical offset slider
+        ttk.Label(logo_frame, text="Vertical Offset:").grid(row=logo_row, column=0, sticky="w")
+        self.logo_vertical_offset_var = tk.DoubleVar(value=self.settings.get("logo_vertical_offset", 0.0))
+        # Configure Scale widget for vertical offset
+        vertical_offset_scale = tk.Scale(logo_frame, variable=self.logo_vertical_offset_var, 
+                                       from_=-0.2, to=0.2, resolution=0.01, orient="horizontal",
+                                       bg='#404040', fg='#ffffff', activebackground='#505050', 
+                                       highlightbackground='#2d2d2d', troughcolor='#606060')
+        vertical_offset_scale.grid(row=logo_row, column=1, sticky="ew")
+        logo_row += 1
 
         logo_frame.columnconfigure(1, weight=1)
         right_row += 1
@@ -819,7 +831,7 @@ class SettingsEditor(tk.Tk):
         # Create frame for graph pixel density with label and entry
         graph_density_frame = tk.Frame(export_frame, bg='#2d2d2d')
         graph_density_frame.grid(row=export_row, column=1, sticky="ew", padx=5)
-        ttk.Label(graph_density_frame, text="Density (px):").pack(side=tk.LEFT, padx=(0,5))
+        ttk.Label(graph_density_frame, text="Density (dpi):").pack(side=tk.LEFT, padx=(0,5))
         self.graph_pixel_density_var = tk.StringVar(value=str(self.settings.get("graphs_pixel_density", 600)))
         ttk.Entry(graph_density_frame, textvariable=self.graph_pixel_density_var, width=5).pack(side=tk.LEFT)
         export_row += 1
@@ -834,7 +846,7 @@ class SettingsEditor(tk.Tk):
         # Create frame for spreadsheet pixel density with label and entry
         sheet_density_frame = tk.Frame(export_frame, bg='#2d2d2d')
         sheet_density_frame.grid(row=export_row, column=1, sticky="ew", padx=5)
-        ttk.Label(sheet_density_frame, text="Density (px):").pack(side=tk.LEFT, padx=(0,5))
+        ttk.Label(sheet_density_frame, text="Density (dpi):").pack(side=tk.LEFT, padx=(0,5))
         self.spreadsheet_pixel_density_var = tk.StringVar(value=str(self.settings.get("spreadsheet_pixel_density", 150)))
         ttk.Entry(sheet_density_frame, textvariable=self.spreadsheet_pixel_density_var, width=5).pack(side=tk.LEFT)
         export_row += 1
@@ -1024,6 +1036,7 @@ class SettingsEditor(tk.Tk):
         self.settings["logo_path"] = self.logo_name_to_path.get(selected_logo_name, "")
         self.settings["zoom_logo"] = self.zoom_logo_var.get()
         self.settings["logo"] = self.logo_var.get()
+        self.settings["logo_vertical_offset"] = self.logo_vertical_offset_var.get()
         # Save color_scheme as full path using selected color scheme name
         selected_color_name = self.color_scheme_var.get()
         self.settings["color_scheme"] = self.color_name_to_path.get(selected_color_name, "")
