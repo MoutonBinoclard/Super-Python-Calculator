@@ -45,16 +45,16 @@ def define_size_x_label(dict_fusion):
         if nb_players_in_team > max_player_team:
             max_player_team = nb_players_in_team
     
-    if max_player_team == 1 :
-        return 8
-    
-    if max_player_team == 2 and number_columns >= 20:
+    if max_player_team == 1 and number_columns >=40:
         return 5
     
-    if max_player_team == 3 and number_columns < 13:
+    elif max_player_team == 2 and number_columns >= 20:
         return 5
     
-    if max_player_team == 4 and number_columns >= 10:
+    elif max_player_team == 3 and number_columns >= 15:
+        return 5
+    
+    elif max_player_team == 4 and number_columns >= 10:
         return 5
     
     else :

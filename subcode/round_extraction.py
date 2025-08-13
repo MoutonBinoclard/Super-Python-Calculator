@@ -78,11 +78,8 @@ def max_kills_by_squad_in_round(raw_dict):
     # Count the kills, if squad_id = 0, you do not add, you compare and take the highest
     for keys in raw_dict:
         if raw_dict[keys]["placement"] > 0:
-            if raw_dict[keys]["squad_id"] != 0:
-                squads_kills[raw_dict[keys]["squad_id"]] += raw_dict[keys]["kills"]
-            else:
-                if raw_dict[keys]["kills"] > squads_kills[0]:
-                    squads_kills[0] = raw_dict[keys]["kills"]
+            squads_kills[raw_dict[keys]["squad_id"]] += raw_dict[keys]["kills"]
+
     # Return the max value in the dict
     return max(squads_kills.values()), squads_kills
 
