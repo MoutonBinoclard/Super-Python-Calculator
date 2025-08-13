@@ -3,6 +3,11 @@
 </p>
 
 # Super Python Calculator
+<p align="center">
+    <a href="https://www.codefactor.io/repository/github/MoutonBinoclard/Super-Python-Calculator">
+        <img src="https://www.codefactor.io/repository/github/MoutonBinoclard/Super-Python-Calculator/badge" alt="CodeFactor">
+    </a>
+</p>
 
 A complete calculator for scoring tournament for Super Animal Royale. It supports solo, duo and squads, offer the possibilitie to export leaderboards and its highly customizable !
 
