@@ -2,12 +2,18 @@
 <img src="assets/banner_main.png" alt="Banner SPC" style="width:100%">
 </p>
 
-# Super Python Calculator
 <p align="center">
     <a href="https://www.codefactor.io/repository/github/MoutonBinoclard/Super-Python-Calculator">
         <img src="https://www.codefactor.io/repository/github/MoutonBinoclard/Super-Python-Calculator/badge" alt="CodeFactor">
     </a>
+    <a href="https://discord.gg/Bm9WnUjdxR">
+        <img src="https://discordapp.com/api/guilds/1197494760370344026/widget.png?style=shield" alt="want to chat ?">
+    </a>
 </p>
+
+# Super Python Calculator
+
+
 
 A complete calculator for scoring tournament for Super Animal Royale. It supports solo, duo and squads, offer the possibilitie to export leaderboards and its highly customizable !
 
