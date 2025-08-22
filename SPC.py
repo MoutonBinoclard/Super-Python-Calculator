@@ -25,7 +25,8 @@ from subcode.enabling_settings import load_settings
     enable_spreadsheet_export,
     graphs_pixel_density,
     spreadsheet_pixel_density,
-    logo_vertical_offset
+    logo_vertical_offset,
+    variable_team
 ) = load_settings()
 
 
@@ -63,7 +64,7 @@ fusion_dict = (create_fus_dict(base_dict, current_teams))
 
 # Adding stats to the fusion dict
 from subcode.fusion_dict import stats_to_fusion
-fusion_dict = stats_to_fusion(fusion_dict, base_dict, team_mode)
+fusion_dict = stats_to_fusion(fusion_dict, base_dict, team_mode, variable_team) # Ici faire le changement pour scrims duo
 
 # Adding scores to the fusion dict
 from subcode.fusion_dict import add_scores_to_fusion_dict

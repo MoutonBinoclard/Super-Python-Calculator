@@ -14,7 +14,7 @@ def create_fus_dict(base_dict, current_teams):
         }
     return fusion_dict
 
-def stats_to_fusion_one(fusion_dict, base_dict, fusion_id, team_mode):
+def stats_to_fusion_one(fusion_dict, base_dict, fusion_id, team_mode, variable_team):
     """
     Find the best score for a given fusion dictionary ID.
     """
@@ -25,9 +25,10 @@ def stats_to_fusion_one(fusion_dict, base_dict, fusion_id, team_mode):
             current_placement = base_dict[team_id]['rounds'][round_number]['placement']
             current_number_of_players = base_dict[team_id]['rounds'][round_number]['number_of_players']
             
-            if team_mode:
+            if team_mode or variable_team:
                 current_kills = base_dict[team_id]['rounds'][round_number]['team_kills']
                 current_masterkill = base_dict[team_id]['rounds'][round_number]['masterkill_squad']
+
             else:
                 current_kills = base_dict[team_id]['rounds'][round_number]['kills']
                 current_masterkill = base_dict[team_id]['rounds'][round_number]['masterkill_solo']
@@ -46,12 +47,12 @@ def stats_to_fusion_one(fusion_dict, base_dict, fusion_id, team_mode):
     fusion_dict[fusion_id]['rounds'] = rounds
     return fusion_dict
 
-def stats_to_fusion(fusion_dict, base_dict, team_mode):
+def stats_to_fusion(fusion_dict, base_dict, team_mode, variable_team):
     """
     Apply stats_to_fusion_one to all entries in the fusion dictionary.
     """
     for fusion_id in fusion_dict:
-        fusion_dict = stats_to_fusion_one(fusion_dict, base_dict, fusion_id, team_mode)
+        fusion_dict = stats_to_fusion_one(fusion_dict, base_dict, fusion_id, team_mode, variable_team)
     return fusion_dict
 
 def add_scores_to_fusion_dict_every_round(fusion_dict, kill_fx, placement_fx, masterkill_fx):

@@ -1,5 +1,5 @@
 {
-    "team_mode": true,
+    "team_mode": false,
     "scoring_system": "spi",
     "tournament_name": "Tournament Name",
     "logo": true,
@@ -20,5 +20,6 @@
     "spreadsheet_pixel_density": 150,
     "logo_vertical_offset": 0.0,
     "title_web": "SPC V7 - Live Leaderboard",
-    "auth_token": "FALSE TOKEN HAHAHA"
+    "auth_token": "FALSE TOKEN HAHAHA",
+    "variable_team": true
 }
