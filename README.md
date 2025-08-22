@@ -83,6 +83,7 @@ You can always ask new feature of course (Don't know if I'll code them tho). Als
 
 ### Some commands for me :
 pyinstaller --icon=spc_v7.ico --onefile SPC.py
+pyinstaller --icon=spc_e.ico --add-data "style.css;." --add-data "index.html;." --add-data "favicon.png;." --onefile web.py
 pyinstaller --onefile --windowed --icon=spc_se.ico settings_editor.py
 pyinstaller --onefile --windowed --icon=spc_sc.ico SPC_scoring_creator.py
 pyinstaller --onefile --windowed --icon=spc_cc.ico SPC_colors_creator.py

@@ -18,5 +18,7 @@
     "activate_game_saver_key": "m",
     "graphs_pixel_density": 600,
     "spreadsheet_pixel_density": 150,
-    "logo_vertical_offset": 0.0
+    "logo_vertical_offset": 0.0,
+    "title_web": "SPC V7 - Live Leaderboard",
+    "auth_token": "FALSE TOKEN HAHAHA"
 }

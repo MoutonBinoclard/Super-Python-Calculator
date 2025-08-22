@@ -47,7 +47,9 @@ def load_settings():
         "enable_graph_placement_export": True,
         "enable_spreadsheet_export": True,
         "activate_game_saver_key": "m",  # Default activation key
-        "logo_vertical_offset": 0.0  # Default vertical offset
+        "logo_vertical_offset": 0.0,  # Default vertical offset
+        "title_web": "SPC V7 - Live Tournament Leaderboard",  # Default web title
+        "auth_token": ""  # Default auth token (empty)
     }
     if not os.path.exists(SETTINGS_PATH):
         with open(SETTINGS_PATH, "w", encoding="utf-8") as f:
@@ -749,6 +751,41 @@ class SettingsEditor(tk.Tk):
         self.color_scheme_var.trace_add("write", self.update_color_preview)
         # --- End color scheme preview zone ---
 
+        # --- Web Section (as a separate frame) ---
+        web_frame = ttk.LabelFrame(left_frame, text="Web")
+        web_frame.grid(row=left_row+1, column=0, sticky="ew", padx=5, pady=5)
+        web_frame.columnconfigure(0, weight=0)  # Label column
+        web_frame.columnconfigure(1, weight=1)  # Content column
+        web_row = 0
+        
+        # Web title
+        ttk.Label(web_frame, text="Title:").grid(row=web_row, column=0, sticky="w")
+        self.title_web_var = tk.StringVar(value=self.settings.get("title_web", "SPC V7 - Live Tournament Leaderboard"))
+        ttk.Entry(web_frame, textvariable=self.title_web_var).grid(row=web_row, column=1, sticky="ew", pady=2)
+        web_row += 1
+        
+        # Auth token
+        ttk.Label(web_frame, text="Ngrok Token:").grid(row=web_row, column=0, sticky="w")
+        self.auth_token_var = tk.StringVar(value=self.settings.get("auth_token", ""))
+        ttk.Entry(web_frame, textvariable=self.auth_token_var).grid(row=web_row, column=1, sticky="ew", pady=2)
+        web_row += 1
+        
+        # Add a note explaining the web settings
+        web_note = ttk.Label(
+            web_frame,
+            text="Go to https://dashboard.ngrok.com/get-started/your-authtoken to copy the token",
+            font=('Arial', 8, 'italic'),
+            foreground='#aaaaaa',
+            background='#2d2d2d',
+            wraplength=260,
+            justify='left'
+        )
+        web_note.grid(row=web_row, column=0, columnspan=2, sticky="w", padx=5, pady=(0,8))
+        
+        # Update left_row to account for the new frame
+        left_row += 2
+        # --- End Web Section ---
+
         # --- RIGHT COLUMN ---
         right_row = 0
         
@@ -1058,6 +1095,9 @@ class SettingsEditor(tk.Tk):
         self.settings["enable_spreadsheet_export"] = self.enable_spreadsheet_export_var.get()
         # Save the game saver key setting
         self.settings["activate_game_saver_key"] = self.game_saver_key_var.get()
+        # Save web settings
+        self.settings["title_web"] = self.title_web_var.get()
+        self.settings["auth_token"] = self.auth_token_var.get()
         
         # Save pixel density settings with validation
         try:
