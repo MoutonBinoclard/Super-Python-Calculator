@@ -83,6 +83,37 @@
         .btn-view:hover {
             background: var(--bg-button-hover);
         }
+        
+        /* Search box styles */
+        .search-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px auto;
+            align-items: center;
+        }
+        
+        .search-box {
+            width: 300px;
+            padding: 10px 15px;
+            border: 2px solid var(--border-secondary);
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        
+        .search-box:focus {
+            border-color: var(--bg-column-2);
+        }
+        
+        .search-label {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -100,6 +131,10 @@
     </div>
     <div class="button-container">
         <button class="btn btn-download" id="download-btn">Download Leaderboard Data</button>
+    </div>
+    <div class="search-container">
+        <label class="search-label" for="search-input">Search in names:</label>
+        <input type="text" id="search-input" class="search-box" placeholder="Type to highlight rows...">
     </div>
     <div class="table-container">
         <table id="classement-table"></table>
@@ -157,6 +192,52 @@
                         });
                     }
                 }, 10);
+                
+                // Easter egg: Check for special value in first column
+                setTimeout(() => {
+                    const rows = table.querySelectorAll('tbody tr');
+                    rows.forEach(row => {
+                        const firstCell = row.querySelector('td:nth-child(1)');
+                        if (firstCell && firstCell.textContent.trim() === '53F9EFB9912B04AE') {
+                            // Apply easter egg style to only the first cell
+                            firstCell.classList.add('easter-egg');
+                            
+                            // Store original text and add hover text change effect
+                            const originalText = firstCell.textContent;
+                            
+                            firstCell.addEventListener('mouseenter', () => {
+                                firstCell.textContent = 'The dev x)';
+                            });
+                            
+                            firstCell.addEventListener('mouseleave', () => {
+                                firstCell.textContent = originalText;
+                            });
+                        }
+                    });
+                }, 20);
+                
+                // Search functionality for second column
+                const searchInput = document.getElementById('search-input');
+                searchInput.addEventListener('input', function() {
+                    const searchText = this.value.toLowerCase().trim();
+                    const tableRows = table.querySelectorAll('tbody tr');
+                    
+                    // Clear previous highlights
+                    tableRows.forEach(row => {
+                        row.classList.remove('search-highlight');
+                    });
+                    
+                    // If search text is empty, don't highlight anything
+                    if (searchText === '') return;
+                    
+                    // Highlight rows that contain search text in second column
+                    tableRows.forEach(row => {
+                        const secondCell = row.querySelector('td:nth-child(2)');
+                        if (secondCell && secondCell.textContent.toLowerCase().includes(searchText)) {
+                            row.classList.add('search-highlight');
+                        }
+                    });
+                });
                 
                 // Prevent scroll chaining from table to page
                 const tableContainer = document.querySelector('.table-container');

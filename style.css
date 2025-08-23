@@ -21,6 +21,9 @@
     --bg-column-4-hover: #4f8a6a; /* Column 4 hover color */
     --bg-button: #464646;
     --bg-button-hover: #8d8d8d;
+    --bg-easter-egg: #8a7c4f; /* Easter egg yellowish color */
+    --bg-easter-egg-hover: #b5a66b; /* Easter egg hover color (brighter yellow) */
+    --bg-search-highlight: #4a6741; /* Search highlight color (green) */
     
     /* Text Colors */
     --text-primary: #e0e6ef;
@@ -263,6 +266,29 @@ tr:nth-child(odd) {
 tr:hover td {
     background: var(--bg-table-hover);
     color: var(--text-white);
+}
+
+/* ================================
+   EASTER EGG
+   ================================ */
+.easter-egg {
+    background: var(--bg-easter-egg) !important;
+    color: var(--text-white) !important;
+    transition: background 0.3s ease, transform 0.2s ease !important;
+}
+
+.easter-egg:hover {
+    background: var(--bg-easter-egg-hover) !important;
+    transform: scale(1.05) !important;
+    box-shadow: 0 4px 12px rgba(181, 166, 107, 0.4) !important;
+}
+
+/* ================================
+   SEARCH HIGHLIGHT
+   ================================ */
+.search-highlight {
+    background: var(--bg-search-highlight) !important;
+    border-left: 4px solid #6a9c61 !important;
 }
 
 /* ================================
