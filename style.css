@@ -1,8 +1,55 @@
+/* ================================
+   COLOR DEFINITIONS
+   ================================ */
+:root {
+    /* Background Colors */
+    --bg-primary: #232323;
+    --bg-secondary: #181818;
+    --bg-table-header: #2d2d2d;
+    --bg-table-even: #080808;
+    --bg-table-odd: #232323;
+    --bg-table-hover: #454f64;
+    --bg-table-hover-secondary: #8c9dc0; /* Different hover color for second column */
+    --bg-column-2: #202f3b; /* Special background for column 2 */
+    --bg-column-2-even: #1a252d; /* Column 2 even rows */
+    --bg-column-2-hover: #4f6f8a; /* Column 2 hover color */
+    --bg-column-3: #2b1f3d; /* Special background for column 3 */
+    --bg-column-3-even: #1f1a2d; /* Column 3 even rows */
+    --bg-column-3-hover: #9175b3; /* Column 3 hover color */
+    --bg-column-4: #1f3d2b; /* Special background for column 4 */
+    --bg-column-4-even: #1a2d1f; /* Column 4 even rows */
+    --bg-column-4-hover: #4f8a6a; /* Column 4 hover color */
+    --bg-button: #464646;
+    --bg-button-hover: #8d8d8d;
+    
+    /* Text Colors */
+    --text-primary: #e0e6ef;
+    --text-secondary: #fafbfc;
+    --text-white: #ffffff;
+    --text-muted: #9b9b9b;
+    --text-light: #575757;
+    
+    /* Border Colors */
+    --border-primary: #333333;
+    --border-secondary: #393939;
+    --border-accent: #444444;
+    
+    /* Shadow Colors (with alpha channel) */
+    --shadow-light: #11111888;
+    --shadow-medium: #11111166;
+    --shadow-dark: #000000aa;
+    --shadow-darker: #000000cc;
+    --shadow-darkest: #111111aa;
+}
+
+/* ================================
+   BASE STYLES
+   ================================ */
 body {
-    font-family: 'Segoe UI', Arial, sans-serif;
+    font-family: Consolas, 'Courier New', monospace;
     margin: 30px;
-    background: #232323;
-    color: #e0e6ef;
+    background: var(--bg-primary);
+    color: var(--text-primary);
     min-height: 100vh;
 }
 
@@ -12,10 +59,13 @@ h1 {
     font-weight: 700;
     letter-spacing: 1px;
     margin-bottom: 30px;
-    color: #fafbfc;
-    text-shadow: 0 2px 8px #1118;
+    color: var(--text-secondary);
+    text-shadow: 0 2px 8px var(--shadow-light);
 }
 
+/* ================================
+   IMAGE STYLES
+   ================================ */
 .images {
     display: flex;
     justify-content: center;
@@ -29,59 +79,190 @@ h1 {
     min-width: 220px;
     height: auto;
     border-radius: 12px;
-    box-shadow: 0 8px 32px #000a, 0 1.5px 8px #1116;
-    border: 1.5px solid #333;
-    background: #181818;
+    box-shadow: 0 8px 32px var(--shadow-dark), 0 1.5px 8px var(--shadow-medium);
+    border: 1.5px solid var(--border-primary);
+    background: var(--bg-secondary);
     transition: transform 0.2s;
 }
+
 .images img:hover {
     transform: scale(1.025);
-    box-shadow: 0 12px 36px #000c, 0 2px 12px #111a;
+    box-shadow: 0 12px 36px var(--shadow-darker), 0 2px 12px var(--shadow-darkest);
 }
 
+/* ================================
+   TABLE STYLES
+   ================================ */
 .table-container {
-    overflow-x: auto;
+    overflow: auto;
     margin-top: 30px;
-    background: #232323;
-    padding: 10px 0;
+    background: var(--bg-primary);
+    padding: 0; /* Remove padding that interferes with sticky positioning */
+    max-height: 70vh; /* Limit height to enable vertical scrolling */
+    position: relative;
+    border: 1px solid var(--border-secondary); /* Add border to maintain visual separation */
+    overscroll-behavior: contain; /* Prevent scroll chaining to parent */
 }
 
 table {
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     width: 100%;
-    background: #232323;
-    color: #e0e6ef;
+    background: var(--bg-primary);
+    color: var(--text-primary);
     font-size: 1.05em;
+    position: relative;
 }
 
 th, td {
-    border: 1px solid #393939;
+    border: 1px solid var(--border-secondary);
     padding: 10px 14px;
     text-align: left;
     transition: background 0.2s;
+    white-space: nowrap; /* Prevent text wrapping */
 }
 
+/* Sticky header row */
 th {
-    background: #2d2d2d;
-    color: #fafbfc;
+    background: var(--bg-table-header);
+    color: var(--text-secondary);
     font-weight: 600;
     letter-spacing: 0.5px;
-    border-bottom: 2px solid #444;
+    border-bottom: 2px solid var(--border-accent);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 1px 0 var(--border-secondary); /* Add shadow to separate from content */
+}
+
+/* Sticky first four columns */
+th:nth-child(1), td:nth-child(1) {
+    position: sticky;
+    left: 0;
+    z-index: 5;
+    background: var(--bg-table-header);
+}
+
+th:nth-child(2), td:nth-child(2) {
+    position: sticky;
+    left: 0; /* This will be calculated dynamically */
+    z-index: 4;
+    background: var(--bg-column-2); /* Use column 2 blue color */
+}
+
+th:nth-child(3), td:nth-child(3) {
+    position: sticky;
+    left: 0; /* This will be calculated dynamically */
+    z-index: 3;
+    background: var(--bg-column-3); /* Use column 3 purple color */
+}
+
+th:nth-child(4), td:nth-child(4) {
+    position: sticky;
+    left: 0; /* This will be calculated dynamically */
+    z-index: 2;
+    background: var(--bg-column-4); /* Use column 4 green color */
+}
+
+/* Ensure column headers have higher z-index */
+th:nth-child(1) {
+    z-index: 15;
+}
+
+th:nth-child(2) {
+    z-index: 14;
+}
+
+th:nth-child(3) {
+    z-index: 13;
+}
+
+th:nth-child(4) {
+    z-index: 12;
+}
+
+/* Fix background colors for data cells in sticky columns */
+/* Column 1 (default colors) */
+td:nth-child(1) {
+    background: var(--bg-primary);
+}
+
+tr:nth-child(even) td:nth-child(1) {
+    background: var(--bg-table-even);
+}
+
+tr:nth-child(odd) td:nth-child(1) {
+    background: var(--bg-table-odd);
+}
+
+tr:hover td:nth-child(1) {
+    background: var(--bg-table-hover);
+}
+
+/* Column 2 colors will be handled by the special column 2 rules below */
+
+/* Special styling for column 2 (Blue theme) */
+th:nth-child(2), td:nth-child(2) {
+    background: var(--bg-column-2);
+}
+
+tr:nth-child(even) td:nth-child(2) {
+    background: var(--bg-column-2-even);
+}
+
+tr:hover td:nth-child(2) {
+    background: var(--bg-column-2-hover);
+}
+
+/* Special styling for column 3 */
+th:nth-child(3), td:nth-child(3) {
+    background: var(--bg-column-3);
+}
+
+tr:nth-child(even) td:nth-child(3) {
+    background: var(--bg-column-3-even);
+}
+
+tr:hover td:nth-child(3) {
+    background: var(--bg-column-3-hover);
+}
+
+/* Special styling for column 4 */
+th:nth-child(4), td:nth-child(4) {
+    background: var(--bg-column-4);
+}
+
+tr:nth-child(even) td:nth-child(4) {
+    background: var(--bg-column-4-even);
+}
+
+tr:hover td:nth-child(4) {
+    background: var(--bg-column-4-hover);
+}
+
+/* Bold vertical borders every 5 columns starting from column 10 */
+/* Formula: 5n + 10 covers columns 10, 15, 20, 25, 30, etc. */
+th:nth-child(5n + 10), 
+td:nth-child(5n + 10) {
+    border-right: 3px solid var(--text-white);
 }
 
 tr:nth-child(even) {
-    background: #1b1b1b;
+    background: var(--bg-table-even);
 }
 
 tr:nth-child(odd) {
-    background: #232323;
+    background: var(--bg-table-odd);
 }
 
 tr:hover td {
-    background: #292929;
-    color: #fff;
+    background: var(--bg-table-hover);
+    color: var(--text-white);
 }
 
+/* ================================
+   RESPONSIVE STYLES
+   ================================ */
 @media (max-width: 900px) {
     .images {
         flex-direction: column;

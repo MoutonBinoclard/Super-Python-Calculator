@@ -6,31 +6,17 @@
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/png" href="favicon.png" sizes="16x16">
     <style>
-
-        body { 
-            font-family: Arial, sans-serif; 
-            margin: 30px; 
-            background: #272727;
-            color: #e0e6ef;
+        /* Additional heading styles not in main CSS */
+        h3 { 
+            text-align: center; 
+            color: var(--text-muted); 
         }
-        h1 { text-align: center; }
-        h3 { text-align: center; color: #9b9b9b; } /* Center h3 as well */
-        h4 { text-align: center; color: #575757; } /* Lighter color for h4 */
-        .images { display: flex; justify-content: center; gap: 40px; margin: 30px 0; }
-        .images img { 
-            width: 45vw; 
-            max-width: 80%; 
-            height: auto; 
-            border-radius: 10px; 
-            box-shadow: 0 4px 24px #000;
+        h4 { 
+            text-align: center; 
+            color: var(--text-light); 
         }
-        table { border-collapse: collapse; width: 100%; background: #222; color: #e0e6ef; }
-        th, td { border: 1px solid #444; padding: 6px 10px; text-align: left; }
-        th { background: #333; }
-        tr:nth-child(even) { background: #181818; }
-        tr:nth-child(odd) { background: #232323; }
-        .table-container { overflow-x: auto; }
-        /* Modal styles */
+        
+        /* Modal styles - specific to this page */
         .modal {
             display: none;
             position: fixed;
@@ -51,37 +37,21 @@
             max-width: 90vw;
             max-height: 90vh;
             border-radius: 12px;
-            box-shadow: 0 8px 32px #000;
-            background: #222;
+            box-shadow: 0 8px 32px var(--shadow-dark);
+            background: var(--bg-primary);
         }
         .modal-close {
             position: absolute;
             top: 24px;
             right: 40px;
             font-size: 2.5rem;
-            color: #fff;
+            color: var(--text-white);
             cursor: pointer;
             user-select: none;
             z-index: 1001;
         }
-        .download-btn {
-            display: block;
-            width: 200px;
-            margin: 20px auto;
-            padding: 12px 20px;
-            background: #464646;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: 600;
-            transition: background 0.2s;
-            border: none;
-            cursor: pointer;
-        }
-        .download-btn:hover {
-            background: #8d8d8d;
-        }
+        
+        /* Button styles - specific to this page */
         .button-container {
             display: flex;
             justify-content: center;
@@ -92,7 +62,7 @@
         .btn {
             width: 200px;
             padding: 12px 20px;
-            color: #fff;
+            color: var(--text-white);
             text-decoration: none;
             border-radius: 8px;
             text-align: center;
@@ -102,16 +72,16 @@
             cursor: pointer;
         }
         .btn-download {
-            background: #464646;
+            background: var(--bg-button);
         }
         .btn-download:hover {
-            background: #8d8d8d;
+            background: var(--bg-button-hover);
         }
         .btn-view {
-            background: #464646;
+            background: var(--bg-button);
         }
         .btn-view:hover {
-            background: #8d8d8d;
+            background: var(--bg-button-hover);
         }
     </style>
 </head>
@@ -156,6 +126,52 @@
                 }
                 tbody += '</tbody>';
                 table.innerHTML = thead + tbody;
+                
+                // Set up sticky columns positioning
+                setTimeout(() => {
+                    const firstColumn = table.querySelector('th:nth-child(1)');
+                    const secondColumn = table.querySelector('th:nth-child(2)');
+                    const thirdColumn = table.querySelector('th:nth-child(3)');
+                    
+                    if (firstColumn && secondColumn && thirdColumn) {
+                        const firstColumnWidth = firstColumn.offsetWidth;
+                        const secondColumnWidth = secondColumn.offsetWidth;
+                        const thirdColumnWidth = thirdColumn.offsetWidth;
+                        
+                        // Position column 2 after column 1
+                        const secondColumnCells = table.querySelectorAll('th:nth-child(2), td:nth-child(2)');
+                        secondColumnCells.forEach(cell => {
+                            cell.style.left = firstColumnWidth + 'px';
+                        });
+                        
+                        // Position column 3 after columns 1 and 2
+                        const thirdColumnCells = table.querySelectorAll('th:nth-child(3), td:nth-child(3)');
+                        thirdColumnCells.forEach(cell => {
+                            cell.style.left = (firstColumnWidth + secondColumnWidth) + 'px';
+                        });
+                        
+                        // Position column 4 after columns 1, 2, and 3
+                        const fourthColumnCells = table.querySelectorAll('th:nth-child(4), td:nth-child(4)');
+                        fourthColumnCells.forEach(cell => {
+                            cell.style.left = (firstColumnWidth + secondColumnWidth + thirdColumnWidth) + 'px';
+                        });
+                    }
+                }, 10);
+                
+                // Prevent scroll chaining from table to page
+                const tableContainer = document.querySelector('.table-container');
+                tableContainer.addEventListener('wheel', function(e) {
+                    const isAtTop = this.scrollTop === 0;
+                    const isAtBottom = this.scrollTop >= (this.scrollHeight - this.clientHeight);
+                    
+                    // Check if it's horizontal scrolling (Shift+scroll or horizontal wheel)
+                    const isHorizontalScroll = e.shiftKey || Math.abs(e.deltaX) > Math.abs(e.deltaY);
+                    
+                    // Only prevent vertical scrolling when at limits, but allow horizontal scrolling
+                    if (!isHorizontalScroll && ((e.deltaY < 0 && isAtTop) || (e.deltaY > 0 && isAtBottom))) {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
             });
 
         // Image modal logic
