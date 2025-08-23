@@ -9,10 +9,80 @@ from datetime import datetime
 import importlib.util
 from PIL import Image, ImageTk  # Add PIL import for image handling
 
-informations = """Save tournament to folder : Saves all graph and round in a folder
+
+informations = """---------- Tournament Informations Section ----------
+
+Show Date : Show the date of the tournament on the graph
+
+Tournament Name : The name of the tournament (Will be displayed on the graph)
+
+Event Host : The name of the event host (Just useful for saving the tournament to a folder)
+
+
+---------- Scoring Section ----------
+
+Scoring System : Choose how the points are calculated
+
+Team mode : Let you score rounds with static teams
+
+Auto team (Enable Team Mode) : Will try to automatically create teams (Please disable this for the final annoucement or check teams manually)
+
+Variable team (Disable Team Mode and Auto Team) :  Let you score rounds for each player individually in squad events with not static teams (For a duo scrims for exemple)
+
+
+---------- Web Section ----------
+
+Title : The title of the web page
+
+Ngrok Token : The token to use ngrok (Create an account on ngrok then go to https://dashboard.ngrok.com/get-started/your-authtoken to copy the token)
+
+
+---------- Export Section ----------
+
+Enable Graph Export : Export a picture with the score per player/team
+
+Enable Graph Placement Export : Export a picture with stats about the placement of the players
+
+Enable Spreadsheet Export : Export a spreadsheet with all the scores and stats (Takes a lot of time, maybe enable this only at the end)
+
+Density (dpi) : The higher the dpi, the better the quality (First one is for graphs, second one for spreadsheet)
+
+
+---------- Customization Section ----------
+
+Add Custom Fonts : Enable custom fonts
+
+Font weight : Choose the font weight (Bold, Light, Regular...)
+
+Color Scheme : Let who choose what colors the exportations will use
+
+
+---------- Logo Section ----------
+
+Enable Logo : Enable a logo at the top of the graph instead of the tournament name
+
+Logo file : Choose the logo file
+
+Zoom Logo : Zoom the logo (0.150 is the original size). Use the zoom_150 logo file for a base if you want to create your own logo
+
+Vertical Offset : Move the logo up or down
+
+
+---------- Misc ----------
+
+Game Saver Key : Ctrl + this key to save a round with round saver
+
+
+---------- Actions ----------
+
+Save tournament to folder : Saves all graph and round in a folder
+
 Delete rounds : Deletes all rounds in the root folder (No turning back)
+
 Save settings : Saves the current settings to settings.json
-Delete matplotlib fontlist : If the fonts doesnt work, this might help"""
+
+Delete matplotlib fontlist : Not for you to use !!!
+"""
 
 # Determine if running as a PyInstaller executable
 if getattr(sys, 'frozen', False):
@@ -235,6 +305,8 @@ class SettingsEditor(tk.Tk):
         
         # Dark theme configuration
         self.configure(bg='#2d2d2d')
+        # Disable window resizing
+        self.resizable(False, False)
         
         # Configure ttk styles for dark theme
         self.style = ttk.Style()
@@ -290,7 +362,7 @@ class SettingsEditor(tk.Tk):
         height = self.winfo_reqheight()
         
         # Set minimum size constraints
-        self.minsize(650, 550)
+        self.minsize(900, 550)  # Increased minimum width to accommodate three columns better
         
         # Center the window on screen
         screen_width = self.winfo_screenwidth()
@@ -534,24 +606,35 @@ class SettingsEditor(tk.Tk):
         canvas.config(scrollregion=canvas.bbox("all"))
 
     def create_widgets(self):
-        # Create main container frames for left and right columns
-        left_frame = ttk.Frame(self)
-        right_frame = ttk.Frame(self)
+        # Create main container frames for three columns
+        col1_frame = ttk.Frame(self)
+        col2_frame = ttk.Frame(self)
+        col3_frame = ttk.Frame(self)
         
-        left_frame.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
-        right_frame.grid(row=0, column=1, sticky="nsew", padx=5, pady=5)
+        col1_frame.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+        col2_frame.grid(row=0, column=1, sticky="nsew", padx=5, pady=5)
+        col3_frame.grid(row=0, column=2, sticky="nsew", padx=5, pady=5)
         
-        # Configure weight for the columns
-        self.columnconfigure(0, weight=1)
-        self.columnconfigure(1, weight=1)
+        # Configure equal weight for all columns
+        self.grid_columnconfigure(0, weight=1, uniform="column")
+        self.grid_columnconfigure(1, weight=1, uniform="column")
+        self.grid_columnconfigure(2, weight=1, uniform="column")
         self.rowconfigure(0, weight=1)
         
-        # --- LEFT COLUMN ---
-        left_row = 0
+        # Configure column frames to expand vertically
+        col1_frame.columnconfigure(0, weight=1)
+        col2_frame.columnconfigure(0, weight=1)
+        col3_frame.columnconfigure(0, weight=1)
+        
+        # Make the third column's row with info section expandable
+        col3_frame.rowconfigure(2, weight=1)
+        
+        # --- FIRST COLUMN: Tournament Information, Scoring, Web, Export ---
+        col1_row = 0
 
         # --- Header Section ---
-        header_frame = ttk.LabelFrame(left_frame, text="Tournament Informations")
-        header_frame.grid(row=left_row, column=0, sticky="ew", padx=5, pady=5)
+        header_frame = ttk.LabelFrame(col1_frame, text="Tournament Informations")
+        header_frame.grid(row=col1_row, column=0, sticky="ew", padx=5, pady=5)
         header_row = 0
 
         self.date_var = tk.BooleanVar(value=self.settings.get("date", False))
@@ -570,12 +653,12 @@ class SettingsEditor(tk.Tk):
         header_row += 1
 
         header_frame.columnconfigure(1, weight=1)
-        left_row += 1
+        col1_row += 1
         # --- End Header Section ---
 
         # --- Scoring Section ---
-        scoring_frame = ttk.LabelFrame(left_frame, text="Scoring")
-        scoring_frame.grid(row=left_row, column=0, sticky="ew", padx=5, pady=5)
+        scoring_frame = ttk.LabelFrame(col1_frame, text="Scoring")
+        scoring_frame.grid(row=col1_row, column=0, sticky="ew", padx=5, pady=5)
         scoring_row = 0
 
         ttk.Label(scoring_frame, text="Scoring System:").grid(row=scoring_row, column=0, sticky="w")
@@ -620,14 +703,106 @@ class SettingsEditor(tk.Tk):
         self.auto_team_var = tk.BooleanVar(value=self.settings.get("auto_team", False))
         ttk.Checkbutton(scoring_frame, text="Auto Team", variable=self.auto_team_var).grid(row=scoring_row, column=0, sticky="w")
         scoring_row += 1
+        
+        self.variable_team_var = tk.BooleanVar(value=self.settings.get("variable_team", False))
+        ttk.Checkbutton(scoring_frame, text="Variable Team", variable=self.variable_team_var).grid(row=scoring_row, column=0, sticky="w")
+        scoring_row += 1
 
         scoring_frame.columnconfigure(1, weight=1)
-        left_row += 1
+        col1_row += 1
         # --- End Scoring Section ---
 
-        # --- Customization Section (LEFT) ---
-        customization_frame = ttk.LabelFrame(left_frame, text="Customization")
-        customization_frame.grid(row=left_row, column=0, sticky="ew", padx=5, pady=5)
+        # --- Web Section (COLUMN 1) ---
+        web_frame = ttk.LabelFrame(col1_frame, text="Web")
+        web_frame.grid(row=col1_row, column=0, sticky="ew", padx=5, pady=5)
+        web_frame.columnconfigure(0, weight=0)  # Label column
+        web_frame.columnconfigure(1, weight=1)  # Content column
+        web_row = 0
+        
+        # Web title
+        ttk.Label(web_frame, text="Title:").grid(row=web_row, column=0, sticky="w")
+        self.title_web_var = tk.StringVar(value=self.settings.get("title_web", "SPC V7 - Live Tournament Leaderboard"))
+        ttk.Entry(web_frame, textvariable=self.title_web_var).grid(row=web_row, column=1, sticky="ew", pady=2)
+        web_row += 1
+        
+        # Auth token
+        ttk.Label(web_frame, text="Ngrok Token:").grid(row=web_row, column=0, sticky="w")
+        self.auth_token_var = tk.StringVar(value=self.settings.get("auth_token", ""))
+        ttk.Entry(web_frame, textvariable=self.auth_token_var).grid(row=web_row, column=1, sticky="ew", pady=2)
+        web_row += 1
+        
+        # Add a note explaining the web settings
+        web_note = ttk.Label(
+            web_frame,
+            text="Go to https://dashboard.ngrok.com/get-started/your-authtoken to copy the token",
+            font=('Arial', 8, 'italic'),
+            foreground='#aaaaaa',
+            background='#2d2d2d',
+            wraplength=260,
+            justify='left'
+        )
+        web_note.grid(row=web_row, column=0, columnspan=2, sticky="w", padx=5, pady=(0,8))
+        col1_row += 1
+        # --- End Web Section ---
+
+        # --- Export Section (MOVED TO COLUMN 1) ---
+        export_frame = ttk.LabelFrame(col1_frame, text="Export")
+        export_frame.grid(row=col1_row, column=0, sticky="ew", padx=5, pady=5)
+        export_frame.columnconfigure(0, weight=1)  # Left column for checkboxes
+        export_frame.columnconfigure(1, weight=1)  # Right column for pixel density inputs
+        export_row = 0
+
+        self.enable_graph_export_var = tk.BooleanVar(value=self.settings.get("enable_graph_export", True))
+        self.enable_graph_placement_export_var = tk.BooleanVar(value=self.settings.get("enable_graph_placement_export", True))
+        self.enable_spreadsheet_export_var = tk.BooleanVar(value=self.settings.get("enable_spreadsheet_export", True))
+
+        ttk.Checkbutton(export_frame, text="Enable Graph Export", variable=self.enable_graph_export_var).grid(row=export_row, column=0, sticky="w")
+        
+        # Create frame for graph pixel density with label and entry
+        graph_density_frame = tk.Frame(export_frame, bg='#2d2d2d')
+        graph_density_frame.grid(row=export_row, column=1, sticky="ew", padx=5)
+        ttk.Label(graph_density_frame, text="Density (dpi):").pack(side=tk.LEFT, padx=(0,5))
+        self.graph_pixel_density_var = tk.StringVar(value=str(self.settings.get("graphs_pixel_density", 600)))
+        ttk.Entry(graph_density_frame, textvariable=self.graph_pixel_density_var, width=5).pack(side=tk.LEFT)
+        export_row += 1
+        
+        # Graph placement export checkbox
+        ttk.Checkbutton(export_frame, text="Enable Graph Placement Export", variable=self.enable_graph_placement_export_var).grid(row=export_row, column=0, sticky="w")
+        export_row += 1
+        
+        # Spreadsheet export checkbox and pixel density entry
+        ttk.Checkbutton(export_frame, text="Enable Spreadsheet Export", variable=self.enable_spreadsheet_export_var).grid(row=export_row, column=0, sticky="w")
+        
+        # Create frame for spreadsheet pixel density with label and entry
+        sheet_density_frame = tk.Frame(export_frame, bg='#2d2d2d')
+        sheet_density_frame.grid(row=export_row, column=1, sticky="ew", padx=5)
+        ttk.Label(sheet_density_frame, text="Density (dpi):").pack(side=tk.LEFT, padx=(0,5))
+        self.spreadsheet_pixel_density_var = tk.StringVar(value=str(self.settings.get("spreadsheet_pixel_density", 150)))
+        ttk.Entry(sheet_density_frame, textvariable=self.spreadsheet_pixel_density_var, width=5).pack(side=tk.LEFT)
+        export_row += 1
+
+        # Add warning text under the spreadsheet export checkbox
+        warning_label = ttk.Label(
+            export_frame,
+            text="Exporting leaderboard (as a picture) can significantly increase load time.\nIt is recommended to enable this only after the final round.",
+            foreground="#ffcc00",  # yellow-ish for visibility
+            font=('Arial', 8, 'italic'),
+            background='#2d2d2d',
+            wraplength=260,
+            justify='left'
+        )
+        warning_label.grid(row=export_row, column=0, columnspan=2, sticky="w", padx=(5,0), pady=(0,8))
+        export_row += 1
+
+        col1_row += 1
+        # --- End Export Section (COLUMN 1) ---
+
+        # --- SECOND COLUMN: Customization, Logo ---
+        col2_row = 0
+
+        # --- Customization Section (COLUMN 2) ---
+        customization_frame = ttk.LabelFrame(col2_frame, text="Customization")
+        customization_frame.grid(row=col2_row, column=0, sticky="ew", padx=5, pady=5)
         # Configure the customization frame to expand horizontally
         customization_frame.columnconfigure(0, weight=0)  # Label column
         customization_frame.columnconfigure(1, weight=1)  # Content column
@@ -744,54 +919,18 @@ class SettingsEditor(tk.Tk):
         customization_row += 1
 
         # Configure left_frame to expand horizontally
-        left_frame.columnconfigure(0, weight=1)
+        col2_frame.columnconfigure(0, weight=1)
 
         # Initialize the color preview and list
         self.update_color_preview()
         self.color_scheme_var.trace_add("write", self.update_color_preview)
         # --- End color scheme preview zone ---
+        
+        col2_row += 1
 
-        # --- Web Section (as a separate frame) ---
-        web_frame = ttk.LabelFrame(left_frame, text="Web")
-        web_frame.grid(row=left_row+1, column=0, sticky="ew", padx=5, pady=5)
-        web_frame.columnconfigure(0, weight=0)  # Label column
-        web_frame.columnconfigure(1, weight=1)  # Content column
-        web_row = 0
-        
-        # Web title
-        ttk.Label(web_frame, text="Title:").grid(row=web_row, column=0, sticky="w")
-        self.title_web_var = tk.StringVar(value=self.settings.get("title_web", "SPC V7 - Live Tournament Leaderboard"))
-        ttk.Entry(web_frame, textvariable=self.title_web_var).grid(row=web_row, column=1, sticky="ew", pady=2)
-        web_row += 1
-        
-        # Auth token
-        ttk.Label(web_frame, text="Ngrok Token:").grid(row=web_row, column=0, sticky="w")
-        self.auth_token_var = tk.StringVar(value=self.settings.get("auth_token", ""))
-        ttk.Entry(web_frame, textvariable=self.auth_token_var).grid(row=web_row, column=1, sticky="ew", pady=2)
-        web_row += 1
-        
-        # Add a note explaining the web settings
-        web_note = ttk.Label(
-            web_frame,
-            text="Go to https://dashboard.ngrok.com/get-started/your-authtoken to copy the token",
-            font=('Arial', 8, 'italic'),
-            foreground='#aaaaaa',
-            background='#2d2d2d',
-            wraplength=260,
-            justify='left'
-        )
-        web_note.grid(row=web_row, column=0, columnspan=2, sticky="w", padx=5, pady=(0,8))
-        
-        # Update left_row to account for the new frame
-        left_row += 2
-        # --- End Web Section ---
-
-        # --- RIGHT COLUMN ---
-        right_row = 0
-        
-        # --- Logo Section (RIGHT) ---
-        logo_frame = ttk.LabelFrame(right_frame, text="Logo")
-        logo_frame.grid(row=right_row, column=0, sticky="ew", padx=5, pady=5)
+        # --- Logo Section (COLUMN 2) ---
+        logo_frame = ttk.LabelFrame(col2_frame, text="Logo")
+        logo_frame.grid(row=col2_row, column=0, sticky="ew", padx=5, pady=5)
         logo_row = 0
 
         self.logo_var = tk.BooleanVar(value=self.settings.get("logo", False))
@@ -848,65 +987,15 @@ class SettingsEditor(tk.Tk):
         logo_row += 1
 
         logo_frame.columnconfigure(1, weight=1)
-        right_row += 1
-        # --- End Logo Section (RIGHT) ---
+        col2_row += 1
+        # --- End Logo Section ---
 
-        # --- Export Section (RIGHT) ---
-        export_frame = ttk.LabelFrame(right_frame, text="Export")
-        export_frame.grid(row=right_row, column=0, sticky="ew", padx=5, pady=5)
-        export_frame.columnconfigure(0, weight=1)  # Left column for checkboxes
-        export_frame.columnconfigure(1, weight=1)  # Right column for pixel density inputs
-        export_row = 0
-
-        self.enable_graph_export_var = tk.BooleanVar(value=self.settings.get("enable_graph_export", True))
-        self.enable_graph_placement_export_var = tk.BooleanVar(value=self.settings.get("enable_graph_placement_export", True))
-        self.enable_spreadsheet_export_var = tk.BooleanVar(value=self.settings.get("enable_spreadsheet_export", True))
-
-        # Graph export checkbox and pixel density entry
-        ttk.Checkbutton(export_frame, text="Enable Graph Export", variable=self.enable_graph_export_var).grid(row=export_row, column=0, sticky="w")
+        # --- THIRD COLUMN: Misc, Actions, Information ---
+        col3_row = 0
         
-        # Create frame for graph pixel density with label and entry
-        graph_density_frame = tk.Frame(export_frame, bg='#2d2d2d')
-        graph_density_frame.grid(row=export_row, column=1, sticky="ew", padx=5)
-        ttk.Label(graph_density_frame, text="Density (dpi):").pack(side=tk.LEFT, padx=(0,5))
-        self.graph_pixel_density_var = tk.StringVar(value=str(self.settings.get("graphs_pixel_density", 600)))
-        ttk.Entry(graph_density_frame, textvariable=self.graph_pixel_density_var, width=5).pack(side=tk.LEFT)
-        export_row += 1
-        
-        # Graph placement export checkbox
-        ttk.Checkbutton(export_frame, text="Enable Graph Placement Export", variable=self.enable_graph_placement_export_var).grid(row=export_row, column=0, sticky="w")
-        export_row += 1
-        
-        # Spreadsheet export checkbox and pixel density entry
-        ttk.Checkbutton(export_frame, text="Enable Spreadsheet Export", variable=self.enable_spreadsheet_export_var).grid(row=export_row, column=0, sticky="w")
-        
-        # Create frame for spreadsheet pixel density with label and entry
-        sheet_density_frame = tk.Frame(export_frame, bg='#2d2d2d')
-        sheet_density_frame.grid(row=export_row, column=1, sticky="ew", padx=5)
-        ttk.Label(sheet_density_frame, text="Density (dpi):").pack(side=tk.LEFT, padx=(0,5))
-        self.spreadsheet_pixel_density_var = tk.StringVar(value=str(self.settings.get("spreadsheet_pixel_density", 150)))
-        ttk.Entry(sheet_density_frame, textvariable=self.spreadsheet_pixel_density_var, width=5).pack(side=tk.LEFT)
-        export_row += 1
-
-        # Add warning text under the spreadsheet export checkbox
-        warning_label = ttk.Label(
-            export_frame,
-            text="Exporting leaderboard (as a picture) can significantly increase load time.\nIt is recommended to enable this only after the final round.",
-            foreground="#ffcc00",  # yellow-ish for visibility
-            font=('Arial', 8, 'italic'),
-            background='#2d2d2d',
-            wraplength=260,
-            justify='left'
-        )
-        warning_label.grid(row=export_row, column=0, columnspan=2, sticky="w", padx=(5,0), pady=(0,8))
-        export_row += 1
-
-        right_row += 1
-        # --- End Export Section (RIGHT) ---
-
-        # --- Misc Section (RIGHT) ---
-        misc_frame = ttk.LabelFrame(right_frame, text="Misc")
-        misc_frame.grid(row=right_row, column=0, sticky="ew", padx=5, pady=5)
+        # --- Misc Section (COLUMN 3) ---
+        misc_frame = ttk.LabelFrame(col3_frame, text="Misc")
+        misc_frame.grid(row=col3_row, column=0, sticky="ew", padx=5, pady=5)
         misc_frame.columnconfigure(1, weight=1)
         misc_row = 0
 
@@ -927,12 +1016,12 @@ class SettingsEditor(tk.Tk):
         )
         note_label.grid(row=misc_row+1, column=0, columnspan=2, sticky="w", padx=5, pady=(0,5))
         
-        right_row += 1
-        # --- End Misc Section (RIGHT) ---
+        col3_row += 1
+        # --- End Misc Section ---
 
-        # --- Actions Section (RIGHT) ---
-        actions_frame = ttk.LabelFrame(right_frame, text="Actions")
-        actions_frame.grid(row=right_row, column=0, sticky="ew", padx=5, pady=5)
+        # --- Actions Section (COLUMN 3) ---
+        actions_frame = ttk.LabelFrame(col3_frame, text="Actions")
+        actions_frame.grid(row=col3_row, column=0, sticky="ew", padx=5, pady=5)
         actions_frame.columnconfigure(0, weight=1)
         actions_frame.columnconfigure(1, weight=1)
         
@@ -964,21 +1053,23 @@ class SettingsEditor(tk.Tk):
             style='Green.TButton'
         ).grid(row=1, column=1, sticky="ew", padx=(5,10), pady=(5,10))
         
-        right_row += 1
-        # --- End Actions Section (RIGHT) ---
+        col3_row += 1
+        # --- End Actions Section ---
 
-        # --- Informations Section (RIGHT) ---
-        info_frame = ttk.LabelFrame(right_frame, text="Informations")
-        info_frame.grid(row=right_row, column=0, sticky="ew", padx=5, pady=5)
+        # --- Informations Section (COLUMN 3) ---
+        info_frame = ttk.LabelFrame(col3_frame, text="Informations")
+        info_frame.grid(row=col3_row, column=0, sticky="nsew", padx=5, pady=5)  # Changed sticky to "nsew" to expand in all directions
         info_frame.columnconfigure(0, weight=1)
+        info_frame.rowconfigure(0, weight=1)  # Make the row containing the text widget expandable
         
         # Create frame for text widget and scrollbar
         info_text_frame = tk.Frame(info_frame, bg='#2d2d2d')
-        info_text_frame.grid(row=0, column=0, sticky="ew", padx=5, pady=5)
+        info_text_frame.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)  # Changed sticky to "nsew"
         info_text_frame.columnconfigure(0, weight=1)
+        info_text_frame.rowconfigure(0, weight=1)  # Make the row expandable
         
-        # Text widget for informations with scrollbar
-        info_text = tk.Text(info_text_frame, height=7, width=40, wrap=tk.WORD,
+        # Text widget for informations with scrollbar - remove fixed height
+        info_text = tk.Text(info_text_frame, width=40, wrap=tk.WORD,  # Removed height parameter
                            bg='#404040', fg='#ffffff', font=('Arial', 9),
                            relief='solid', borderwidth=1)
         info_scrollbar = tk.Scrollbar(info_text_frame, bg='#404040', troughcolor='#606060',
@@ -994,8 +1085,8 @@ class SettingsEditor(tk.Tk):
         info_text.insert(tk.END, informations)
         info_text.config(state=tk.DISABLED)
         
-        right_row += 1
-        # --- End Informations Section (RIGHT) ---
+        col3_row += 1
+        # --- End Informations Section ---
 
     def save_tournament(self):
         # Ask user for destination directory
@@ -1068,6 +1159,7 @@ class SettingsEditor(tk.Tk):
     def save(self):
         self.settings["team_mode"] = self.team_mode_var.get()
         self.settings["auto_team"] = self.auto_team_var.get()
+        self.settings["variable_team"] = self.variable_team_var.get()
         # Save logo_path as full path using selected logo name
         selected_logo_name = self.logo_file_var.get()
         self.settings["logo_path"] = self.logo_name_to_path.get(selected_logo_name, "")

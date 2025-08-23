@@ -11,7 +11,7 @@
     "custom_font": "C:\\Windows\\Fonts\\Rubik-Bold.ttf",
     "color_scheme": "color_schemes/v7_liquid_crystal.json",
     "event_host": "Host Name",
-    "auto_team": true,
+    "auto_team": false,
     "enable_graph_export": true,
     "enable_graph_placement_export": true,
     "enable_spreadsheet_export": true,
