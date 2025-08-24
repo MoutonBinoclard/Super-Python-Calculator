@@ -114,6 +114,14 @@
             color: var(--text-secondary);
             font-weight: 600;
         }
+        
+        .search-results {
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 500;
+            margin-left: 10px;
+            min-width: 120px;
+        }
     </style>
 </head>
 <body>
@@ -135,6 +143,7 @@
     <div class="search-container">
         <label class="search-label" for="search-input">Search in names:</label>
         <input type="text" id="search-input" class="search-box" placeholder="Type to highlight rows...">
+        <span id="search-results" class="search-results"></span>
     </div>
     <div class="table-container">
         <table id="classement-table"></table>
@@ -218,25 +227,44 @@
                 
                 // Search functionality for second column
                 const searchInput = document.getElementById('search-input');
+                const searchResults = document.getElementById('search-results');
+                
                 searchInput.addEventListener('input', function() {
                     const searchText = this.value.toLowerCase().trim();
                     const tableRows = table.querySelectorAll('tbody tr');
+                    let foundCount = 0;
                     
                     // Clear previous highlights
                     tableRows.forEach(row => {
                         row.classList.remove('search-highlight');
                     });
                     
-                    // If search text is empty, don't highlight anything
-                    if (searchText === '') return;
+                    // If search text is empty, clear results and don't highlight anything
+                    if (searchText === '') {
+                        searchResults.textContent = '';
+                        return;
+                    }
                     
                     // Highlight rows that contain search text in second column
                     tableRows.forEach(row => {
                         const secondCell = row.querySelector('td:nth-child(2)');
                         if (secondCell && secondCell.textContent.toLowerCase().includes(searchText)) {
                             row.classList.add('search-highlight');
+                            foundCount++;
                         }
                     });
+                    
+                    // Update results counter
+                    if (foundCount === 0) {
+                        searchResults.textContent = 'No results found';
+                        searchResults.style.color = 'var(--text-light)';
+                    } else if (foundCount === 1) {
+                        searchResults.textContent = '1 result found';
+                        searchResults.style.color = 'var(--text-muted)';
+                    } else {
+                        searchResults.textContent = `${foundCount} results found`;
+                        searchResults.style.color = 'var(--text-muted)';
+                    }
                 });
                 
                 // Prevent scroll chaining from table to page
