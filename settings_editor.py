@@ -640,6 +640,49 @@ class SettingsEditor(tk.Tk):
             self.logo_preview_label.config(image='', text=f"Error: {str(e)}")
             print(f"Error loading logo: {e}")
 
+    def _update_checkbox_states(self, *args):
+        """Update the state of checkboxes based on dependencies."""
+        enable_ties = self.enable_ties_var.get()
+        team_mode = self.team_mode_var.get()
+        variable_team = self.variable_team_var.get()
+        
+        # Rule 1: If enable ties is not true, you can't enable ties do not skip
+        if not enable_ties:
+            self.ties_do_not_skip_var.set(False)
+            self.ties_do_not_skip_cb.configure(state='disabled', 
+                                             style='Disabled.TCheckbutton')
+        else:
+            self.ties_do_not_skip_cb.configure(state='normal', 
+                                             style='TCheckbutton')
+        
+        # Rule 2: If team mode true, you can't enable variable team
+        if team_mode:
+            self.variable_team_var.set(False)
+            self.variable_team_cb.configure(state='disabled', 
+                                          style='Disabled.TCheckbutton')
+        else:
+            self.variable_team_cb.configure(state='normal', 
+                                          style='TCheckbutton')
+        
+        # Rule 3: If not team mode, you can't enable auto team
+        if not team_mode:
+            self.auto_team_var.set(False)
+            self.auto_team_cb.configure(state='disabled', 
+                                      style='Disabled.TCheckbutton')
+        else:
+            self.auto_team_cb.configure(state='normal', 
+                                      style='TCheckbutton')
+        
+        # Rule 4: If variable team, you can't enable team mode (and thus auto team)
+        if variable_team:
+            self.team_mode_var.set(False)
+            self.team_mode_cb.configure(state='disabled', 
+                                      style='Disabled.TCheckbutton')
+            # This will trigger team mode change, which will disable auto team
+        else:
+            self.team_mode_cb.configure(state='normal', 
+                                      style='TCheckbutton')
+
 
     # =============================================================================
     # WIDGET CREATION METHODS
@@ -698,13 +741,6 @@ class SettingsEditor(tk.Tk):
         frame.columnconfigure(1, weight=1)
         
         current_row = 0
-        
-        # Date checkbox
-        self.date_var = tk.BooleanVar(value=self.settings.get("date", False))
-        ttk.Checkbutton(frame, text="Show Date", variable=self.date_var).grid(
-            row=current_row, column=0, sticky="w"
-        )
-        current_row += 1
 
         # Tournament name
         ttk.Label(frame, text="Tournament Name:").grid(row=current_row, column=0, sticky="w")
@@ -764,23 +800,37 @@ class SettingsEditor(tk.Tk):
         self.scoring_desc_text.config(state=tk.DISABLED)
         current_row += 1
 
+        # Ties checkboxes
+        self.enable_ties_var = tk.BooleanVar(value=self.settings.get("enable_ties", False))
+        self.enable_ties_cb = ttk.Checkbutton(frame, text="Enable Ties", variable=self.enable_ties_var)
+        self.enable_ties_cb.grid(row=current_row, column=0, sticky="w")
+        self.enable_ties_var.trace_add("write", self._update_checkbox_states)
+        current_row += 1
+
+        self.ties_do_not_skip_var = tk.BooleanVar(value=self.settings.get("ties_do_not_skip", False))
+        self.ties_do_not_skip_cb = ttk.Checkbutton(frame, text="Ties Do Not Skip", variable=self.ties_do_not_skip_var)
+        self.ties_do_not_skip_cb.grid(row=current_row, column=0, sticky="w")
+        current_row += 1
+
         # Team mode checkboxes
         self.team_mode_var = tk.BooleanVar(value=self.settings.get("team_mode", False))
-        ttk.Checkbutton(frame, text="Team Mode", variable=self.team_mode_var).grid(
-            row=current_row, column=0, sticky="w"
-        )
+        self.team_mode_cb = ttk.Checkbutton(frame, text="Team Mode", variable=self.team_mode_var)
+        self.team_mode_cb.grid(row=current_row, column=0, sticky="w")
+        self.team_mode_var.trace_add("write", self._update_checkbox_states)
         current_row += 1
 
         self.auto_team_var = tk.BooleanVar(value=self.settings.get("auto_team", False))
-        ttk.Checkbutton(frame, text="Auto Team", variable=self.auto_team_var).grid(
-            row=current_row, column=0, sticky="w"
-        )
+        self.auto_team_cb = ttk.Checkbutton(frame, text="Auto Team", variable=self.auto_team_var)
+        self.auto_team_cb.grid(row=current_row, column=0, sticky="w")
         current_row += 1
         
         self.variable_team_var = tk.BooleanVar(value=self.settings.get("variable_team", False))
-        ttk.Checkbutton(frame, text="Variable Team", variable=self.variable_team_var).grid(
-            row=current_row, column=0, sticky="w"
-        )
+        self.variable_team_cb = ttk.Checkbutton(frame, text="Variable Team", variable=self.variable_team_var)
+        self.variable_team_cb.grid(row=current_row, column=0, sticky="w")
+        self.variable_team_var.trace_add("write", self._update_checkbox_states)
+        
+        # Initialize checkbox states
+        self._update_checkbox_states()
 
     def _create_web_section(self, parent, row):
         """Create the Web section."""
@@ -867,28 +917,12 @@ class SettingsEditor(tk.Tk):
         ttk.Entry(sheet_density_frame, textvariable=self.spreadsheet_pixel_density_var, width=5).pack(side=tk.LEFT)
         current_row += 1
 
-        # Warning text
-        warning_label = ttk.Label(
-            frame,
-            text="Exporting leaderboard (as a picture) can significantly increase load time.\nIt is recommended to enable this only after the final round.",
-            foreground="#ffcc00",
-            font=('Arial', 8, 'italic'),
-            background='#2d2d2d',
-            wraplength=260,
-            justify='left'
-        )
-        warning_label.grid(row=current_row, column=0, columnspan=2, sticky="w", padx=(5,0), pady=(0,8))
-
     def _create_column2_widgets(self):
-        """Create widgets for the second column (Customization, Logo)."""
+        """Create widgets for the second column (Customization)."""
         row = 0
         
         # Customization Section
         self._create_customization_section(self.col2_frame, row)
-        row += 1
-        
-        # Logo Section
-        self._create_logo_section(self.col2_frame, row)
 
     def _create_column3_widgets(self):
         """Create widgets for the third column (Misc, Actions, Information)."""
@@ -1048,55 +1082,59 @@ class SettingsEditor(tk.Tk):
         
         self.color_list_frame = tk.Frame(parent, bg='#2d2d2d')
         self.color_list_frame.grid(row=row, column=0, columnspan=2, sticky="ew", pady=(0, 8))
+        row += 1
 
-    def _create_logo_section(self, parent, row):
-        """Create the Logo section."""
-        frame = ttk.LabelFrame(parent, text="Logo")
-        frame.grid(row=row, column=0, sticky="ew", padx=5, pady=5)
-        frame.columnconfigure(1, weight=1)
-        
-        current_row = 0
+        # Logo settings (moved from logo section)
+        ttk.Label(parent, text="").grid(row=row, column=0)  # Spacer
+        row += 1
+
+        # Show Date checkbox
+        self.date_var = tk.BooleanVar(value=self.settings.get("date", False))
+        ttk.Checkbutton(parent, text="Show Date", variable=self.date_var).grid(
+            row=row, column=0, sticky="w", columnspan=2
+        )
+        row += 1
 
         # Enable logo checkbox
         self.logo_var = tk.BooleanVar(value=self.settings.get("logo", False))
-        ttk.Checkbutton(frame, text="Enable Logo", variable=self.logo_var).grid(
-            row=current_row, column=0, sticky="w"
+        ttk.Checkbutton(parent, text="Enable Logo", variable=self.logo_var).grid(
+            row=row, column=0, sticky="w", columnspan=2
         )
-        current_row += 1
+        row += 1
 
         # Logo file dropdown
-        ttk.Label(frame, text="Logo File:").grid(row=current_row, column=0, sticky="w")
+        ttk.Label(parent, text="Logo File:").grid(row=row, column=0, sticky="w")
         current_logo_path = self.settings.get("logo_path", "")
         current_logo_name = os.path.splitext(os.path.basename(current_logo_path))[0] if current_logo_path else ""
         self.logo_file_var = tk.StringVar(value=current_logo_name if current_logo_name in self.logo_names else (self.logo_names[0] if self.logo_names else ""))
         
-        logo_menu = ttk.OptionMenu(frame, self.logo_file_var, self.logo_file_var.get(), *self.logo_names, 
+        logo_menu = ttk.OptionMenu(parent, self.logo_file_var, self.logo_file_var.get(), *self.logo_names, 
                                  command=lambda _: self.update_logo_preview())
-        logo_menu.grid(row=current_row, column=1, sticky="ew")
-        current_row += 1
+        logo_menu.grid(row=row, column=1, sticky="ew")
+        row += 1
 
         # Logo preview
-        self._create_logo_preview(frame, current_row)
-        current_row += 1
+        self._create_logo_preview(parent, row)
+        row += 1
 
         # Zoom slider
-        ttk.Label(frame, text="Zoom Logo:").grid(row=current_row, column=0, sticky="w")
+        ttk.Label(parent, text="Zoom Logo:").grid(row=row, column=0, sticky="w")
         self.zoom_logo_var = tk.DoubleVar(value=self.settings.get("zoom_logo", 1.0))
-        zoom_scale = tk.Scale(frame, variable=self.zoom_logo_var, from_=0.01, to=0.3, 
+        zoom_scale = tk.Scale(parent, variable=self.zoom_logo_var, from_=0.01, to=0.3, 
                              resolution=0.005, orient="horizontal",
                              bg='#404040', fg='#ffffff', activebackground='#505050', 
                              highlightbackground='#2d2d2d', troughcolor='#606060')
-        zoom_scale.grid(row=current_row, column=1, sticky="ew")
-        current_row += 1
+        zoom_scale.grid(row=row, column=1, sticky="ew")
+        row += 1
         
         # Vertical offset slider
-        ttk.Label(frame, text="Vertical Offset:").grid(row=current_row, column=0, sticky="w")
+        ttk.Label(parent, text="Vertical Offset:").grid(row=row, column=0, sticky="w")
         self.logo_vertical_offset_var = tk.DoubleVar(value=self.settings.get("logo_vertical_offset", 0.0))
-        vertical_offset_scale = tk.Scale(frame, variable=self.logo_vertical_offset_var, 
+        vertical_offset_scale = tk.Scale(parent, variable=self.logo_vertical_offset_var, 
                                        from_=-0.2, to=0.2, resolution=0.01, orient="horizontal",
                                        bg='#404040', fg='#ffffff', activebackground='#505050', 
                                        highlightbackground='#2d2d2d', troughcolor='#606060')
-        vertical_offset_scale.grid(row=current_row, column=1, sticky="ew")
+        vertical_offset_scale.grid(row=row, column=1, sticky="ew")
 
     def _create_logo_preview(self, parent, row):
         """Create the logo preview widget."""
@@ -1293,6 +1331,8 @@ class SettingsEditor(tk.Tk):
             "team_mode": self.team_mode_var.get(),
             "auto_team": self.auto_team_var.get(), 
             "variable_team": self.variable_team_var.get(),
+            "enable_ties": self.enable_ties_var.get(),
+            "ties_do_not_skip": self.ties_do_not_skip_var.get(),
             "logo": self.logo_var.get(),
             "zoom_logo": self.zoom_logo_var.get(),
             "logo_vertical_offset": self.logo_vertical_offset_var.get(),
