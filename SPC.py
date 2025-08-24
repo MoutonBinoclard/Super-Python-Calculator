@@ -26,7 +26,9 @@ from subcode.enabling_settings import load_settings
     graphs_pixel_density,
     spreadsheet_pixel_density,
     logo_vertical_offset,
-    variable_team
+    variable_team,
+    enable_ties,
+    ties_do_not_skip
 ) = load_settings()
 
 
@@ -95,5 +97,7 @@ launch_exportations(
     enable_spreadsheet_export,
     graphs_pixel_density,
     spreadsheet_pixel_density,
-    logo_vertical_offset
+    logo_vertical_offset,
+    enable_ties,
+    ties_do_not_skip
 )

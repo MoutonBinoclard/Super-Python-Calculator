@@ -1,4 +1,4 @@
-def export_full_csv(dict_fusion, dict_base):
+def export_full_csv(dict_fusion, dict_base, enable_ties, ties_do_not_skip):
     """
     Dict fusion is like this
     'team_id': {
@@ -50,12 +50,28 @@ def export_full_csv(dict_fusion, dict_base):
 
     rows = []
     placement_counter = 1  # Move outside the team loop for global placement
+    previous_rank = 0
+    previous_score = None
 
     for team_id, team_data in dict_fusion.items():
         for player_id in team_data['ids']:
+            
             name = dict_base[player_id]['name']
-            placement = placement_counter
             final_score = round(team_data['score'], 2)
+
+            if enable_ties:
+                # Rounding value is totally arbitrary, just to avoid float precision issues
+                if previous_score is not None and round(final_score, 2) == round(previous_score, 2):
+                    placement = previous_rank
+                else:
+                    if ties_do_not_skip :
+                        placement = previous_rank + 1
+                    else:
+                        placement = placement_counter
+
+            else:
+                placement = placement_counter
+
             rounds_played = dict_base[player_id]['nb_rounds']
             total_kills = dict_base[player_id]['total_kills']
             total_wins = dict_base[player_id]['total_wins']
@@ -64,6 +80,8 @@ def export_full_csv(dict_fusion, dict_base):
             max_kill = dict_base[player_id]['max_kill']
             row = [player_id, name, placement, final_score, rounds_played, total_kills, total_wins, kill_avg, plac_avg, max_kill]
             counter = 0
+            
+            
             for round_info in dict_base[player_id]['rounds']:
                 row.append(round_info['placement'])
                 row.append(round_info['kills'])
@@ -74,6 +92,8 @@ def export_full_csv(dict_fusion, dict_base):
                 
             rows.append(row)  # Collect the row
         placement_counter += 1  # Increment for each player
+        previous_rank = placement
+        previous_score = final_score
 
     # Write to CSV
     import csv

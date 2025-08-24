@@ -21,5 +21,7 @@
     "logo_vertical_offset": 0.0,
     "title_web": "SPC V7 - Live Leaderboard",
     "auth_token": "Nuh Uh",
-    "variable_team": true
+    "variable_team": true,
+    "enable_ties": true,
+    "ties_do_not_skip": true
 }

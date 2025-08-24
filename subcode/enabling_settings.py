@@ -98,5 +98,7 @@ def load_settings(path="settings.json"):
         settings.get("graphs_pixel_density"),
         settings.get("spreadsheet_pixel_density"),
         settings.get("logo_vertical_offset"),
-        settings.get("variable_team")
+        settings.get("variable_team"),
+        settings.get("enable_ties"),
+        settings.get("ties_do_not_skip")
     )

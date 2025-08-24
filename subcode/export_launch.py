@@ -3,7 +3,7 @@ from subcode.export_leaderboard import *
 from subcode.export_spreadsheet import *
 import os
 
-def launch_exportations(fusion_dict, base_dict, tournament_name, color_scheme, logo, logo_path, zoom_logo, date, enable_graph_export, enable_graph_placement_export, enable_spreadsheet_export, graphs_pixel_density, spreadsheet_pixel_density, logo_vertical_offset):
+def launch_exportations(fusion_dict, base_dict, tournament_name, color_scheme, logo, logo_path, zoom_logo, date, enable_graph_export, enable_graph_placement_export, enable_spreadsheet_export, graphs_pixel_density, spreadsheet_pixel_density, logo_vertical_offset, enable_ties, ties_do_not_skip):
     """
     Launches the exportation of the leaderboard graph.
     
@@ -21,7 +21,7 @@ def launch_exportations(fusion_dict, base_dict, tournament_name, color_scheme, l
     print("Starting exportation of the results... This may take longer than the rest of the program, be patient !")
     os.makedirs("exports", exist_ok=True)
     
-    export_full_csv(fusion_dict, base_dict)
+    export_full_csv(fusion_dict, base_dict, enable_ties, ties_do_not_skip)
 
     if enable_graph_placement_export:
         export_average_placement_graph(fusion_dict, tournament_name, color_scheme, logo, logo_path, zoom_logo, date, graphs_pixel_density, logo_vertical_offset)
