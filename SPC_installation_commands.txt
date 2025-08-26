@@ -1,5 +1,14 @@
+SPC V7
 pyinstaller --icon=assets/spc_v7.ico --onefile SPC.py
+
+WEB
 pyinstaller --icon=assets/spc_e.ico --add-data "style.css;." --add-data "index.html;." --add-data "favicon.png;." --onefile web.py
+
+SETTINGS EDITOR
 pyinstaller --onefile --windowed --icon=assets/spc_se.ico settings_editor.py
+
+SCORING CREATOR
 pyinstaller --onefile --windowed --icon=assets/spc_sc.ico scoring/SPC_scoring_creator.py
+
+COLORS CREATOR
 pyinstaller --onefile --windowed --icon=assets/spc_cc.ico SPC_colors_creator.py
