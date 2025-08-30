@@ -1162,6 +1162,13 @@ class SettingsEditor(tk.Tk):
         
         current_row = 0
 
+        # Re-calculate after saving checkbox
+        self.re_calculate_after_saving_var = tk.BooleanVar(value=self.settings.get("re_calculate_after_saving", True))
+        ttk.Checkbutton(frame, text="Re-calculate After Saving", variable=self.re_calculate_after_saving_var).grid(
+            row=current_row, column=0, columnspan=2, sticky="w", padx=5, pady=5
+        )
+        current_row += 1
+
         # Game saver key setting
         ttk.Label(frame, text="Game Saver Key:").grid(row=current_row, column=0, sticky="w", padx=(5,0))
         self.game_saver_key_var = tk.StringVar(value=self.settings.get("activate_game_saver_key", "m"))
@@ -1346,6 +1353,7 @@ class SettingsEditor(tk.Tk):
             "enable_graph_placement_export": self.enable_graph_placement_export_var.get(),
             "enable_spreadsheet_export": self.enable_spreadsheet_export_var.get(),
             "activate_game_saver_key": self.game_saver_key_var.get(),
+            "re_calculate_after_saving": self.re_calculate_after_saving_var.get(),
             "title_web": self.title_web_var.get(),
             "auth_token": self.auth_token_var.get()
         }

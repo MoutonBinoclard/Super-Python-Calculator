@@ -23,5 +23,6 @@
     "auth_token": "Nuh Uh",
     "variable_team": false,
     "enable_ties": false,
-    "ties_do_not_skip": false
+    "ties_do_not_skip": false,
+    "re_calculate_after_saving": true
 }
