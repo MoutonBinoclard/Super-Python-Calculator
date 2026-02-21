@@ -1,7 +1,7 @@
 {
     "team_mode": false,
-    "scoring_system": "spi",
-    "tournament_name": "Tournament Name",
+    "scoring_system": "sar_weeklies_V2",
+    "tournament_name": "November Week 1",
     "logo": true,
     "logo_path": "logo/zoom_150_logo_base.png",
     "font_weight": "Bold",
@@ -10,7 +10,7 @@
     "add_custom_fonts": true,
     "custom_font": "C:\\Windows\\Fonts\\Rubik-Bold.ttf",
     "color_scheme": "color_schemes/v7_liquid_crystal.json",
-    "event_host": "Host Name",
+    "event_host": "Umbra",
     "auto_team": false,
     "enable_graph_export": true,
     "enable_graph_placement_export": true,
@@ -22,7 +22,7 @@
     "title_web": "SPC V7 - Live Leaderboard",
     "auth_token": "Nuh Uh",
     "variable_team": false,
-    "enable_ties": false,
+    "enable_ties": true,
     "ties_do_not_skip": false,
     "re_calculate_after_saving": true
 }
