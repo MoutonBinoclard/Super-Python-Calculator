@@ -20,8 +20,8 @@ def find_most_probable_teams(dict_base, file_to_check = list_files(".txt", "SPC_
             columns = line.strip().split('\t')
             if len(columns) < 5:
                 continue  # skip malformed lines
-            player_id = columns[-5]
-            team_id = columns[-4]
+            player_id = columns[-6]
+            team_id = columns[-5]
             if player_id == "-1" or team_id == "-1":
                 continue  # skip invalid entries
             team_to_players.setdefault(team_id, []).append(player_id)

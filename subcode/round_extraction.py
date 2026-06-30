@@ -13,10 +13,10 @@ def extract_raw_data_from_round(round_file):
         #print(collumns)
         pID = int(collumns[0])
         Player = collumns[1]
-        PlayfabID = collumns[-5] # From end becasue name can make the thing glitch out
-        SquadID = int(collumns[-4])
-        TeamID = int(collumns[-3])
-        Kills = int(collumns[-2])
+        PlayfabID = collumns[-6] # From end becasue name can make the thing glitch out
+        SquadID = int(collumns[-5])
+        TeamID = int(collumns[-4])
+        Kills = int(collumns[-3])
         Placement = int(collumns[-1])
 
         dict_raw[PlayfabID] = {

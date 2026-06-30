@@ -14,7 +14,7 @@ def find_ids(files_to_check):
         # Iterate through each line in the file (skipping the header)
         for line in lines[1:]:
             columns = line.strip().split('\t')
-            playfab_id = columns[-5]
+            playfab_id = columns[-6]
             
             # If the PlayfabID is not already in the list, add it
             if playfab_id not in id_list:
@@ -60,7 +60,7 @@ def find_name(player_id, file_list):
             columns = line.strip().split('\t')
             
             # If the PlayfabID matches, return the player name
-            if columns[-5] == player_id:
+            if columns[-6] == player_id:
                 return columns[1]  # Player name is at index 1 (column "Player")
     
     # If the PlayfabID is not found, return None

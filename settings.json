@@ -1,6 +1,6 @@
 {
     "team_mode": false,
-    "scoring_system": "sar_weeklies_V2",
+    "scoring_system": "spi",
     "tournament_name": "November Week 1",
     "logo": true,
     "logo_path": "logo/zoom_150_logo_base.png",
@@ -22,7 +22,7 @@
     "title_web": "SPC V7 - Live Leaderboard",
     "auth_token": "Nuh Uh",
     "variable_team": false,
-    "enable_ties": true,
+    "enable_ties": false,
     "ties_do_not_skip": false,
     "re_calculate_after_saving": true
 }
