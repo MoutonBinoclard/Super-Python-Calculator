@@ -84,6 +84,12 @@ def max_kills_by_squad_in_round(raw_dict):
     return max(squads_kills.values()), squads_kills
 
 def adjust_placement(raw_dict):
+
+    """
+    Adjusts the placement values in the raw_dict to ensure they are sequential starting from 1.
+    With the adition of True Score, this is no longer necessary.
+    """
+
     list_placement = []
     for keys in raw_dict:
         if raw_dict[keys]["placement"] > 0 and raw_dict[keys]["placement"] not in list_placement:
