@@ -33,6 +33,6 @@ def launch_exportations(fusion_dict, base_dict, tournament_name, color_scheme, l
     if enable_spreadsheet_export :
         export_spreadsheet_from_csv("exports/leaderboard_full.csv", tournament_name, color_scheme, logo, logo_path, zoom_logo, date, spreadsheet_pixel_density)
 
-    export_txt_obs(fusion_dict, 3)
+    export_txt_obs(fusion_dict, 22)
     
     print("\nExportation finished !")
